@@ -1,6 +1,28 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useRef } from "react";
+
+import { sendBookingConfirmationEmail } from "@/app/actions/booking-email";
+import { WCC_BOOKING_CHECKOUT_KEY } from "@/lib/booking/session-storage";
 
 export function BookCompletion() {
+  const sentRef = useRef(false);
+
+  useEffect(() => {
+    if (sentRef.current) return;
+    try {
+      const raw = sessionStorage.getItem(WCC_BOOKING_CHECKOUT_KEY);
+      if (!raw) return;
+      const parsed: unknown = JSON.parse(raw);
+      sessionStorage.removeItem(WCC_BOOKING_CHECKOUT_KEY);
+      sentRef.current = true;
+      void sendBookingConfirmationEmail(parsed);
+    } catch {
+      /* 破損ペイロードは送信しない */
+    }
+  }, []);
+
   return (
     <div className="mx-4 max-w-content px-4 py-10 md:mx-[200px] md:px-6 md:py-12 lg:px-8 lg:py-16">
       <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">

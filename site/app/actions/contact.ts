@@ -1,5 +1,7 @@
 "use server";
 
+import { buildContactCustomerEmail, buildContactStaffEmail } from "@/lib/email/contact-notifications";
+import { sendEmailSafe } from "@/lib/email/resend";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { contactFormSchema, type ContactFormValues } from "@/lib/validations/contact";
 
@@ -49,6 +51,32 @@ export async function submitContactInquiry(values: ContactFormValues): Promise<S
   if (error) {
     console.error("[submitContactInquiry]", error.message);
     return { ok: false, error: "送信に失敗しました。時間をおいて再度お試しください。" };
+  }
+
+  const customerMail = buildContactCustomerEmail({ data });
+  const customerResult = await sendEmailSafe({
+    to: data.email.trim(),
+    subject: customerMail.subject,
+    html: customerMail.html,
+    text: customerMail.text,
+  });
+  if (!customerResult.ok) {
+    console.error("[submitContactInquiry] customer email failed", customerResult.message);
+  }
+
+  const notifyTo = process.env.CONTACT_NOTIFY_EMAIL?.trim();
+  if (notifyTo) {
+    const staffMail = buildContactStaffEmail({ data });
+    const staffResult = await sendEmailSafe({
+      to: notifyTo,
+      subject: staffMail.subject,
+      html: staffMail.html,
+      text: staffMail.text,
+      replyTo: data.email.trim(),
+    });
+    if (!staffResult.ok) {
+      console.error("[submitContactInquiry] staff email failed", staffResult.message);
+    }
   }
 
   return { ok: true };

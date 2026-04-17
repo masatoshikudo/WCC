@@ -1,6 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+import { WCC_BOOKING_CHECKOUT_KEY } from "@/lib/booking/session-storage";
 
 const PLANS = [
   {
@@ -22,6 +24,12 @@ type PlanId = (typeof PLANS)[number]["id"];
 type BookFlowProps = {
   paymentState?: "idle" | "cancel";
 };
+
+function isValidEmail(value: string): boolean {
+  const s = value.trim();
+  if (s.length === 0 || s.length > 254) return false;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+}
 
 function StepIndicator({ step }: { step: 1 | 2 | 3 | 4 }) {
   const labels = ["選択", "確認", "決済", "完了"] as const;
@@ -59,6 +67,9 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
   const [weddingDate, setWeddingDate] = useState("");
   const [dateUndecided, setDateUndecided] = useState(false);
   const [planId, setPlanId] = useState<PlanId>("standard");
+  const [bookerEmail, setBookerEmail] = useState("");
+  const [bookerName, setBookerName] = useState("");
+  const [bookerEmailError, setBookerEmailError] = useState<string | null>(null);
 
   const plan = useMemo(
     () => PLANS.find((p) => p.id === planId) ?? PLANS[0],
@@ -69,6 +80,35 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
     ? "未定"
     : weddingDate || "未入力";
   const stepPrimaryLabel = step === 1 ? "次へ：内容を確認" : step === 2 ? "次へ：デポジットを支払う" : "決済ページを開く";
+
+  useEffect(() => {
+    if (step !== 3) return;
+    const payload = {
+      v: 1 as const,
+      email: bookerEmail.trim(),
+      bookerName: bookerName.trim() ? bookerName.trim() : null,
+      weddingDate,
+      dateUndecided,
+      planId,
+      planLabel: plan.label,
+      priceLabel: plan.priceLabel,
+      savedAt: Date.now(),
+    };
+    try {
+      sessionStorage.setItem(WCC_BOOKING_CHECKOUT_KEY, JSON.stringify(payload));
+    } catch {
+      /* sessionStorage 不可 */
+    }
+  }, [step, bookerEmail, bookerName, weddingDate, dateUndecided, planId, plan.label, plan.priceLabel]);
+
+  function goToStep2() {
+    if (!isValidEmail(bookerEmail)) {
+      setBookerEmailError("メールアドレスを正しく入力してください");
+      return;
+    }
+    setBookerEmailError(null);
+    setStep(2);
+  }
 
   return (
     <div className="mx-4 max-w-content px-4 py-10 md:mx-[200px] md:px-6 md:py-12 lg:px-8 lg:py-16">
@@ -190,10 +230,49 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
             <p className="mt-2 font-body text-sm text-ink-muted">{plan.depositNote}</p>
           </div>
 
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <label htmlFor="booker-email" className="font-body text-sm font-semibold text-ink">
+                連絡先メール
+              </label>
+              <input
+                id="booker-email"
+                type="email"
+                autoComplete="email"
+                inputMode="email"
+                value={bookerEmail}
+                onChange={(e) => {
+                  setBookerEmail(e.target.value);
+                  if (bookerEmailError) setBookerEmailError(null);
+                }}
+                aria-invalid={bookerEmailError ? true : undefined}
+                aria-describedby={bookerEmailError ? "booker-email-error" : undefined}
+                className={`mt-2 min-h-[44px] w-full rounded-sm border-2 bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${bookerEmailError ? "border-red-600 focus-visible:outline-red-600" : "border-hairline focus-visible:outline-accent"}`}
+              />
+              {bookerEmailError ? (
+                <p id="booker-email-error" className="mt-1 font-body text-xs text-red-700">
+                  {bookerEmailError}
+                </p>
+              ) : null}
+            </div>
+            <div>
+              <label htmlFor="booker-name" className="font-body text-sm font-semibold text-ink">
+                お名前（任意）
+              </label>
+              <input
+                id="booker-name"
+                autoComplete="name"
+                value={bookerName}
+                onChange={(e) => setBookerName(e.target.value)}
+                className="mt-2 min-h-[44px] w-full rounded-sm border-2 border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              />
+            </div>
+          </div>
+
           <div className="pt-2">
             <button
               type="button"
-              onClick={() => setStep(2)}
+              onClick={goToStep2}
               className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover md:inline-flex"
             >
               次へ：内容を確認
@@ -209,6 +288,16 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
               <dt className="text-ink-muted">挙式日</dt>
               <dd className="text-right text-ink">{dateLabel}</dd>
             </div>
+            <div className="flex justify-between gap-4">
+              <dt className="text-ink-muted">連絡先メール</dt>
+              <dd className="break-all text-right text-ink">{bookerEmail.trim()}</dd>
+            </div>
+            {bookerName.trim() ? (
+              <div className="flex justify-between gap-4">
+                <dt className="text-ink-muted">お名前</dt>
+                <dd className="text-right text-ink">{bookerName.trim()}</dd>
+              </div>
+            ) : null}
             <div className="flex justify-between gap-4">
               <dt className="text-ink-muted">プラン</dt>
               <dd className="text-right text-ink">{plan.label}</dd>
@@ -257,18 +346,21 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
       {step === 3 && (
         <div className="mt-8 w-full space-y-6">
           <p className="font-body leading-relaxed text-ink-muted">
-            デポジット（お見積り金額の約50%）は Stripe の埋め込みフォームでお支払いいただけます。決済完了後は
-            「4/4 完了」画面へ遷移します。
+            デポジット（お見積り金額の約50%）は Stripe の決済ページでお支払いいただけます（セキュリティのため当サイト内への埋め込みはできません）。下のボタンから
+            Stripe へ移動し、決済完了後は「4/4 完了」画面へ遷移します。
           </p>
 
           {hasPaymentLink && (
-            <div className="bg-canvas-subtle p-3">
-              <iframe
-                src={paymentLink}
-                title="Stripe埋め込み決済"
-                className="h-[640px] w-full rounded-sm border-2 border-hairline bg-canvas"
-                loading="lazy"
-              />
+            <div className="rounded-sm border-2 border-hairline bg-canvas-subtle p-6">
+              <p className="font-body text-sm leading-relaxed text-ink-muted">
+                お支払いは Stripe のページが開いたあとに行います。カード情報は当サイトを経由しません。
+              </p>
+              <a
+                href={paymentLink}
+                className="font-display mt-4 inline-flex min-h-[52px] w-full items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover md:mt-5 md:w-auto md:min-w-[280px]"
+              >
+                決済ページを開く
+              </a>
             </div>
           )}
 
@@ -307,21 +399,14 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
             >
               戻る
             </button>
-            {hasPaymentLink ? (
-              <a
-                href={paymentLink}
-                className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover md:inline-flex"
-              >
-                決済ページを開く
-              </a>
-            ) : (
+            {!hasPaymentLink ? (
               <span
                 className="font-display hidden min-h-[52px] min-w-[220px] cursor-not-allowed items-center justify-center rounded-full bg-ink-subtle px-8 text-sm font-semibold uppercase tracking-[0.08em] text-canvas opacity-80 md:inline-flex"
                 aria-disabled
               >
                 Stripe でデポジットを支払う
               </span>
-            )}
+            ) : null}
           </div>
         </div>
       )}
@@ -332,7 +417,7 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
         {step === 1 ? (
           <button
             type="button"
-            onClick={() => setStep(2)}
+            onClick={goToStep2}
             className="font-display inline-flex min-h-[52px] w-full items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover"
           >
             {stepPrimaryLabel}

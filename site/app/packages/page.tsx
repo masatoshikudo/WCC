@@ -2,8 +2,8 @@ export default function PackagesPage() {
   const packagePlans = [
     {
       id: "01",
-      name: "Blissful Beginnings",
-      price: "£750",
+      name: "スタンダードプラン",
+      priceMain: "100,000-",
       items: [
         "6時間のコンテンツ撮影",
         "24時間以内に納品",
@@ -15,21 +15,21 @@ export default function PackagesPage() {
     },
     {
       id: "02",
-      name: "Happily Ever After",
-      price: "£950",
+      name: "プレミアムプラン",
+      priceMain: "240,000-",
       items: [
         "9時間のフルデイ撮影",
         "編集済みTikTok/Reels 2本",
         "1日のハイライト動画",
-        "Blissful Beginningsの内容を含む",
+        "スタンダードプランの内容を含む",
       ],
     },
   ];
 
   const extras = [
-    "延長撮影: £100 / 時間",
-    "対面ミーティング: £65 / 時間",
-    "追加コンテンツクリエイター: £250",
+    "延長撮影: 個別お見積もり（税抜）",
+    "対面ミーティング: 個別お見積もり（税抜）",
+    "追加コンテンツクリエイター: 個別お見積もり（税抜）",
     "Polaroid Camera オプション: 個別見積もり",
     "モノクロ編集: 個別見積もり",
     "Vintage Film: 個別見積もり",
@@ -77,7 +77,12 @@ export default function PackagesPage() {
               {plan.id}
             </p>
             <h2 className="mt-3 font-display text-xl font-semibold text-ink">{plan.name}</h2>
-            <p className="mt-2 font-display text-3xl font-semibold tabular-nums text-ink">{plan.price}</p>
+            <p className="mt-2 font-display text-3xl font-semibold tabular-nums text-ink">
+              {plan.priceMain}
+              <span className="ml-1 align-baseline text-sm font-medium tabular-nums text-ink-muted sm:text-base">
+                （税抜）
+              </span>
+            </p>
             <ul className="mt-4 space-y-2 font-body text-sm leading-relaxed text-ink-muted">
               {plan.items.map((item) => (
                 <li key={item}>・{item}</li>
@@ -112,8 +117,8 @@ export default function PackagesPage() {
             既定プランに合わない場合は、撮影時間や納品内容を個別に設計できます。
           </p>
           <ul className="mt-4 space-y-2 font-body text-sm leading-relaxed text-ink-muted">
-            <li>・Bespoke: £550〜</li>
-            <li>・Destination Coverage: £1500〜</li>
+            <li>・オーダーメイド（撮影内容のカスタマイズ）: 個別お見積もり（税抜）</li>
+            <li>・デスティネーション（遠方・海外）: 個別お見積もり（税抜）</li>
           </ul>
         </div>
         <div className="bg-canvas-subtle p-6">
@@ -122,7 +127,7 @@ export default function PackagesPage() {
           </p>
           <h2 className="mt-2 font-display text-xl font-semibold text-ink">お支払いフロー</h2>
           <ul className="mt-4 space-y-2 font-body text-sm leading-relaxed text-ink-muted">
-            <li>・予約フォーム送信後、デポジット£300で日程確定</li>
+            <li>・予約フォーム送信後、デポジット（お見積り金額の約50%が目安）のお支払いで日程確定</li>
             <li>・残額は挙式4週間前までにお支払い</li>
             <li>・最終Zoomで当日の動線を確認</li>
           </ul>
@@ -144,7 +149,7 @@ export default function PackagesPage() {
             <span className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink">
               02
             </span>
-            <p className="mt-2">デポジット£300のお支払いで日程確定</p>
+            <p className="mt-2">デポジット（お見積り金額の約50%が目安）のお支払いで日程確定</p>
           </li>
           <li className="bg-canvas p-4">
             <span className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink">

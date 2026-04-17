@@ -3,8 +3,18 @@
 import { useMemo, useState } from "react";
 
 const PLANS = [
-  { id: "standard", label: "スタンダード", depositNote: "デポジットはお見積りの50%が目安です" },
-  { id: "premium", label: "プレミアム", depositNote: "デポジットはお見積りの50%が目安です" },
+  {
+    id: "standard",
+    label: "スタンダードプラン",
+    priceLabel: "10万円（税抜）",
+    depositNote: "デポジットはお見積りの50%が目安です",
+  },
+  {
+    id: "premium",
+    label: "プレミアムプラン",
+    priceLabel: "30万円（税抜）",
+    depositNote: "デポジットはお見積りの50%が目安です",
+  },
 ] as const;
 
 type PlanId = (typeof PLANS)[number]["id"];
@@ -173,7 +183,7 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
             >
               {PLANS.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.label}
+                  {p.label} — {p.priceLabel}
                 </option>
               ))}
             </select>
@@ -202,6 +212,10 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
             <div className="flex justify-between gap-4">
               <dt className="text-ink-muted">プラン</dt>
               <dd className="text-right text-ink">{plan.label}</dd>
+            </div>
+            <div className="flex justify-between gap-4">
+              <dt className="text-ink-muted">料金</dt>
+              <dd className="text-right text-ink">{plan.priceLabel}</dd>
             </div>
           </dl>
 

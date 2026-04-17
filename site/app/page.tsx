@@ -29,7 +29,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mt-24 border-t border-hairline pt-20 pb-20 md:mt-28 md:pt-24 md:pb-24">
+      <section
+        id="service-detail"
+        className="scroll-mt-24 mt-24 border-t border-hairline pt-20 pb-20 md:mt-28 md:pt-24 md:pb-24"
+      >
         <div className="mx-auto max-w-5xl">
           <h2
             className="mx-auto max-w-4xl text-center font-display text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink"
@@ -47,7 +50,7 @@ export default function HomePage() {
 
             <p className="font-body text-base leading-relaxed text-ink-muted">
               納品は、SNSにそのまま使える9:16の縦動画です。ハイライトは当日中から翌日を目安にお届けするため、ご家族やゲストともすぐ共有できます。
-              <Link href="/about" className="ml-2 inline-block underline underline-offset-4 hover:opacity-70">
+              <Link href="/#service-detail" className="ml-2 inline-block underline underline-offset-4 hover:opacity-70">
                 サービス詳細
               </Link>
             </p>
@@ -169,7 +172,7 @@ export default function HomePage() {
           <p className="font-body text-sm text-ink-muted">
             <span className="font-display text-lg font-semibold text-ink">2Step</span>
             <br />
-            予約相談→デポジット決済
+            予約相談→一括決済
           </p>
         </div>
       </section>

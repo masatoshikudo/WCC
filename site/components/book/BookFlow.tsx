@@ -1,47 +1,35 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
+import { BookMobileStickyDock } from "@/components/layout/MobileStickyDock";
+import { SideColumnVisualPanel } from "@/components/layout/SideColumnVisualPanel";
+import { TwoColumnCtaSection } from "@/components/layout/TwoColumnCtaSection";
+import { recordBookingIntent } from "@/app/actions/booking";
 import { WCC_BOOKING_CHECKOUT_KEY } from "@/lib/booking/session-storage";
-
-const PLANS = [
-  {
-    id: "standard",
-    label: "スタンダードプラン",
-    priceLabel: "10万円（税抜）",
-    depositNote: "デポジットはお見積りの50%が目安です",
-  },
-  {
-    id: "premium",
-    label: "プレミアムプラン",
-    priceLabel: "30万円（税抜）",
-    depositNote: "デポジットはお見積りの50%が目安です",
-  },
-] as const;
-
-type PlanId = (typeof PLANS)[number]["id"];
+import { WCC_BOOKING_PLANS, type WccPlanId } from "@/lib/plans";
+import { emailFieldSchema } from "@/lib/validations/email";
 
 type BookFlowProps = {
   paymentState?: "idle" | "cancel";
 };
 
-function isValidEmail(value: string): boolean {
-  const s = value.trim();
-  if (s.length === 0 || s.length > 254) return false;
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
-}
-
-function StepIndicator({ step }: { step: 1 | 2 | 3 | 4 }) {
-  const labels = ["選択", "確認", "決済", "完了"] as const;
+function StepIndicator({ step }: { step: 1 | 2 | 3 }) {
+  const labels = ["入力", "確認", "お支払い"] as const;
   return (
-    <div className="flex flex-wrap items-center gap-2 font-body text-sm text-ink-muted">
+    <div
+      className="flex flex-wrap items-center gap-2 font-body text-sm text-ink-muted"
+      aria-label="予約の進行状況"
+    >
       {labels.map((label, i) => {
-        const n = (i + 1) as 1 | 2 | 3 | 4;
+        const n = (i + 1) as 1 | 2 | 3;
         const active = n === step;
         return (
           <span key={label} className="flex items-center gap-2">
             {i > 0 ? <span className="text-ink-subtle" aria-hidden>—</span> : null}
             <span
+              aria-current={active ? "step" : undefined}
               className={
                 active
                   ? "font-semibold text-ink"
@@ -50,7 +38,7 @@ function StepIndicator({ step }: { step: 1 | 2 | 3 | 4 }) {
                     : "text-ink-subtle"
               }
             >
-              {n}/4 {label}
+              {n}/3 {label}
             </span>
           </span>
         );
@@ -60,31 +48,45 @@ function StepIndicator({ step }: { step: 1 | 2 | 3 | 4 }) {
 }
 
 export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
-  const paymentLink = process.env.NEXT_PUBLIC_STRIPE_DEPOSIT_PAYMENT_LINK ?? "";
-  const hasPaymentLink = paymentLink.length > 0;
+  const paymentLinkStandard = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_STANDARD ?? "";
+  const paymentLinkPremium = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_PREMIUM ?? "";
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [weddingDate, setWeddingDate] = useState("");
   const [dateUndecided, setDateUndecided] = useState(false);
-  const [planId, setPlanId] = useState<PlanId>("standard");
+  const [planId, setPlanId] = useState<WccPlanId>("standard");
   const [bookerEmail, setBookerEmail] = useState("");
   const [bookerName, setBookerName] = useState("");
   const [bookerEmailError, setBookerEmailError] = useState<string | null>(null);
+  /** ステップ3で発行。intent / 完了画面の payment と突き合わせる */
+  const [bookingAttemptId, setBookingAttemptId] = useState<string | null>(null);
+
+  const paymentLink = planId === "standard" ? paymentLinkStandard : paymentLinkPremium;
+  const hasPaymentLink = paymentLink.length > 0;
 
   const plan = useMemo(
-    () => PLANS.find((p) => p.id === planId) ?? PLANS[0],
+    () => WCC_BOOKING_PLANS.find((p) => p.id === planId) ?? WCC_BOOKING_PLANS[0],
     [planId],
   );
 
   const dateLabel = dateUndecided
     ? "未定"
     : weddingDate || "未入力";
-  const stepPrimaryLabel = step === 1 ? "次へ：内容を確認" : step === 2 ? "次へ：デポジットを支払う" : "決済ページを開く";
+  const stepPrimaryLabel = step === 1 ? "次へ：内容を確認" : step === 2 ? "次へ：お支払いへ" : "決済ページを開く";
 
   useEffect(() => {
-    if (step !== 3) return;
+    if (step !== 3) {
+      setBookingAttemptId(null);
+      return;
+    }
+    setBookingAttemptId((k) => k ?? crypto.randomUUID());
+  }, [step]);
+
+  useEffect(() => {
+    if (step !== 3 || !bookingAttemptId) return;
     const payload = {
       v: 1 as const,
+      attemptId: bookingAttemptId,
       email: bookerEmail.trim(),
       bookerName: bookerName.trim() ? bookerName.trim() : null,
       weddingDate,
@@ -99,11 +101,47 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
     } catch {
       /* sessionStorage 不可 */
     }
-  }, [step, bookerEmail, bookerName, weddingDate, dateUndecided, planId, plan.label, plan.priceLabel]);
+  }, [
+    step,
+    bookingAttemptId,
+    bookerEmail,
+    bookerName,
+    weddingDate,
+    dateUndecided,
+    planId,
+    plan.label,
+    plan.priceLabel,
+  ]);
+
+  useEffect(() => {
+    if (step !== 3 || !bookingAttemptId) return;
+    void recordBookingIntent({
+      attemptId: bookingAttemptId,
+      email: bookerEmail.trim(),
+      bookerName: bookerName.trim() ? bookerName.trim() : null,
+      weddingDate,
+      dateUndecided,
+      planId,
+      planLabel: plan.label,
+      priceLabel: plan.priceLabel,
+    });
+  }, [
+    step,
+    bookingAttemptId,
+    bookerEmail,
+    bookerName,
+    weddingDate,
+    dateUndecided,
+    planId,
+    plan.label,
+    plan.priceLabel,
+  ]);
 
   function goToStep2() {
-    if (!isValidEmail(bookerEmail)) {
-      setBookerEmailError("メールアドレスを正しく入力してください");
+    const parsed = emailFieldSchema.safeParse(bookerEmail.trim());
+    if (!parsed.success) {
+      const msg = parsed.error.issues[0]?.message ?? "入力内容を確認してください";
+      setBookerEmailError(msg);
       return;
     }
     setBookerEmailError(null);
@@ -112,12 +150,10 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
 
   return (
     <div className="mx-4 max-w-content px-4 py-10 md:mx-[200px] md:px-6 md:py-12 lg:px-8 lg:py-16">
-      <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
-        BOOK YOUR DATE
-      </p>
-      <h1 className="font-display mt-3 text-[1.75rem] font-bold text-ink">Let&apos;s get it booked...</h1>
+      <p className="font-body text-xs font-semibold text-ink-muted">ご予約（お支払い）</p>
+      <h1 className="font-display mt-3 text-[1.75rem] font-bold text-ink">日程・プランのお申し込み</h1>
       <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
-        日程とプランを選び、内容を確認したうえでデポジットをお支払いください。不明点はいつでもお問い合わせからご相談いただけます。
+        次の3ステップで、入力内容と料金をご確認のうえ、プラン料金（税抜）を一括でお支払いいただきます。決済は Stripe の専用ページで行われ、カード番号は当サイトに保存されません。ご不明点はお問い合わせからどうぞ。
       </p>
 
       {paymentState === "cancel" && (
@@ -126,52 +162,36 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
         </p>
       )}
 
-      <section className="mt-8 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-        <article className="bg-canvas-subtle p-4 md:p-5">
-          <div className="relative overflow-hidden">
-            <img
-              src="https://images.squarespace-cdn.com/content/v1/67b4555002a42e199321ce7b/18ecda9e-8f28-4a2b-9ca3-3d0b0e82f878/The-Social-Sisters-Content-Creators-Social-Media-Creation-BTS-3.jpg?format=1500w"
-              alt="Wedding content creator capturing moments with an iPhone"
-              className="aspect-[4/5] w-full object-cover"
-              loading="lazy"
-            />
-          </div>
-          <div className="mt-4 space-y-4">
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
-              BOOKING FLOW
-            </p>
+      <TwoColumnCtaSection
+        leftAside={
+          <SideColumnVisualPanel eyebrow="ご予約の流れ（3ステップ）">
             <ul className="space-y-2 font-body text-sm leading-relaxed text-ink-muted">
-              <li>・ステップ1：挙式日とプランを選択</li>
-              <li>・ステップ2：内容を確認</li>
-              <li>・ステップ3：Stripeでデポジットを支払い</li>
+              <li>・挙式日・プラン・連絡先メールを入力</li>
+              <li>・内容と料金（税抜）を確認</li>
+              <li>・Stripeのページでカード決済（一括）</li>
             </ul>
-          </div>
-        </article>
-
-        <div>
+          </SideColumnVisualPanel>
+        }
+      >
           <StepIndicator step={step} />
 
           <h2 className="font-display mt-6 text-xl font-bold text-ink">
-            {step === 1 && "日程とプランを選ぶ"}
-            {step === 2 && "内容の確認"}
-            {step === 3 && "デポジットを支払う"}
+            {step === 1 && "日程・プラン・連絡先を入力"}
+            {step === 2 && "内容と料金の確認"}
+            {step === 3 && "お支払い（税抜・一括）"}
           </h2>
 
-          <div className="mt-5 grid gap-3 bg-canvas-subtle p-4 md:grid-cols-3">
-            <p className="font-body text-xs text-ink-muted">
-              <span className="font-display text-sm font-semibold text-ink">Secure</span>
-              <br />
-              決済はStripeで処理
-            </p>
-            <p className="font-body text-xs text-ink-muted">
-              <span className="font-display text-sm font-semibold text-ink">Fast</span>
-              <br />
-              入力は最短2分
-            </p>
-            <p className="font-body text-xs text-ink-muted">
-              <span className="font-display text-sm font-semibold text-ink">Clear</span>
-              <br />
-              条件を事前確認
+          <div className="mt-5 rounded-sm border border-hairline bg-canvas-subtle p-4">
+            <p className="font-body text-sm leading-relaxed text-ink-muted">
+              お支払い前に、プラン名と金額がご希望どおりか必ずご確認ください。料金・納品の詳細は
+              <Link href="/packages" className="text-ink underline underline-offset-4 hover:opacity-80">
+                料金ページ
+              </Link>
+              の記載に準じます。ご質問は
+              <Link href="/contact" className="text-ink underline underline-offset-4 hover:opacity-80">
+                お問い合わせ
+              </Link>
+              から。
             </p>
           </div>
 
@@ -218,16 +238,16 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
             <select
               id="plan"
               value={planId}
-              onChange={(e) => setPlanId(e.target.value as PlanId)}
+              onChange={(e) => setPlanId(e.target.value as WccPlanId)}
               className="mt-2 min-h-[44px] w-full rounded-sm border-2 border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:max-w-md"
             >
-              {PLANS.map((p) => (
+              {WCC_BOOKING_PLANS.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.label} — {p.priceLabel}
                 </option>
               ))}
             </select>
-            <p className="mt-2 font-body text-sm text-ink-muted">{plan.depositNote}</p>
+            <p className="mt-2 font-body text-sm text-ink-muted">{plan.planNote}</p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
@@ -309,7 +329,7 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
           </dl>
 
           <p className="font-body text-sm leading-relaxed text-ink-muted">
-            本予約フローの決済は <strong className="text-ink">Stripe埋め込み</strong>
+            お支払いは <strong className="text-ink">Stripe の決済ページ</strong>
             で行います。カード情報は Stripe 上で処理され、当サイトには保存されません。
           </p>
 
@@ -337,7 +357,7 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
               onClick={() => setStep(3)}
               className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover md:inline-flex"
             >
-              次へ：デポジットを支払う
+              次へ：お支払いへ
             </button>
           </div>
         </div>
@@ -346,8 +366,7 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
       {step === 3 && (
         <div className="mt-8 w-full space-y-6">
           <p className="font-body leading-relaxed text-ink-muted">
-            デポジット（お見積り金額の約50%）は Stripe の決済ページでお支払いいただけます（セキュリティのため当サイト内への埋め込みはできません）。下のボタンから
-            Stripe へ移動し、決済完了後は「4/4 完了」画面へ遷移します。
+            プラン料金（一括）は Stripe の決済ページでお支払いください（セキュリティのため、決済画面を当サイト内に埋め込むことはできません）。下のボタンから移動し、決済が完了すると受付完了の画面が表示されます。
           </p>
 
           {hasPaymentLink && (
@@ -369,11 +388,13 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
               role="status"
               className="rounded-md border border-danger bg-canvas p-4 font-body text-sm text-danger"
             >
-              <p className="font-semibold">決済リンクが未設定です</p>
+              <p className="font-semibold">このプラン用の決済リンクが未設定です</p>
               <p className="mt-2">
-                Stripe ダッシュボードで Payment Link（デポジット用）を作成し、
+                Stripe ダッシュボードでプラン別の Payment Link を作成し、
                 <code className="rounded-sm bg-canvas-subtle px-1 py-0.5 text-xs text-ink">
-                  NEXT_PUBLIC_STRIPE_DEPOSIT_PAYMENT_LINK
+                  {planId === "standard"
+                    ? "NEXT_PUBLIC_STRIPE_PAYMENT_LINK_STANDARD"
+                    : "NEXT_PUBLIC_STRIPE_PAYMENT_LINK_PREMIUM"}
                 </code>
                 に URL を設定してください。
               </p>
@@ -404,54 +425,22 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
                 className="font-display hidden min-h-[52px] min-w-[220px] cursor-not-allowed items-center justify-center rounded-full bg-ink-subtle px-8 text-sm font-semibold uppercase tracking-[0.08em] text-canvas opacity-80 md:inline-flex"
                 aria-disabled
               >
-                Stripe でデポジットを支払う
+                Stripe でお支払い
               </span>
             ) : null}
           </div>
         </div>
       )}
-        </div>
-      </section>
+      </TwoColumnCtaSection>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-canvas/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] backdrop-blur [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:translate3d(0,0,0)] md:hidden">
-        {step === 1 ? (
-          <button
-            type="button"
-            onClick={goToStep2}
-            className="font-display inline-flex min-h-[52px] w-full items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover"
-          >
-            {stepPrimaryLabel}
-          </button>
-        ) : null}
-
-        {step === 2 ? (
-          <button
-            type="button"
-            onClick={() => setStep(3)}
-            className="font-display inline-flex min-h-[52px] w-full items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover"
-          >
-            {stepPrimaryLabel}
-          </button>
-        ) : null}
-
-        {step === 3 && hasPaymentLink ? (
-          <a
-            href={paymentLink}
-            className="font-display inline-flex min-h-[52px] w-full items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover"
-          >
-            {stepPrimaryLabel}
-          </a>
-        ) : null}
-
-        {step === 3 && !hasPaymentLink ? (
-          <span
-            className="font-display inline-flex min-h-[52px] w-full cursor-not-allowed items-center justify-center rounded-full bg-ink-subtle px-8 text-sm font-semibold uppercase tracking-[0.08em] text-canvas opacity-80"
-            aria-disabled
-          >
-            {stepPrimaryLabel}
-          </span>
-        ) : null}
-      </div>
+      <BookMobileStickyDock
+        step={step}
+        hasPaymentLink={hasPaymentLink}
+        paymentLink={paymentLink}
+        stepPrimaryLabel={stepPrimaryLabel}
+        onStep1Next={goToStep2}
+        onStep2Next={() => setStep(3)}
+      />
     </div>
   );
 }

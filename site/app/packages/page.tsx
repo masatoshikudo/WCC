@@ -1,31 +1,6 @@
-export default function PackagesPage() {
-  const packagePlans = [
-    {
-      id: "01",
-      name: "スタンダードプラン",
-      priceMain: "100,000-",
-      items: [
-        "6時間のコンテンツ撮影",
-        "24時間以内に納品",
-        "事前Zoom打ち合わせ",
-        "編集済みTikTok/Reels 2本",
-        "当日のBTS + ディテール + 主要シーン",
-        "RAWデータ一式",
-      ],
-    },
-    {
-      id: "02",
-      name: "プレミアムプラン",
-      priceMain: "240,000-",
-      items: [
-        "9時間のフルデイ撮影",
-        "編集済みTikTok/Reels 2本",
-        "1日のハイライト動画",
-        "スタンダードプランの内容を含む",
-      ],
-    },
-  ];
+import { WCC_PACKAGE_PLANS } from "@/lib/plans";
 
+export default function PackagesPage() {
   const extras = [
     "延長撮影: 個別お見積もり（税抜）",
     "対面ミーティング: 個別お見積もり（税抜）",
@@ -37,8 +12,8 @@ export default function PackagesPage() {
 
   const faqs = [
     {
-      q: "デポジットは必要ですか？",
-      a: "はい。予約時にデポジットが必要です。残額は挙式4週間前までにお支払いいただきます。",
+      q: "お支払いのタイミングは？",
+      a: "予約時に、お選びのプラン料金を一括でお支払いいただきます（税抜価格）。追加オプションや条件の詳細はご契約時にご案内します。",
     },
     {
       q: "どの機材で撮影しますか？",
@@ -68,17 +43,15 @@ export default function PackagesPage() {
       </p>
 
       <section className="mt-10 grid gap-4 lg:grid-cols-2">
-        {packagePlans.map((plan, index) => (
-          <article
-            key={plan.name}
-            className={index === 0 ? "bg-canvas-subtle p-6" : "bg-canvas-subtle p-6"}
-          >
+        {WCC_PACKAGE_PLANS.map((plan) => (
+          <article key={plan.id} className="bg-canvas-subtle p-6">
             <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
-              {plan.id}
+              {plan.displayId}
             </p>
             <h2 className="mt-3 font-display text-xl font-semibold text-ink">{plan.name}</h2>
             <p className="mt-2 font-display text-3xl font-semibold tabular-nums text-ink">
-              {plan.priceMain}
+              {plan.priceExTaxYen.toLocaleString("ja-JP")}
+              <span className="text-2xl font-semibold">円</span>
               <span className="ml-1 align-baseline text-sm font-medium tabular-nums text-ink-muted sm:text-base">
                 （税抜）
               </span>
@@ -127,8 +100,8 @@ export default function PackagesPage() {
           </p>
           <h2 className="mt-2 font-display text-xl font-semibold text-ink">お支払いフロー</h2>
           <ul className="mt-4 space-y-2 font-body text-sm leading-relaxed text-ink-muted">
-            <li>・予約フォーム送信後、デポジット（お見積り金額の約50%が目安）のお支払いで日程確定</li>
-            <li>・残額は挙式4週間前までにお支払い</li>
+            <li>・予約フォーム送信後、選択プランの料金を一括お支払いいただくことで日程確定</li>
+            <li>・追加オプションは個別お見積もり・お支払い</li>
             <li>・最終Zoomで当日の動線を確認</li>
           </ul>
         </div>
@@ -149,7 +122,7 @@ export default function PackagesPage() {
             <span className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink">
               02
             </span>
-            <p className="mt-2">デポジット（お見積り金額の約50%が目安）のお支払いで日程確定</p>
+            <p className="mt-2">プラン料金の一括お支払いで日程確定</p>
           </li>
           <li className="bg-canvas p-4">
             <span className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink">

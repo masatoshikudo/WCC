@@ -1,9 +1,11 @@
 import { z } from "zod";
 
+import { emailFieldSchema } from "@/lib/validations/email";
+
 export const contactFormSchema = z.object({
   name: z.string().min(1, "お名前を入力してください"),
   partnerName: z.string().optional(),
-  email: z.string().min(1, "メールアドレスを入力してください").email("有効なメールアドレスを入力してください"),
+  email: emailFieldSchema,
   phone: z.string().min(1, "電話番号を入力してください"),
   weddingDateFirst: z.string().min(1, "希望日（第1候補）を選択してください"),
   weddingDateSecond: z.string().optional(),

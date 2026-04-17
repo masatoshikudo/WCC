@@ -17,12 +17,12 @@ export function buildBookingConfirmationEmail(params: { data: BookingConfirmatio
   const planLine = escapeHtml(data.planLabel);
   const priceLine = escapeHtml(data.priceLabel);
 
-  const subject = "デポジットのお支払いを確認しました（Wedding Content Creator）";
+  const subject = "お支払いを確認しました（Wedding Content Creator）";
 
   const text = [
     data.bookerName?.trim() ? `${data.bookerName.trim()} 様` : "お客様",
     "",
-    "デポジットのお支払いを確認しました。ご予約の仮押さえとして受け付けています。",
+    "プラン料金のお支払いを確認しました。ご予約内容として受け付けています。",
     "",
     `挙式日: ${data.weddingDateLabel}`,
     `プラン: ${data.planLabel}`,
@@ -38,7 +38,7 @@ export function buildBookingConfirmationEmail(params: { data: BookingConfirmatio
 <html>
 <body style="font-family: system-ui, sans-serif; line-height: 1.6; color: #111;">
   <p>${greetingHtml}</p>
-  <p>デポジットのお支払いを確認しました。ご予約の仮押さえとして受け付けています。</p>
+  <p>プラン料金のお支払いを確認しました。ご予約内容として受け付けています。</p>
   <table style="border-collapse: collapse; margin-top: 12px;">
     <tbody>
       <tr><td style="padding: 4px 12px 4px 0; color:#555;">挙式日</td><td>${dateLine}</td></tr>

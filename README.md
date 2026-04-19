@@ -6,7 +6,7 @@
 
 | パス | 内容 |
 | :--- | :--- |
-| `site/` | **Next.js 14（App Router）** の実装。LP・料金・ポートフォリオ・問い合わせ・予約フロー |
+| `site/` | **Next.js 14（App Router）** の実装。LP・料金・問い合わせ・予約フロー |
 | `DESIGN.md` | デザインシステム（トークン・コンポーネント規約） |
 | `STACK.md` | 技術スタック・アーキテクチャ（Vercel / Supabase / Stripe 等の想定） |
 | `VOICE.md` | トーン・表記の指針 |
@@ -30,7 +30,7 @@ npm run dev
 
 ブラウザ: [http://localhost:3000](http://localhost:3000)
 
-主要パス: `/` · `/packages` · `/portfolio` · `/contact` · `/book`
+主要パス: `/`（料金は `/#pricing`、ギャラリーは `/#highlights`）· `/contact` · `/book`（旧 `/packages` → `/#pricing`、旧 `/portfolio` → `/#highlights`）
 
 ## ビルド・品質
 

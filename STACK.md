@@ -2,7 +2,7 @@
 
 ## 概要
 
-ウェディング・コンテンツ・クリエイター（WCC）向けサイト。LP・料金・問い合わせ・予約（Stripe Payment Link）・ポートフォリオを提供する。
+ウェディング・コンテンツ・クリエイター（WCC）向けサイト。LP（料金は `/#pricing`、実績ギャラリーは `/#highlights`）・問い合わせ・予約（Stripe Payment Link）を提供する。
 
 **実装**: リポジトリ直下の **`site/`**（Next.js 14 App Router）。見た目の一次情報は **`DESIGN.md`**、文言は **`VOICE.md`** を参照。
 
@@ -21,7 +21,7 @@
 | **Vercel** | ホスティング・デプロイ想定 |
 | **Supabase**（`@supabase/supabase-js`） | PostgreSQL。問い合わせ・**予約 intent / 決済完了**の保存（書き込みは Server Actions + service_role） |
 | **Resend** | 問い合わせ・予約完了の通知メール（HTML 文字列で送信） |
-| **Stripe** | プラン別 **Payment Link** を環境変数の URL で開き、外部決済（サイト内に SDK は未導入）。成功 URL に `session_id` を付与可能 |
+| **Stripe** | **Payment Link**（パッケージ料金・一括）を環境変数の URL で開き、外部決済（サイト内に SDK は未導入）。成功 URL に `session_id` を付与可能 |
 
 ---
 

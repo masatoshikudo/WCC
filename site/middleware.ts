@@ -53,8 +53,10 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * 静的ファイルと画像最適化は除外（タブのアイコン等のため favicon のみ通す）
+     * API・Next 内部（/_next/* 全体）・favicon を除外。
+     * `_next/webpack-hmr` 等を漏らすとメンテ時に 503 が返り、開発で JS/CSS/HMR が壊れる。
+     * 公式の除外パターンに近い形で `_next/` を一括除外する。
      */
-    "/((?!_next/static|_next/image|favicon.ico).*)",
+    "/((?!api|_next/|favicon.ico).*)",
   ],
 };

@@ -44,7 +44,7 @@ export function BookCompletion({ stripeCheckoutSessionId = null }: BookCompletio
   }, [stripeCheckoutSessionId]);
 
   return (
-    <div className="mx-4 max-w-content px-4 py-10 md:mx-[200px] md:px-6 md:py-12 lg:px-8 lg:py-16">
+    <div className="mx-auto w-full max-w-content px-4 py-10 md:px-6 md:py-12 lg:px-8 lg:py-16">
       <p className="font-body text-xs font-semibold text-ink-muted">受付完了</p>
       <h1 className="font-display mt-3 text-[1.75rem] font-bold text-ink">お申し込みを受け付けました</h1>
       <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
@@ -71,7 +71,7 @@ export function BookCompletion({ stripeCheckoutSessionId = null }: BookCompletio
         <p className="mt-4 max-w-prose font-body leading-relaxed text-ink-muted">
           お届けする文面に相違がないかご確認ください。ご不明点はお問い合わせからご連絡ください。
         </p>
-        <p className="mt-2 max-w-prose font-body text-sm text-success">プラン料金（税抜・一括）のお支払いを確認しました。</p>
+        <p className="mt-2 max-w-prose font-body text-sm text-success">パッケージ料金（税抜・一括）のお支払いを確認しました。</p>
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
             href="/"

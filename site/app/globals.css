@@ -5,6 +5,8 @@
 /* DESIGN.md フェーズ3・:root トークン */
 :root {
   --color-canvas: #f9f4f1;
+  /* Tailwind の bg-canvas/◯◯ 用（HEX の var だけだと透明度修飾子が効かないことがある） */
+  --color-canvas-rgb: 249 244 241;
   --color-canvas-subtle: #ffffff;
   --color-canvas-warm: #f9f4f1;
   --color-ink: #202620;
@@ -111,19 +113,24 @@
     animation: marquee-loop 22s linear infinite;
   }
 
-  /* SP: 親の max-width を突き抜けてビューポート幅のトラックにする（子の transform と干渉させない） */
-  .hero-track-sp {
-    position: relative;
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(50% - 50vw);
+  /* PC ヒーロー: 9:16 カード列を無限横スクロール（内容を2倍にして -50% でループ） */
+  .hero-marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 1.25rem;
+    animation: marquee-loop 72s linear infinite;
+    will-change: transform;
   }
 
   @media (min-width: 768px) {
-    .hero-track-sp {
-      width: 100%;
-      max-width: none;
-      margin-left: 0;
+    .hero-marquee-track {
+      gap: 5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-marquee-track {
+      gap: 4rem;
     }
   }
 
@@ -144,6 +151,7 @@
     .animate-fade-up,
     .animate-float-slow,
     .marquee-track,
+    .hero-marquee-track,
     .hero-pass-mobile {
       animation: none;
     }

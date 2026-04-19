@@ -1,19 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BookMobileStickyDock } from "@/components/layout/MobileStickyDock";
 import { SideColumnVisualPanel } from "@/components/layout/SideColumnVisualPanel";
 import { TwoColumnCtaSection } from "@/components/layout/TwoColumnCtaSection";
 import { recordBookingIntent } from "@/app/actions/booking";
 import { WCC_BOOKING_CHECKOUT_KEY } from "@/lib/booking/session-storage";
-import { WCC_BOOKING_PLANS, type WccPlanId } from "@/lib/plans";
+import { WCC_BOOKING_PLANS, WCC_STANDARD_PACKAGE_DISCLAIMER } from "@/lib/plans";
+import { HOME_ANCHOR_HREF } from "@/lib/site-links";
 import { emailFieldSchema } from "@/lib/validations/email";
 
 type BookFlowProps = {
   paymentState?: "idle" | "cancel";
 };
+
+function newBookingAttemptId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
 
 function StepIndicator({ step }: { step: 1 | 2 | 3 }) {
   const labels = ["入力", "確認", "お支払い"] as const;
@@ -47,27 +55,22 @@ function StepIndicator({ step }: { step: 1 | 2 | 3 }) {
   );
 }
 
+const BOOK_PLAN = WCC_BOOKING_PLANS[0];
+const BOOK_PLAN_ID = BOOK_PLAN.id;
+
 export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
-  const paymentLinkStandard = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_STANDARD ?? "";
-  const paymentLinkPremium = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_PREMIUM ?? "";
+  const paymentLink =
+    process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_STANDARD ?? "";
+  const hasPaymentLink = paymentLink.length > 0;
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [weddingDate, setWeddingDate] = useState("");
   const [dateUndecided, setDateUndecided] = useState(false);
-  const [planId, setPlanId] = useState<WccPlanId>("standard");
   const [bookerEmail, setBookerEmail] = useState("");
   const [bookerName, setBookerName] = useState("");
   const [bookerEmailError, setBookerEmailError] = useState<string | null>(null);
   /** ステップ3で発行。intent / 完了画面の payment と突き合わせる */
   const [bookingAttemptId, setBookingAttemptId] = useState<string | null>(null);
-
-  const paymentLink = planId === "standard" ? paymentLinkStandard : paymentLinkPremium;
-  const hasPaymentLink = paymentLink.length > 0;
-
-  const plan = useMemo(
-    () => WCC_BOOKING_PLANS.find((p) => p.id === planId) ?? WCC_BOOKING_PLANS[0],
-    [planId],
-  );
 
   const dateLabel = dateUndecided
     ? "未定"
@@ -79,7 +82,7 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
       setBookingAttemptId(null);
       return;
     }
-    setBookingAttemptId((k) => k ?? crypto.randomUUID());
+    setBookingAttemptId((k) => k ?? newBookingAttemptId());
   }, [step]);
 
   useEffect(() => {
@@ -91,9 +94,9 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
       bookerName: bookerName.trim() ? bookerName.trim() : null,
       weddingDate,
       dateUndecided,
-      planId,
-      planLabel: plan.label,
-      priceLabel: plan.priceLabel,
+      planId: BOOK_PLAN_ID,
+      planLabel: BOOK_PLAN.label,
+      priceLabel: BOOK_PLAN.priceLabel,
       savedAt: Date.now(),
     };
     try {
@@ -101,17 +104,7 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
     } catch {
       /* sessionStorage 不可 */
     }
-  }, [
-    step,
-    bookingAttemptId,
-    bookerEmail,
-    bookerName,
-    weddingDate,
-    dateUndecided,
-    planId,
-    plan.label,
-    plan.priceLabel,
-  ]);
+  }, [step, bookingAttemptId, bookerEmail, bookerName, weddingDate, dateUndecided]);
 
   useEffect(() => {
     if (step !== 3 || !bookingAttemptId) return;
@@ -121,21 +114,11 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
       bookerName: bookerName.trim() ? bookerName.trim() : null,
       weddingDate,
       dateUndecided,
-      planId,
-      planLabel: plan.label,
-      priceLabel: plan.priceLabel,
+      planId: BOOK_PLAN_ID,
+      planLabel: BOOK_PLAN.label,
+      priceLabel: BOOK_PLAN.priceLabel,
     });
-  }, [
-    step,
-    bookingAttemptId,
-    bookerEmail,
-    bookerName,
-    weddingDate,
-    dateUndecided,
-    planId,
-    plan.label,
-    plan.priceLabel,
-  ]);
+  }, [step, bookingAttemptId, bookerEmail, bookerName, weddingDate, dateUndecided]);
 
   function goToStep2() {
     const parsed = emailFieldSchema.safeParse(bookerEmail.trim());
@@ -149,11 +132,11 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
   }
 
   return (
-    <div className="mx-4 max-w-content px-4 py-10 md:mx-[200px] md:px-6 md:py-12 lg:px-8 lg:py-16">
+    <div className="mx-auto w-full max-w-content px-4 py-10 md:px-6 md:py-12 lg:px-8 lg:py-16">
       <p className="font-body text-xs font-semibold text-ink-muted">ご予約（お支払い）</p>
-      <h1 className="font-display mt-3 text-[1.75rem] font-bold text-ink">日程・プランのお申し込み</h1>
+      <h1 className="font-display mt-3 text-[1.75rem] font-bold text-ink">日程のお申し込み</h1>
       <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
-        次の3ステップで、入力内容と料金をご確認のうえ、プラン料金（税抜）を一括でお支払いいただきます。決済は Stripe の専用ページで行われ、カード番号は当サイトに保存されません。ご不明点はお問い合わせからどうぞ。
+        次の3ステップで、入力内容と料金をご確認のうえ、パッケージ料金（税抜）を一括でお支払いいただきます。決済は Stripe の専用ページで行われ、カード番号は当サイトに保存されません。ご不明点はお問い合わせからどうぞ。
       </p>
 
       {paymentState === "cancel" && (
@@ -166,7 +149,7 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
         leftAside={
           <SideColumnVisualPanel eyebrow="ご予約の流れ（3ステップ）">
             <ul className="space-y-2 font-body text-sm leading-relaxed text-ink-muted">
-              <li>・挙式日・プラン・連絡先メールを入力</li>
+              <li>・挙式日・連絡先メールを入力</li>
               <li>・内容と料金（税抜）を確認</li>
               <li>・Stripeのページでカード決済（一括）</li>
             </ul>
@@ -176,7 +159,7 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
           <StepIndicator step={step} />
 
           <h2 className="font-display mt-6 text-xl font-bold text-ink">
-            {step === 1 && "日程・プラン・連絡先を入力"}
+            {step === 1 && "日程・連絡先を入力"}
             {step === 2 && "内容と料金の確認"}
             {step === 3 && "お支払い（税抜・一括）"}
           </h2>
@@ -184,8 +167,8 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
           <div className="mt-5 rounded-sm border border-hairline bg-canvas-subtle p-4">
             <p className="font-body text-sm leading-relaxed text-ink-muted">
               お支払い前に、プラン名と金額がご希望どおりか必ずご確認ください。料金・納品の詳細は
-              <Link href="/packages" className="text-ink underline underline-offset-4 hover:opacity-80">
-                料金ページ
+              <Link href={HOME_ANCHOR_HREF.pricing} className="text-ink underline underline-offset-4 hover:opacity-80">
+                料金・プラン
               </Link>
               の記載に準じます。ご質問は
               <Link href="/contact" className="text-ink underline underline-offset-4 hover:opacity-80">
@@ -229,25 +212,14 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
           </div>
 
           <div>
-            <label
-              htmlFor="plan"
-              className="font-body text-sm font-semibold text-ink"
-            >
-              プラン
-            </label>
-            <select
-              id="plan"
-              value={planId}
-              onChange={(e) => setPlanId(e.target.value as WccPlanId)}
-              className="mt-2 min-h-[44px] w-full rounded-sm border-2 border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:max-w-md"
-            >
-              {WCC_BOOKING_PLANS.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.label} — {p.priceLabel}
-                </option>
-              ))}
-            </select>
-            <p className="mt-2 font-body text-sm text-ink-muted">{plan.planNote}</p>
+            <p className="font-body text-sm font-semibold text-ink">パッケージ</p>
+            <p className="mt-2 rounded-sm border-2 border-hairline bg-canvas px-3 py-3 font-body text-sm text-ink sm:max-w-md">
+              {BOOK_PLAN.label} — {BOOK_PLAN.priceLabel}
+            </p>
+            <p className="mt-2 font-body text-sm text-ink-muted">{BOOK_PLAN.planNote}</p>
+            <p className="mt-3 font-body text-xs leading-relaxed text-ink-muted">
+              {WCC_STANDARD_PACKAGE_DISCLAIMER}
+            </p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
@@ -319,12 +291,12 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
               </div>
             ) : null}
             <div className="flex justify-between gap-4">
-              <dt className="text-ink-muted">プラン</dt>
-              <dd className="text-right text-ink">{plan.label}</dd>
+              <dt className="text-ink-muted">パッケージ</dt>
+              <dd className="text-right text-ink">{BOOK_PLAN.label}</dd>
             </div>
             <div className="flex justify-between gap-4">
               <dt className="text-ink-muted">料金</dt>
-              <dd className="text-right text-ink">{plan.priceLabel}</dd>
+              <dd className="text-right text-ink">{BOOK_PLAN.priceLabel}</dd>
             </div>
           </dl>
 
@@ -340,7 +312,11 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
             </p>
             <p>
               <strong className="text-ink">納品</strong>
-              ：当日スマホ撮影・編集の条件は料金ページに準じます。
+              ：当日スマホ撮影・編集の条件は
+              <Link href={HOME_ANCHOR_HREF.pricing} className="text-ink underline underline-offset-4 hover:opacity-80">
+                料金・プラン
+              </Link>
+              に準じます。
             </p>
           </div>
 
@@ -366,7 +342,7 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
       {step === 3 && (
         <div className="mt-8 w-full space-y-6">
           <p className="font-body leading-relaxed text-ink-muted">
-            プラン料金（一括）は Stripe の決済ページでお支払いください（セキュリティのため、決済画面を当サイト内に埋め込むことはできません）。下のボタンから移動し、決済が完了すると受付完了の画面が表示されます。
+            パッケージ料金（一括）は Stripe の決済ページでお支払いください（セキュリティのため、決済画面を当サイト内に埋め込むことはできません）。下のボタンから移動し、決済が完了すると受付完了の画面が表示されます。
           </p>
 
           {hasPaymentLink && (
@@ -388,13 +364,11 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
               role="status"
               className="rounded-md border border-danger bg-canvas p-4 font-body text-sm text-danger"
             >
-              <p className="font-semibold">このプラン用の決済リンクが未設定です</p>
+              <p className="font-semibold">決済リンクが未設定です</p>
               <p className="mt-2">
-                Stripe ダッシュボードでプラン別の Payment Link を作成し、
+                Stripe ダッシュボードで Payment Link を作成し、
                 <code className="rounded-sm bg-canvas-subtle px-1 py-0.5 text-xs text-ink">
-                  {planId === "standard"
-                    ? "NEXT_PUBLIC_STRIPE_PAYMENT_LINK_STANDARD"
-                    : "NEXT_PUBLIC_STRIPE_PAYMENT_LINK_PREMIUM"}
+                  NEXT_PUBLIC_STRIPE_PAYMENT_LINK_STANDARD
                 </code>
                 に URL を設定してください。
               </p>

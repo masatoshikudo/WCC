@@ -1,244 +1,281 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { HeroHighlightCarousel } from "@/components/home/HeroHighlightCarousel";
+import { HomeFaqSection } from "@/components/home/HomeFaqSection";
+import { HomePricingSection } from "@/components/home/HomePricingSection";
+import { getHomeFaqJsonLd } from "@/lib/home-faq";
+import { HOME_HIGHLIGHT_VIDEO_SLIDES } from "@/lib/home-highlight-videos";
+import { HOME_ANCHOR_HREF } from "@/lib/site-links";
+import {
+  HOME_CONTENT_INNER_COLUMN_CLASS,
+  HOME_FAQ_SECTION_OUTER_CLASS,
+  HOME_WHAT_IS_WCC_VERT_PAD_CLASS,
+} from "@/lib/layout/home-sections";
+import {
+  MOBILE_HERO_MAIN_HEIGHT_CSS,
+  MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS,
+} from "@/lib/layout/mobile-dock";
+import { cn } from "@/lib/utils/cn";
+
+const HOME_FAQ_JSON_LD = getHomeFaqJsonLd();
+
+/** ヒーロー見出し・リード（動画の上でも読めるキャンバス光彩＋弱いインク） */
+const HERO_TEXT_SHADOW_CLASS =
+  "[text-shadow:0_0_48px_rgb(var(--color-canvas-rgb)_/_0.4),0_0_96px_rgb(var(--color-canvas-rgb)_/_0.3),0_1px_3px_rgb(32_38_32_/_0.25)]";
+
+/** トップ各セクションの H2（DESIGN.md §5.3 と整合） */
+const SECTION_H2_CLASS =
+  "mx-auto max-w-4xl text-center font-display text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink";
+const SECTION_H2_STYLE: CSSProperties = { letterSpacing: "-0.03em" };
+
+/** `#service-detail` 背景（DESIGN.md §4.0 `--color-canvas-subtle`）— ルートを全幅にし本項のみ変更しやすくする */
+const SERVICE_DETAIL_SECTION_BG_CLASS = "bg-canvas-subtle";
+
+/** `#service-detail` 外枠: ビューポート幅の帯＋区切り・縦余白（`#what-is-wcc` と同じ縦リズム）。SP は `#hero` 下端リザーブと役割が重なるため上マージンを抑える */
+const SERVICE_DETAIL_SECTION_ROOT_CLASS = cn(
+  "w-full scroll-mt-48 mt-24 pt-40 pb-40 md:mt-56 md:pt-48 md:pb-48",
+  SERVICE_DETAIL_SECTION_BG_CLASS,
+);
+
+/** `#highlights` — フッターと同じ帯。余白は `margin` にせず `padding`（マージンは背景が塗られない） */
+const HIGHLIGHTS_SECTION_ROOT_CLASS = cn(
+  "w-full scroll-mt-24 border-t border-white/20 bg-bg-dark",
+  /** 旧 `mt-16 pt-16` をパディングに統合。下は旧 `#what-is-wcc` の上マージン分をダーク帯で確保 */
+  "pt-32 pb-48 md:pb-56",
+);
+
+/** ダーク帯上の H2（`SECTION_H2_CLASS` の色だけ `text-white` に差し替え） */
+const HIGHLIGHTS_SECTION_H2_CLASS =
+  "mx-auto max-w-4xl text-center font-display text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-white";
 
 export default function HomePage() {
   return (
-    <div className="mx-4 max-w-content px-4 py-8 md:mx-[200px] md:px-6 md:py-10 lg:px-8 lg:py-12">
-      <section className="grid gap-20 pb-10 lg:min-h-[calc(100svh-7rem)] md:gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-        <div className="space-y-6">
-          <h1
-            className="font-heading text-[clamp(2.4rem,5.5vw,5rem)] font-bold leading-[0.95] text-ink"
-            style={{ letterSpacing: "-0.05em" }}
-            lang="en"
-          >
-            Wedding Content
-            <br />
-            Creator for
-            <br />
-            Your Wedding Day
-          </h1>
-          <p className="font-body max-w-xl text-lg leading-relaxed text-ink-muted">
-            式当日のリアルな瞬間をスマホで残し、当日中から翌日までに見返せる編集した縦型ショート動画としてお届けします。
-          </p>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(HOME_FAQ_JSON_LD) }}
+      />
+      {/* ヒーローは max-w の外（main 直下）に置き、背面は 100% 幅。SP: ヘッダー下〜下端の範囲でテキストを縦中央（下は固定CTA用に pb）、md+ で 800px 揃え */}
+      <section
+        id="hero"
+        className={cn(
+          "scroll-mt-24 relative isolate flex w-full min-h-[calc(100svh-5rem)] flex-col justify-center pt-0 md:min-h-[max(36rem,78svh)] md:py-10 lg:min-h-[calc(100svh-5rem)] lg:py-12",
+          MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS,
+        )}
+      >
+        <div className="relative z-10 mx-auto w-full max-w-content px-4 md:px-6 lg:px-8">
+          <div className="animate-fade-up relative box-border flex w-full max-w-[800px] flex-col gap-8 rounded-3xl [animation-delay:120ms] p-6 sm:p-10 md:min-h-[800px] md:p-[150px]">
+            <div className="relative z-10 flex flex-col gap-8">
+              <h1
+                className={cn(
+                  "font-body text-[clamp(2.35rem,5vw,4.25rem)] font-bold leading-[1.1] tracking-[-0.035em] text-ink",
+                  HERO_TEXT_SHADOW_CLASS,
+                )}
+                lang="ja"
+              >
+                挙式の感動を、
+                <br />
+                縦型動画で
+                <br />
+                その日のうちに
+                <br />
+                シェア
+              </h1>
+              <div className="flex flex-col gap-3">
+                <p className={cn("font-body text-lg leading-relaxed text-ink", HERO_TEXT_SHADOW_CLASS)}>
+                あなたの結婚式に、
+                <br />
+                コンテンツクリエイターを
+                <br />
+                Wedding Content Creator
+                <br />
+                for Your Wedding Day
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="relative min-w-0 animate-fade-up [animation-delay:120ms]">
-          <div className="hero-track-sp">
+        <div
+          className="pointer-events-none absolute inset-0 z-0 flex flex-col overflow-x-hidden py-0 md:py-10"
+          aria-hidden="true"
+        >
+          {/* SP: 高さを「ヘッダー下〜ドック上」のメイン矩形に固定し、その中で動画を縦中央。md+ は従来どおり flex-1 でセンター */}
+          <div
+            className={cn(
+              "flex w-full flex-col md:min-h-0 md:flex-1 md:justify-center",
+              "max-md:h-[var(--mobile-hero-main-h)] max-md:min-h-0 max-md:max-h-[var(--mobile-hero-main-h)] max-md:flex-none max-md:justify-center",
+            )}
+            style={
+              {
+                "--mobile-hero-main-h": MOBILE_HERO_MAIN_HEIGHT_CSS,
+              } as CSSProperties
+            }
+          >
             <HeroHighlightCarousel />
           </div>
         </div>
+        {/* 動画レイヤー全面の薄いベール（z-0 より上・コピー z-10 より下。backdrop は使わず色面のみ） */}
+        <div
+          className="pointer-events-none absolute inset-0 z-[1] bg-canvas/25"
+          aria-hidden="true"
+        />
       </section>
 
-      <section
-        id="service-detail"
-        className="scroll-mt-24 mt-24 border-t border-hairline pt-20 pb-20 md:mt-28 md:pt-24 md:pb-24"
-      >
-        <div className="mx-auto max-w-5xl">
-          <h2
-            className="mx-auto max-w-4xl text-center font-display text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink"
-            style={{ letterSpacing: "-0.03em" }}
-          >
-            結婚式のステキな瞬間を、
-            <br />
-            翌日にはシェアできる。
-          </h2>
+      <section id="service-detail" className={SERVICE_DETAIL_SECTION_ROOT_CLASS}>
+        <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
+          <div className="mx-auto max-w-5xl">
+            <h2 className={SECTION_H2_CLASS} style={SECTION_H2_STYLE}>
+              結婚式のステキな瞬間を、
+              <br />
+              翌日にはシェアできる。
+            </h2>
 
-          <div className="mt-14 grid gap-10 md:mt-16 md:grid-cols-2 md:gap-12">
-            <p className="font-body text-base leading-relaxed text-ink-muted">
-              Wedding Content Creatorは、演出ではなく当日その場の高まりをそのまま縦型のショート動画へ仕立てるサービスです。軽やかに流れる一本は、見返すたびにあの日の空気がよみがえり、気分が上がる記録になります。
-            </p>
+            <div className="mt-14 grid gap-10 md:mt-16 md:grid-cols-2 md:gap-12">
+              <p className="font-body text-base leading-relaxed text-ink-muted">
+                Wedding Content Creatorは、演出ではなく当日その場の高まりをそのまま縦型のショート動画へ仕立てるサービスです。軽やかに流れる一本は、見返すたびにあの日の空気がよみがえり、気分が上がる記録になります。
+              </p>
 
-            <p className="font-body text-base leading-relaxed text-ink-muted">
-              納品は、SNSにそのまま使える9:16の縦動画です。ハイライトは当日中から翌日を目安にお届けするため、ご家族やゲストともすぐ共有できます。
-              <Link href="/#service-detail" className="ml-2 inline-block underline underline-offset-4 hover:opacity-70">
-                サービス詳細
-              </Link>
-            </p>
+              <p className="font-body text-base leading-relaxed text-ink-muted">
+                納品は、SNSにそのまま使える9:16の縦動画です。ハイライトは当日中から翌日を目安にお届けするため、ご家族やゲストともすぐ共有できます。
+                <Link href={HOME_ANCHOR_HREF.serviceDetail} className="ml-2 inline-block underline underline-offset-4 hover:opacity-70">
+                  サービス詳細
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="mt-16 pt-16">
-        <h2 className="mt-3 font-display text-[1.75rem] font-bold leading-tight text-ink">
-          このサービスで分かること
+      <section id="highlights" className={HIGHLIGHTS_SECTION_ROOT_CLASS}>
+        <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
+        <h2 className={HIGHLIGHTS_SECTION_H2_CLASS} style={SECTION_H2_STYLE}>
+          その日の空気を
+          <br />
+          そのまま
         </h2>
-        <ul className="mt-8 grid gap-4 md:grid-cols-3">
-          <li className="bg-canvas-subtle p-6">
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
-              01
-            </p>
-            <h3 className="mt-3 font-display text-xl font-semibold text-ink">当日の自然な瞬間を残せる</h3>
-            <p className="mt-2 font-body leading-relaxed text-ink-muted">
-              おふたりとゲストの距離感を保ちながら、取りこぼしたくない場面を記録します。
-            </p>
-          </li>
-          <li className="bg-canvas-subtle p-6">
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
-              02
-            </p>
-            <h3 className="mt-3 font-display text-xl font-semibold text-ink">当日から翌日に受け取れる</h3>
-            <p className="mt-2 font-body leading-relaxed text-ink-muted">
-              ハイライトは当日中から翌日までに納品。式後すぐにご家族や友人と共有できます。
-            </p>
-          </li>
-          <li className="bg-canvas-subtle p-6">
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
-              03
-            </p>
-            <h3 className="mt-3 font-display text-xl font-semibold text-ink">SNSにそのまま使える</h3>
-            <p className="mt-2 font-body leading-relaxed text-ink-muted">
-              9:16で編集するため、投稿時のトリミングや再編集の手間を減らせます。
-            </p>
-          </li>
-        </ul>
-      </section>
-
-      <section className="mt-16 pt-16">
-        <h2 className="mt-3 font-display text-[1.75rem] font-bold leading-tight text-ink">私たちの活動-主なハイライト</h2>
-        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {[
-            {
-              couple: "Alex & Jonathan",
-              venue: "Sorrento Italy Wedding",
-              description:
-                "挙式から歓談まで、ゲストの反応を中心にまとめた当日ハイライト。",
-            },
-            {
-              couple: "Editorial",
-              venue: "Hedsor House Wedding",
-              description:
-                "準備から披露宴までの流れを短尺で確認できるサンプル。",
-            },
-            {
-              couple: "Lucy and Chris",
-              venue: "The Post Barn, Newbury",
-              description:
-                "ファーストルックと祝宴の場面を中心に構成した共有向け動画。",
-            },
-          ].map((item, index) => (
-            <article key={item.venue} className="bg-canvas-subtle p-3 animate-fade-up" style={{ animationDelay: `${index * 120}ms` }}>
-              <div className="relative aspect-[9/16] border border-hairline bg-canvas-subtle p-2">
-                <div className="flex h-full items-center justify-center border border-dashed border-hairline bg-canvas/65">
-                  <p className="font-display text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-muted">9:16</p>
-                </div>
+        <p className="mx-auto mt-6 max-w-4xl text-center font-body text-base leading-relaxed text-white/80 md:mt-8">
+          新郎新婦のお名前、式場の所在地または会場名、当日のご感想の順で掲載しています。
+          <br />
+          動画は仕上がりのイメージとしてご覧ください。
+        </p>
+        <div className="mt-8 grid gap-6 md:mt-10 md:grid-cols-2 lg:grid-cols-3">
+          {(
+            [
+              {
+                couple: "K・Y 様",
+                venue: "東京都内（会場名非公開）",
+                description:
+                  "「披露宴後すぐに家族へ共有できました。自然な空気感がそのまま残っていて安心しました。」",
+                credit: "2025年秋婚 / 東京都",
+              },
+              {
+                couple: "M・R 様",
+                venue: "神奈川県内（会場名非公開）",
+                description:
+                  "「フォト・ムービーと役割が分かれていたので、記録用とSNS用をどちらも無理なく残せました。」",
+                credit: "2026年春婚 / 神奈川県",
+              },
+              {
+                couple: "Lucy and Chris",
+                venue: "The Post Barn, Newbury, UK",
+                description:
+                  "「短い動画でも流れが自然で、スマホで何度も見返したくなりました。」",
+              },
+              {
+                couple: "Sophie & Daniel",
+                venue: "Villa Balbiano, Lake Como, Italy",
+                description:
+                  "「景色と余韻が、一本の縦動画にまとまって届くのがうれしかったです。」",
+              },
+              {
+                couple: "Taylor Morgan",
+                venue: "New York City Loft Wedding",
+                description:
+                  "「準備から祝宴まで、縦型でも臨場感が伝わるとゲストにも好評でした。」",
+              },
+              {
+                couple: "Amelia & George",
+                venue: "Cotswolds Barn Celebration, UK",
+                description:
+                  "「屋外と屋内の切り替えがスムーズで、すぐ共有できて助かりました。」",
+              },
+            ] as const
+          ).map((item, index) => {
+            const slide = HOME_HIGHLIGHT_VIDEO_SLIDES[index];
+            const credit = "credit" in item ? item.credit : undefined;
+            return (
+            <article key={`highlight-${index}`} className="p-3 animate-fade-up" style={{ animationDelay: `${index * 120}ms` }}>
+              <div className="relative aspect-[9/16] overflow-hidden rounded-[2rem]">
+                {slide ? (
+                  <video
+                    className="h-full w-full object-cover"
+                    src={slide.src}
+                    {...(slide.poster ? { poster: slide.poster } : {})}
+                    muted
+                    playsInline
+                    autoPlay
+                    loop
+                    preload="metadata"
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center">
+                    <p className="font-display text-[10px] font-semibold uppercase tracking-[0.1em] text-white/80">9:16</p>
+                  </div>
+                )}
               </div>
-              <div className="mt-3 bg-canvas px-4 py-4 text-center">
-                <p className="font-body text-sm font-semibold text-ink">{item.couple}</p>
-                <h4 className="mt-1 font-display text-base font-semibold text-ink">{item.venue}</h4>
-                <p className="mt-2 font-body text-sm leading-relaxed text-ink-muted">{item.description}</p>
+              <div className="mt-3 px-4 py-4 text-center">
+                <p className="font-body text-sm font-semibold text-white/80">{item.couple}</p>
+                <h4 className="mt-1 font-display text-base font-semibold text-white/80">{item.venue}</h4>
+                <p className="mt-2 font-body text-sm leading-relaxed text-white/80">{item.description}</p>
+                {credit ? (
+                  <p className="mt-2 font-body text-xs leading-relaxed text-white/60">{credit}</p>
+                ) : null}
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
-        <div className="mt-6 flex justify-center">
-          <Link
-            href="/portfolio"
-            className="font-display hidden min-h-[44px] items-center justify-center border border-hairline px-5 text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:border-strong md:inline-flex"
-          >
-            実績一覧へ →
-          </Link>
         </div>
       </section>
 
-      <section className="mt-16 pt-16">
-        <h2 className="mt-3 font-display text-[1.75rem] font-bold leading-tight text-ink">
-          お客様の声
-        </h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <blockquote className="bg-canvas-subtle p-6">
-            <p className="font-body leading-relaxed text-ink">
-              「披露宴後すぐに家族へ共有できました。自然な空気感がそのまま残っていて安心しました。」
-            </p>
-            <footer className="mt-3 font-body text-sm text-ink-muted">2025年秋婚 / 東京都</footer>
-          </blockquote>
-          <blockquote className="bg-canvas-subtle p-6">
-            <p className="font-body leading-relaxed text-ink">
-              「フォト・ムービーと役割が分かれていたので、記録用とSNS用をどちらも無理なく残せました。」
-            </p>
-            <footer className="mt-3 font-body text-sm text-ink-muted">2026年春婚 / 神奈川県</footer>
-          </blockquote>
-        </div>
-        <div className="mt-6 grid gap-3 bg-canvas-subtle p-4 md:grid-cols-3">
-          <p className="font-body text-sm text-ink-muted">
-            <span className="font-display text-lg font-semibold text-ink">24h</span>
-            <br />
-            初回ハイライト納品目安
-          </p>
-          <p className="font-body text-sm text-ink-muted">
-            <span className="font-display text-lg font-semibold text-ink">9:16</span>
-            <br />
-            すべてSNS投稿比率で編集
-          </p>
-          <p className="font-body text-sm text-ink-muted">
-            <span className="font-display text-lg font-semibold text-ink">2Step</span>
-            <br />
-            予約相談→一括決済
-          </p>
-        </div>
-      </section>
-
-      <section className="mt-16 pt-16">
-        <h2 className="mt-3 font-display text-[1.75rem] font-bold leading-tight text-ink">
-          対応範囲
-        </h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <div className="bg-canvas-subtle p-6">
-            <h3 className="font-display text-lg font-semibold text-ink">対応内容</h3>
-            <ul className="mt-3 space-y-2 font-body text-sm leading-relaxed text-ink-muted">
-              <li>・当日の空気感をiPhoneでリアルタイム収録</li>
-              <li>・Reels/TikTok向けショートを短納期で編集</li>
-              <li>・当日中〜翌日の共有に合わせた縦動画納品</li>
-            </ul>
-          </div>
-          <div className="bg-canvas-subtle p-6">
-            <h3 className="font-display text-lg font-semibold text-ink">対象外</h3>
-            <ul className="mt-3 space-y-2 font-body text-sm leading-relaxed text-ink-muted">
-              <li>・長編記録映像やアルバム制作は対象外</li>
-              <li>・プロフォト/ビデオとの並走を前提に設計</li>
-              <li>・撮影許可や持ち込み条件の調整代行は対象外</li>
-            </ul>
+      <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
+      <section
+        id="what-is-wcc"
+        data-test="page-section"
+        className={cn(
+          "scroll-mt-48 mt-0 md:mt-0",
+          HOME_WHAT_IS_WCC_VERT_PAD_CLASS,
+        )}
+      >
+        <div className="mx-auto max-w-5xl">
+          <div className="grid gap-20 md:grid-cols-2 md:items-center md:gap-24 lg:gap-32">
+            <h2
+              lang="en"
+              className="mx-auto max-w-xl text-center font-heading text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink md:mx-0 md:text-left"
+              style={SECTION_H2_STYLE}
+            >
+              Wedding Content Creator?
+            </h2>
+            <div className="flex min-w-0 flex-col gap-12 text-center md:text-left">
+              <p className="font-body text-base leading-relaxed text-ink-muted">
+                Wedding Content Creator（以下、WCC）は、結婚式当日におふたりのそばで取材する担当です。iPhoneで式の流れを記録し、あとから見て情景がつながる短い映像に編集します。
+              </p>
+              <p className="font-body text-base leading-relaxed text-ink-muted">
+                大掛かりな演出を組み立てる役割ではなく、近い距離から拾った表情やゲストの反応を、一本の流れとして立ち上げます。プロの本編ムービーとは役割が異なり、当日の空気を手軽に残したい方向けの記録です。
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="mt-16 pt-16">
-        <h2 className="mt-3 font-display text-[1.75rem] font-bold leading-tight text-ink">
-          よくある質問
-        </h2>
-        <div className="mt-6 divide-y divide-hairline border-y border-hairline">
-          <details className="group py-4">
-            <summary className="font-body flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-ink">
-              プロのフォト・ビデオ撮影と何が違いますか？
-              <span className="text-ink-muted group-open:hidden">+</span>
-              <span className="hidden text-ink-muted group-open:inline">−</span>
-            </summary>
-            <p className="mt-3 font-body leading-relaxed text-ink-muted">
-              WCCはスマホ撮影と短尺編集に特化し、当日中〜翌日の納品を重視します。長編記録映像やアルバム制作はプロフォト・ビデオの領域です。
-            </p>
-          </details>
-          <details className="group py-4">
-            <summary className="font-body flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-ink">
-              納品までどれくらいかかりますか？
-              <span className="text-ink-muted group-open:hidden">+</span>
-              <span className="hidden text-ink-muted group-open:inline">−</span>
-            </summary>
-            <p className="mt-3 font-body leading-relaxed text-ink-muted">
-              ハイライトは当日中〜24時間以内、追加編集は72時間以内が目安です。詳細は料金ページで確認できます。
-            </p>
-          </details>
-          <details className="group py-4">
-            <summary className="font-body flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-ink">
-              予約前に相談できますか？
-              <span className="text-ink-muted group-open:hidden">+</span>
-              <span className="hidden text-ink-muted group-open:inline">−</span>
-            </summary>
-            <p className="mt-3 font-body leading-relaxed text-ink-muted">
-              可能です。お問い合わせフォームまたはLINEから、日程と希望内容をご共有ください。
-            </p>
-          </details>
-        </div>
-      </section>
+      </div>
 
-    </div>
+      <HomePricingSection sectionH2ClassName={SECTION_H2_CLASS} sectionH2Style={SECTION_H2_STYLE} />
+
+      <div className={HOME_FAQ_SECTION_OUTER_CLASS}>
+        <HomeFaqSection sectionH2ClassName={SECTION_H2_CLASS} sectionH2Style={SECTION_H2_STYLE} />
+      </div>
+    </>
   );
 }

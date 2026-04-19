@@ -34,7 +34,7 @@ export default function PackagesPage() {
   ];
 
   return (
-    <div className="mx-4 max-w-content px-4 py-10 md:mx-[200px] md:px-6 md:py-12 lg:px-8 lg:py-16">
+    <div className="mx-auto w-full max-w-content px-4 py-10 md:px-6 md:py-12 lg:px-8 lg:py-16">
       <h1 className="mt-3 font-display text-[1.75rem] font-bold text-ink">
         料金とプラン
       </h1>

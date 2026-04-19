@@ -9,7 +9,7 @@ export const bookingCheckoutPayloadSchema = z.object({
   bookerName: z.string().max(120).nullable().optional(),
   weddingDate: z.string().max(32),
   dateUndecided: z.boolean(),
-  planId: z.enum(["standard", "premium"]),
+  planId: z.literal("standard"),
   planLabel: z.string().max(200),
   priceLabel: z.string().max(200),
   savedAt: z.number(),

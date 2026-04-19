@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { HOME_ANCHOR_HREF } from "@/lib/site-links";
+
 const nav = [
-  { href: "/packages", label: "価格" },
-  { href: "/portfolio", label: "ギャラリー" },
+  { href: HOME_ANCHOR_HREF.pricing, label: "価格" },
+  { href: HOME_ANCHOR_HREF.highlights, label: "ギャラリー" },
   { href: "/contact", label: "お問い合わせ" },
 ] as const;
 
@@ -16,7 +18,7 @@ export function SiteHeader() {
 
   return (
     <header className="relative h-20 shrink-0 border-b border-hairline bg-canvas md:h-24">
-      <div className="mx-4 flex h-full max-w-content items-center justify-between gap-4 px-5 md:mx-[200px] md:px-8 lg:px-12">
+      <div className="mx-auto flex h-full w-full max-w-content items-center justify-between gap-4 px-5 md:px-8 lg:px-12">
         <Link
           href="/"
           className="font-display text-sm font-semibold uppercase tracking-[0.08em] text-ink md:text-base"
@@ -65,6 +67,20 @@ export function SiteHeader() {
               className="h-8 w-8"
             />
           </a>
+          <a
+            href="https://www.tiktok.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="hidden min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
+            aria-label="TikTok"
+          >
+            <img
+              src="/icons/tiktok-brands-solid-full.svg"
+              alt=""
+              aria-hidden="true"
+              className="h-8 w-8"
+            />
+          </a>
           <Link
             href="/book"
             className="font-display hidden min-h-[52px] min-w-[52px] items-center justify-center rounded-full bg-accent px-6 text-xs font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
@@ -97,7 +113,7 @@ export function SiteHeader() {
           className="absolute left-0 top-20 z-20 w-full border-b border-white/20 bg-bg-dark md:hidden"
           aria-label="モバイルメイン"
         >
-          <div className="mx-4 flex max-w-content flex-col px-4 py-3 md:mx-[200px]">
+          <div className="mx-auto flex w-full max-w-content flex-col px-4 py-3">
             {nav.map((item) => (
               <Link
                 key={item.href}
@@ -108,6 +124,13 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
+            <Link
+              href="/book"
+              className="font-display mt-3 inline-flex min-h-[52px] w-full items-center justify-center rounded-full bg-accent px-6 text-xs font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              onClick={closeMenu}
+            >
+              今すぐ予約する
+            </Link>
             <div className="mt-2 flex items-center gap-3 border-t border-white/20 pt-3">
               <a
                 href="https://www.instagram.com/"
@@ -132,6 +155,20 @@ export function SiteHeader() {
               >
                 <img
                   src="/icons/threads-brands-solid-full.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="h-8 w-8 invert"
+                />
+              </a>
+              <a
+                href="https://www.tiktok.com/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                aria-label="TikTok"
+              >
+                <img
+                  src="/icons/tiktok-brands-solid-full.svg"
                   alt=""
                   aria-hidden="true"
                   className="h-8 w-8 invert"

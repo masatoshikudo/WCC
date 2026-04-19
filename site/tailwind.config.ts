@@ -5,11 +5,13 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    /** `className={定数}` だけのユーティリティは、定義元ファイルを走査しないと生成されない */
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        canvas: "var(--color-canvas)",
+        canvas: "rgb(var(--color-canvas-rgb) / <alpha-value>)",
         "canvas-subtle": "var(--color-canvas-subtle)",
         "canvas-warm": "var(--color-canvas-warm)",
         ink: "var(--color-ink-heading)",

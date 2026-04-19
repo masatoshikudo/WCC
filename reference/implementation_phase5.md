@@ -15,8 +15,8 @@
 | `site/tailwind.config.ts` | 色・角丸・`max-w-content`（1200px）・`font-display` / `font-body` |
 | `site/app/layout.tsx` | **Plus Jakarta Sans** ＋ **Noto Sans JP**（`next/font/google`）、`SiteHeader` / `SiteFooter` |
 | `site/components/layout/` | 共通ヘッダー（高さ 56px・「予約する」CTA）・フッター（ライト `--color-canvas-subtle`） |
-| `site/app/page.tsx` | LP 最小構成（英名 H1 ＋和文サブ・Primary/Secondary CTA・9:16 プレースホルダーグリッド） |
-| `site/app/packages` 等 | `/packages`, `/portfolio`, `/contact`, `/book` のプレースホルダーページ |
+| `site/app/page.tsx` | LP（セクション: `hero` → … → `highlights`（9:16 実績）→ … → `pricing` 等）。料金は `/#pricing`、ギャラリーは `/#highlights` に集約 |
+| `site/app/contact`, `book` 等 | `/contact`, `/book`。旧 `/packages` は `/#pricing`、旧 `/portfolio` は `/#highlights` へリダイレクト（`site/next.config.mjs`） |
 
 ---
 
@@ -28,7 +28,7 @@
 | 2 | Stripe Payment Links または Checkout を `/book` に接続 |
 | 3 | React Hook Form ＋ Zod ＋ Supabase で `/contact` |
 | 4 | Resend でメール |
-| 5 | Cloudinary / Vercel Blob で 9:16 ポートフォリオ |
+| 5 | Cloudinary / Vercel Blob で 9:16 動画の本番配信（トップ `#highlights` 等） |
 | 6 | Stripe Webhook（デポジット・残金） |
 
 ---
@@ -50,3 +50,4 @@ npm run dev
 | 日付 | 内容 |
 | :--- | :--- |
 | 2026-04-17 | 初版（`site/` スキャフォールド） |
+| 2026-04-19 | `/packages`・`/portfolio` をホームのアンカーへ集約した実装に合わせて記述を更新 |

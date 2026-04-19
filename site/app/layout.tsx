@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Noto_Sans_JP, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { HashScrollOnMount } from "@/components/layout/HashScrollOnMount";
 import { MobileBottomCta } from "@/components/layout/MobileBottomCta";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS } from "@/lib/layout/mobile-dock";
+import { cn } from "@/lib/utils/cn";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -49,8 +52,9 @@ export default function RootLayout({
       <body
         className={`${plusJakarta.variable} ${notoSansJp.variable} ${cormorantGaramond.variable} min-h-screen flex flex-col`}
       >
+        <HashScrollOnMount />
         <SiteHeader />
-        <main className="flex-1 w-full pb-24 md:pb-0">{children}</main>
+        <main className={cn("flex-1 w-full", MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS)}>{children}</main>
         <MobileBottomCta />
         <SiteFooter />
       </body>

@@ -78,8 +78,6 @@ export default function HomePage() {
                 縦型動画で
                 <br />
                 その日のうちに
-                <br />
-                シェア
               </h1>
               <div className="flex flex-col gap-3">
                 <p className={cn("font-body text-lg leading-relaxed text-ink", HERO_TEXT_SHADOW_CLASS)}>
@@ -155,9 +153,9 @@ export default function HomePage() {
           そのまま
         </h2>
         <p className="mx-auto mt-6 max-w-4xl text-center font-body text-base leading-relaxed text-white/80 md:mt-8">
-          新郎新婦のお名前、式場の所在地または会場名、当日のご感想の順で掲載しています。
+        その日の空気をそのまま残した縦型コンテンツ動画と、実際の新郎新婦の声をまとめています
           <br />
-          動画は仕上がりのイメージとしてご覧ください。
+          あの一日の高まりが、どんな形で残るのかをご覧ください
         </p>
         <div className="mt-8 grid gap-6 md:mt-10 md:grid-cols-2 lg:grid-cols-3">
           {(

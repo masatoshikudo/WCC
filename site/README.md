@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-- [http://localhost:3000](http://localhost:3000) — `/`（`#pricing` で料金、`#highlights` でギャラリー）、`/contact`, `/book`（旧 `/packages` は `/#pricing`、旧 `/portfolio` は `/#highlights` へリダイレクト）
+- [http://localhost:3000](http://localhost:3000) — `/`（`#pricing` で料金、`#highlights` でギャラリー）、`/book`（旧 `/packages` は `/#pricing`、旧 `/portfolio` は `/#highlights`、旧 `/contact` は `/book` へリダイレクト）
 
 ## ドキュメント
 

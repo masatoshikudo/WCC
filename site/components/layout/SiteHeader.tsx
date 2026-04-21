@@ -8,7 +8,6 @@ import { HOME_ANCHOR_HREF } from "@/lib/site-links";
 const nav = [
   { href: HOME_ANCHOR_HREF.pricing, label: "価格" },
   { href: HOME_ANCHOR_HREF.highlights, label: "ギャラリー" },
-  { href: "/contact", label: "お問い合わせ" },
 ] as const;
 
 export function SiteHeader() {
@@ -86,7 +85,7 @@ export function SiteHeader() {
             className="font-display hidden min-h-[52px] min-w-[52px] items-center justify-center rounded-full bg-accent px-6 text-xs font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
             onClick={closeMenu}
           >
-            今すぐ予約する
+            まず相談する
           </Link>
           <button
             type="button"
@@ -129,7 +128,7 @@ export function SiteHeader() {
               className="font-display mt-3 inline-flex min-h-[52px] w-full items-center justify-center rounded-full bg-accent px-6 text-xs font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               onClick={closeMenu}
             >
-              今すぐ予約する
+              まず相談する
             </Link>
             <div className="mt-2 flex items-center gap-3 border-t border-white/20 pt-3">
               <a

@@ -10,8 +10,8 @@ export const MOBILE_STICKY_DOCK_PRIMARY_CLASS =
 
 /** SP ドック内、予約系 CTA の直下（お問い合わせ送信のみのドックでは使わない） */
 export const MOBILE_STICKY_DOCK_AUX_LINES = [
-  "人気日程はすぐ埋まってしまいます",
-  "今すぐご希望の日程にクリエイターを手配！",
+  "日程が未定でもご相談いただけます",
+  "送信後に担当よりメールでご連絡します",
 ] as const;
 
 /** 補助文ブロックのラッパー — SHELL_HEIGHT の上余白（mt-2）と揃える */

@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import {
   TERMS_PAGE_METADATA,
   buildTermsSectionViews,
@@ -21,9 +19,12 @@ export default function TermsPage() {
       <h1 className="mt-3 font-display text-[1.75rem] font-bold text-ink">利用規約</h1>
       <p className="mt-3 max-w-3xl font-body leading-relaxed text-ink-muted">
         本規約は、Wedding Content Creator のサービス利用条件を定めるものです。お申し込みの前に必ずご確認ください。ご不明点は
-        <Link href="/contact" className="mx-1 text-ink underline underline-offset-4 hover:opacity-80">
-          お問い合わせ
-        </Link>
+        <a
+          href="mailto:mk@natrium.co.jp?subject=WCC%20%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B"
+          className="mx-1 text-ink underline underline-offset-4 hover:opacity-80"
+        >
+          メールでお問い合わせ
+        </a>
         からご連絡ください。
       </p>
 

@@ -9,7 +9,7 @@ import { TwoColumnCtaSection } from "@/components/layout/TwoColumnCtaSection";
 import { recordBookingIntent } from "@/app/actions/booking";
 import { WCC_BOOKING_CHECKOUT_KEY } from "@/lib/booking/session-storage";
 import { WCC_BOOKING_PLANS, WCC_STANDARD_PACKAGE_DISCLAIMER } from "@/lib/plans";
-import { HOME_ANCHOR_HREF } from "@/lib/site-links";
+import { HOME_ANCHOR_HREF, LEGAL_PAGE_HREF } from "@/lib/site-links";
 import { emailFieldSchema } from "@/lib/validations/email";
 
 type BookFlowProps = {
@@ -309,6 +309,10 @@ export function BookFlow({ paymentState = "idle" }: BookFlowProps) {
             <p>
               <strong className="text-ink">キャンセル・変更</strong>
               ：正式な条件は契約時にご案内します。
+              <Link href={LEGAL_PAGE_HREF.tokushoho} className="ml-1 text-ink underline underline-offset-4 hover:opacity-80">
+                特定商取引法に基づく表記
+              </Link>
+              もあわせてご確認ください。
             </p>
             <p>
               <strong className="text-ink">納品</strong>

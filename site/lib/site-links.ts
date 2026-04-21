@@ -10,3 +10,10 @@ export const HOME_ANCHOR_HREF = {
   pricing: "/#pricing",
   faq: "/#faq",
 } as const;
+
+/** 法務ページ導線の単一ソース */
+export const LEGAL_PAGE_HREF = {
+  tokushoho: "/legal/tokushoho",
+  privacy: "/legal/privacy",
+  terms: "/legal/terms",
+} as const;

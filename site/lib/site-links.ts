@@ -8,6 +8,7 @@ export const HOME_ANCHOR_HREF = {
   highlights: "/#highlights",
   whatIsWcc: "/#what-is-wcc",
   pricing: "/#pricing",
+  serviceFlow: "/#service-flow",
   faq: "/#faq",
 } as const;
 

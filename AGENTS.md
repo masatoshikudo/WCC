@@ -36,7 +36,7 @@
 - **`id` はページ内で一意。** 小文字とハイフンの **kebab-case**（例: `service-detail`, `highlights`）に統一する。
 - **固定ヘッダーで見出しが隠れる場合は `scroll-mt-*` を併用**し、既存セクションの付け方に合わせる。
 - **`id` を変えたら** `Link href="/#…"` や他ページからのハッシュ参照を **grep で洗い替え**、壊れたアンカーを残さない。トップへのハッシュ `href` は **`site/lib/site-links.ts` の `HOME_ANCHOR_HREF`** に集約し、リダイレクト先（`site/next.config.mjs`）と整合を取る。
-- **トップ（ホーム）の既定セット（追加・変更時は整合を取る）:** `hero` → `service-detail` → `highlights` → `what-is-wcc` → `pricing` → `faq`。料金はホームの `#pricing` に集約し、旧 `/packages` は `/#pricing` へ恒久的にリダイレクトする。ギャラリー（9:16 実績相当・お客様の声）はホームの `#highlights` に集約し、旧 `/portfolio` は `/#highlights` へ恒久的にリダイレクトする。
+- **トップ（ホーム）の既定セット（追加・変更時は整合を取る）:** `hero` → `service-detail` → `highlights` → `what-is-wcc` → `pricing` → `service-flow` → `faq`。料金はホームの `#pricing` に集約し、旧 `/packages` は `/#pricing` へ恒久的にリダイレクトする。ギャラリー（9:16 実績相当・お客様の声）はホームの `#highlights` に集約し、旧 `/portfolio` は `/#highlights` へ恒久的にリダイレクトする。
 
 ### CSS・レイアウトの安定性（再発防止）
 

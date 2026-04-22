@@ -2,8 +2,13 @@
  * 料金・プランの単一ソース（トップ `#pricing` / 予約フロー / メール payload の整合用）
  */
 
-export const WCC_PLAN_NOTE =
-  "パッケージ料金は一括でお支払いいただきます（税抜価格）";
+/** 特商法「支払時期」など、いつ支払うかの明示用 */
+export const WCC_PAYMENT_TIMING_NOTE =
+  "ご予約確定時（オンライン（ZOOM）でのお打ち合わせ後、お見積りをご案内したタイミング）に一括でお支払いいただきます。";
+
+/** 税抜表示の補足（支払時期と併用） */
+export const WCC_PACKAGE_TAX_LUMP_NOTE =
+  "パッケージ料金の表示ならびにお支払い額は税抜です。";
 
 /** スタンダードパッケージ（`#pricing` / 予約フォーム）共通の注意書き */
 export const WCC_STANDARD_PACKAGE_DISCLAIMER =
@@ -18,8 +23,8 @@ export const WCC_PACKAGE_PLANS = [
     items: [
       "6時間のコンテンツ撮影",
       "24時間以内に納品",
-      "詳細について話し合うZOOM相談",
-      "公式LINEチャット相談",
+      "ご契約前のオンライン（ZOOM）での無料相談・お打ち合わせ",
+      "契約後の公式LINEチャット相談",
       "編集済みのTikTokまたはReels動画2本",
       "メイキング映像、細部ショット、その他のシーン",
       "未編集の全素材",
@@ -39,5 +44,5 @@ export const WCC_BOOKING_PLANS = WCC_PACKAGE_PLANS.map((p) => ({
   id: p.id,
   label: p.name,
   priceLabel: formatPlanPriceExTaxLabel(p.priceExTaxYen),
-  planNote: WCC_PLAN_NOTE,
+  planNote: `${WCC_PAYMENT_TIMING_NOTE}${WCC_PACKAGE_TAX_LUMP_NOTE}`,
 }));

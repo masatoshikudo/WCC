@@ -5,6 +5,7 @@ import { HashScrollOnMount } from "@/components/layout/HashScrollOnMount";
 import { MobileBottomCta } from "@/components/layout/MobileBottomCta";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { WebVitalsReporter } from "@/components/performance/WebVitalsReporter";
 import { MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS } from "@/lib/layout/mobile-dock";
 import { cn } from "@/lib/utils/cn";
 
@@ -12,10 +13,12 @@ const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  /** UIは bold / semibold / 既定の 400 のみ使用（medium は未使用のため除外） */
+  weight: ["400", "600", "700"],
 });
 
 const notoSansJp = Noto_Sans_JP({
+  /** Next 14.2 の Google Fonts 定義では `japanese` subset 未提供のため `latin` のみ */
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -52,6 +55,7 @@ export default function RootLayout({
       <body
         className={`${plusJakarta.variable} ${notoSansJp.variable} ${cormorantGaramond.variable} min-h-screen flex flex-col`}
       >
+        <WebVitalsReporter />
         <HashScrollOnMount />
         <SiteHeader />
         <main className={cn("flex-1 w-full", MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS)}>{children}</main>

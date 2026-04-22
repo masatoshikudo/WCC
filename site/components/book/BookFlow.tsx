@@ -209,7 +209,7 @@ export function BookFlow() {
       <div>
         <h1 className="font-display mt-3 text-[1.75rem] font-bold text-ink">日程・内容のご相談</h1>
         <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
-          1分で送信できます。内容確認後、担当より見積と請求URLをメールでご案内します。
+          1分で送信できます。内容確認後、担当より確認のメールをお送りし、オンライン（ZOOM）でのお打ち合わせ日程を調整させていただきます。
         </p>
 
         <h2 className="font-display mt-6 text-xl font-bold text-ink">

@@ -13,7 +13,7 @@ export default function PackagesPage() {
   const faqs = [
     {
       q: "お支払いのタイミングは？",
-      a: "予約時に、お選びのプラン料金を一括でお支払いいただきます（税抜価格）。追加オプションや条件の詳細はご契約時にご案内します。",
+      a: "フォームよりお問い合わせいただいた後、オンライン（ZOOM）にて詳細をお伺いします。その後、最終的なお見積りと請求URLをメールでご案内します。お支払いは請求ページにて一括（税抜）となります。",
     },
     {
       q: "どの機材で撮影しますか？",
@@ -100,9 +100,9 @@ export default function PackagesPage() {
           </p>
           <h2 className="mt-2 font-display text-xl font-semibold text-ink">お支払いフロー</h2>
           <ul className="mt-4 space-y-2 font-body text-sm leading-relaxed text-ink-muted">
-            <li>・予約フォーム送信後、選択プランの料金を一括お支払いいただくことで日程確定</li>
-            <li>・追加オプションは個別お見積もり・お支払い</li>
-            <li>・最終Zoomで当日の動線を確認</li>
+            <li>・ご相談フォーム送信後、担当より確認のメールとZOOM日程の調整</li>
+            <li>・ZOOMでのお打ち合わせ後にお見積りと決済リンクをご案内し、お支払い完了でご予約確定</li>
+            <li>・ご予約確定後は公式LINEで担当クリエイターと当日までやり取り</li>
           </ul>
         </div>
       </section>
@@ -116,19 +116,19 @@ export default function PackagesPage() {
             <span className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink">
               01
             </span>
-            <p className="mt-2">日程・会場・希望内容を送信</p>
+            <p className="mt-2">日程・会場・希望内容をフォーム送信</p>
           </li>
           <li className="bg-canvas p-4">
             <span className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink">
               02
             </span>
-            <p className="mt-2">プラン料金の一括お支払いで日程確定</p>
+            <p className="mt-2">ZOOMでお打ち合わせのうえ、お見積りと決済リンクを受け取る</p>
           </li>
           <li className="bg-canvas p-4">
             <span className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink">
               03
             </span>
-            <p className="mt-2">挙式2〜4週間前に最終確認</p>
+            <p className="mt-2">お支払いでご予約確定。公式LINEで当日まで連絡</p>
           </li>
         </ol>
       </section>

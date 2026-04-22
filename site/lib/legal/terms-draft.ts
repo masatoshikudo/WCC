@@ -1,4 +1,8 @@
-import { WCC_PLAN_NOTE, WCC_STANDARD_PACKAGE_DISCLAIMER } from "@/lib/plans";
+import {
+  WCC_PACKAGE_TAX_LUMP_NOTE,
+  WCC_PAYMENT_TIMING_NOTE,
+  WCC_STANDARD_PACKAGE_DISCLAIMER,
+} from "@/lib/plans";
 import { type DisclosureFieldStatus } from "@/lib/legal/tokushoho-draft";
 
 export type TermsDraftField = {
@@ -58,7 +62,7 @@ export const TERMS_DRAFT: TermsDraft = {
     {
       id: "price-and-payment",
       label: "料金・支払方法",
-      value: `${WCC_PLAN_NOTE}。支払方法はクレジットカード決済（Stripe Payment Link）です。`,
+      value: `${WCC_PAYMENT_TIMING_NOTE}${WCC_PACKAGE_TAX_LUMP_NOTE}支払方法はクレジットカード決済（Stripe Payment Link）です。`,
       status: "confirmed",
     },
     {

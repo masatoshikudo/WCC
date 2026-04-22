@@ -1,8 +1,13 @@
 import type { CSSProperties } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { HeroHighlightCarousel } from "@/components/home/HeroHighlightCarousel";
-import { HomeFaqSection } from "@/components/home/HomeFaqSection";
-import { HomePricingSection } from "@/components/home/HomePricingSection";
+import { HomeHighlightLazyVideo } from "@/components/home/HomeHighlightLazyVideo";
+import {
+  HeroHighlightCarouselLoading,
+  HomeFaqSectionSkeleton,
+  HomePricingSectionSkeleton,
+  HomeServiceFlowSectionSkeleton,
+} from "@/components/home/HomeDynamicSkeletons";
 import { getHomeFaqJsonLd } from "@/lib/home-faq";
 import { HOME_HIGHLIGHT_VIDEO_SLIDES } from "@/lib/home-highlight-videos";
 import { HOME_ANCHOR_HREF } from "@/lib/site-links";
@@ -16,6 +21,26 @@ import {
   MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS,
 } from "@/lib/layout/mobile-dock";
 import { cn } from "@/lib/utils/cn";
+
+const HeroHighlightCarousel = dynamic(
+  () => import("@/components/home/HeroHighlightCarousel").then((m) => m.HeroHighlightCarousel),
+  { loading: () => <HeroHighlightCarouselLoading /> },
+);
+
+const HomePricingSection = dynamic(
+  () => import("@/components/home/HomePricingSection").then((m) => m.HomePricingSection),
+  { loading: () => <HomePricingSectionSkeleton /> },
+);
+
+const HomeServiceFlowSection = dynamic(
+  () => import("@/components/home/HomeServiceFlowSection").then((m) => m.HomeServiceFlowSection),
+  { loading: () => <HomeServiceFlowSectionSkeleton /> },
+);
+
+const HomeFaqSection = dynamic(
+  () => import("@/components/home/HomeFaqSection").then((m) => m.HomeFaqSection),
+  { loading: () => <HomeFaqSectionSkeleton /> },
+);
 
 const HOME_FAQ_JSON_LD = getHomeFaqJsonLd();
 
@@ -206,16 +231,7 @@ export default function HomePage() {
             <article key={`highlight-${index}`} className="p-3 animate-fade-up" style={{ animationDelay: `${index * 120}ms` }}>
               <div className="relative aspect-[9/16] overflow-hidden rounded-[2rem]">
                 {slide ? (
-                  <video
-                    className="h-full w-full object-cover"
-                    src={slide.src}
-                    {...(slide.poster ? { poster: slide.poster } : {})}
-                    muted
-                    playsInline
-                    autoPlay
-                    loop
-                    preload="metadata"
-                  />
+                  <HomeHighlightLazyVideo slide={slide} />
                 ) : (
                   <div className="flex h-full items-center justify-center">
                     <p className="font-display text-[10px] font-semibold uppercase tracking-[0.1em] text-white/80">9:16</p>
@@ -270,6 +286,8 @@ export default function HomePage() {
       </div>
 
       <HomePricingSection sectionH2ClassName={SECTION_H2_CLASS} sectionH2Style={SECTION_H2_STYLE} />
+
+      <HomeServiceFlowSection sectionH2ClassName={SECTION_H2_CLASS} sectionH2Style={SECTION_H2_STYLE} />
 
       <div className={HOME_FAQ_SECTION_OUTER_CLASS}>
         <HomeFaqSection sectionH2ClassName={SECTION_H2_CLASS} sectionH2Style={SECTION_H2_STYLE} />

@@ -1,4 +1,4 @@
-import { WCC_PLAN_NOTE, WCC_STANDARD_PACKAGE_DISCLAIMER } from "@/lib/plans";
+import { WCC_PAYMENT_TIMING_NOTE, WCC_STANDARD_PACKAGE_DISCLAIMER } from "@/lib/plans";
 
 export type DisclosureFieldStatus = "confirmed" | "needs_input" | "needs_review";
 
@@ -99,7 +99,7 @@ export const TOKUSHOHO_DRAFT: TokuShohoDraft = {
     {
       id: "payment-timing",
       label: "支払時期",
-      value: WCC_PLAN_NOTE,
+      value: WCC_PAYMENT_TIMING_NOTE,
       status: "confirmed",
     },
     {

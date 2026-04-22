@@ -42,22 +42,32 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "お支払いのタイミングは？",
-        a: "ご相談内容の確認後に、見積と請求URLをメールでご案内します。お支払いは請求ページで一括（税抜）です。",
-        seeAlso: [{ href: HOME_ANCHOR_HREF.pricing, label: "料金とプラン" }],
+        a: "フォームよりお問い合わせいただいた後、オンライン（ZOOM）にて詳細をお伺いします。その後、最終的なお見積りと請求URLをメールでご案内します。お支払いは請求ページにて一括（税抜）となります。",
+        seeAlso: [
+          { href: HOME_ANCHOR_HREF.pricing, label: "料金とプラン" },
+          { href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" },
+        ],
       },
       {
         q: "予約後、日程はどのように確定しますか？",
-        a: "ご相談フォーム送信後、担当確認と見積のご案内を経て日程を確定します。",
-        seeAlso: [{ href: "/book", label: "ご予約" }],
+        a: "ご相談フォーム送信後、ZOOMでのお打ち合わせを経てお見積りをご案内します。お見積り金額の決済（お支払い）が完了した時点で、正式に日程（ご予約）が確定となります。",
+        seeAlso: [
+          { href: "/book", label: "ご予約" },
+          { href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" },
+        ],
       },
       {
-        q: "最終Zoomでは何を確認しますか？",
-        a: "当日の動線を確認します。",
-        seeAlso: [{ href: HOME_ANCHOR_HREF.pricing, label: "料金とプラン" }],
+        q: "ZOOMお打ち合わせでは何を確認しますか？",
+        a: "お見積り前のZOOMお打ち合わせでは、ご希望の撮影内容や当日の動線、式場側のルールなどを確認させていただきます。",
+        seeAlso: [
+          { href: HOME_ANCHOR_HREF.pricing, label: "料金とプラン" },
+          { href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" },
+        ],
       },
       {
         q: "予約前に相談できますか？",
-        a: "可能です。ご相談フォームまたはLINEから、日程と希望内容をご共有ください。",
+        a: "可能です。まずはご相談フォームより、日程（未定でも可）とご希望内容をお気軽にお知らせください。",
+        seeAlso: [{ href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" }],
       },
       {
         q: "撮影時間中の食事手配は必要ですか？",

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "perf:lighthouse:mobile": "lighthouse http://127.0.0.1:3000 --only-categories=performance --form-factor=mobile --screenEmulation.mobile --max-wait-for-load=120000 --output=html --output-path=./lighthouse-mobile.html --quiet --chrome-flags=--headless=new",
+    "perf:lighthouse:desktop": "lighthouse http://127.0.0.1:3000 --only-categories=performance --preset=desktop --max-wait-for-load=120000 --output=html --output-path=./lighthouse-desktop.html --quiet --chrome-flags=--headless=new"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -22,6 +24,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "lighthouse": "^12.2.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

@@ -510,19 +510,6 @@ export function BookFlow() {
                   className="mt-2 w-full rounded-sm border border-hairline bg-canvas px-3 py-2 font-body text-sm text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 />
               </div>
-
-              <div>
-                <label htmlFor="emergency-contact" className="font-body text-sm font-semibold text-ink">
-                  緊急連絡先
-                </label>
-                <input
-                  id="emergency-contact"
-                  value={emergencyContact}
-                  onChange={(e) => setEmergencyContact(e.target.value)}
-                  placeholder="当日連絡がつく電話番号"
-                  className="mt-2 min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                />
-              </div>
             </div>
           </section>
 

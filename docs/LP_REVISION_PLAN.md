@@ -3,7 +3,7 @@
 既存 LP (`for-your-wedding-day.com`) の改修計画。
 `docs/WCC_PRODUCT.md` のメイン体験・世界観・集客戦略に合わせたコピー・構成の調整。
 
-> ステータス: Phase 0 策定中
+> ステータス: Phase 1 実装中
 > 関連ドキュメント: `docs/WCC_PRODUCT.md` セクション 5、`docs/WCC_BRAND.md`
 
 ---

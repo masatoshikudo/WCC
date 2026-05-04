@@ -1,5 +1,7 @@
 "use server";
 
+import { sendBookingConfirmationToCustomer } from "@/lib/email/customer-confirmation";
+import { notifyOwnerOfBookingIntent } from "@/lib/email/booking-notification";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 export type RecordBookingIntentInput = {
@@ -63,5 +65,9 @@ export async function recordBookingIntent(input: RecordBookingIntentInput): Prom
       return;
     }
     console.error("[recordBookingIntent]", error.message);
+    return;
   }
+
+  await notifyOwnerOfBookingIntent(input);
+  await sendBookingConfirmationToCustomer(input);
 }

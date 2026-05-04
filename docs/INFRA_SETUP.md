@@ -1,7 +1,7 @@
 # INFRA_SETUP.md
 
 Phase 0 → Phase 1 移行のためのインフラ準備チェックリスト。
-**全項目にチェックが入ったら `CLAUDE.md` の開発フェーズを `Phase 1: MVP 実装中` に更新する。**
+**Phase 1 移行済み（2026-05-04）。残項目は Phase 1 中に随時消化する。**
 
 > 関連ドキュメント: `docs/WCC_ARCHITECTURE.md` セクション 8
 
@@ -9,25 +9,24 @@ Phase 0 → Phase 1 移行のためのインフラ準備チェックリスト。
 
 ## GitHub
 
-- [ ] リモートリポジトリを GitHub に作成し、現在のローカルリポジトリを push
+- [x] リモートリポジトリを GitHub に作成し、現在のローカルリポジトリを push（`masatoshikudo/WCC`）
 - [ ] `main` ブランチ保護ルール設定 (force push 禁止)
-- [ ] `.gitignore` に `.env*` が含まれていることを確認 ← 確認済み
+- [x] `.gitignore` に `.env*` が含まれていることを確認 ← 確認済み
 
 ## Vercel
 
-- [ ] Vercel プロジェクト作成
-- [ ] 既存 LP (`for-your-wedding-day.com`) のドメインを Vercel に接続
-- [ ] 環境変数の初期設定 (下記「環境変数一覧」参照)
+- [x] Vercel プロジェクト作成（本番動作確認済み）
+- [x] 既存 LP (`for-your-wedding-day.com`) のドメインを Vercel に接続
+- [x] 環境変数の初期設定 (下記「環境変数一覧」参照)
 
 ## Supabase
 
-- [ ] Supabase プロジェクト作成 (Tinykomainu とは別プロジェクト)
-- [ ] `supabase/migrations/` の 3 ファイルを適用
-  - [ ] `20260501000000_initial_schema.sql` (テーブル定義)
-  - [ ] `20260501000001_rls_policies.sql` (RLS ポリシー)
-  - [ ] `20260501000002_storage_buckets.sql` (Storage バケット)
-- [ ] `NEXT_PUBLIC_SUPABASE_URL` と `NEXT_PUBLIC_SUPABASE_ANON_KEY` を取得
-- [ ] `SUPABASE_SERVICE_ROLE_KEY` を Vercel 環境変数に設定 (クライアントに露出しないこと)
+- [x] Supabase プロジェクト作成（`booking_intents` 書き込み・本番動作確認済み）
+- ~~`supabase/migrations/` の 3 ファイルを適用~~ → **退避済み。Phase 2 以降の将来構想 SQL であり適用しない**
+  - 3ファイルは `reference/future-schema/` に移動済み（`afa8e8b`）
+  - 現行 Phase 0 スキーマ（`booking_intents` 等）は `reference/supabase_bookings.sql` を参照
+- [x] `NEXT_PUBLIC_SUPABASE_URL` と `NEXT_PUBLIC_SUPABASE_ANON_KEY` を取得・設定済み
+- [x] `SUPABASE_SERVICE_ROLE_KEY` を Vercel 環境変数に設定済み
 
 ## Stripe
 
@@ -45,9 +44,11 @@ Phase 0 → Phase 1 移行のためのインフラ準備チェックリスト。
 
 ## Resend
 
-- [ ] Resend アカウント確認 (Tinykomainu と共用か別アカウントか判断)
-- [ ] ドメイン認証 (`for-your-wedding-day.com`)
-- [ ] `RESEND_API_KEY` と `RESEND_FROM_EMAIL` を Vercel 環境変数に設定
+- [x] Resend アカウント確認（メール送信・本番動作確認済み）
+- [x] ドメイン認証 (`for-your-wedding-day.com`)
+- [x] `RESEND_API_KEY` と `RESEND_FROM` を Vercel 環境変数に設定済み
+  - 注: 環境変数名は `RESEND_FROM`（コード・`.env.example` 準拠）。`RESEND_FROM_EMAIL` は誤記。
+- [x] `OWNER_NOTIFICATION_EMAIL` を Vercel 環境変数に設定済み（運営者通知メール宛先）
 
 ## SNS アカウント
 
@@ -70,7 +71,8 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 LINE_CHANNEL_SECRET
 LINE_CHANNEL_ACCESS_TOKEN
 RESEND_API_KEY
-RESEND_FROM_EMAIL
+RESEND_FROM
+OWNER_NOTIFICATION_EMAIL
 NEXT_PUBLIC_APP_URL
 ```
 

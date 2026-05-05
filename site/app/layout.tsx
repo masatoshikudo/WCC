@@ -33,9 +33,9 @@ const cormorantGaramond = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Wedding Content Creator",
+  title: "For Your Wedding Day",
   description:
-    "結婚式のスマホ映像・当日納品。Wedding Content Creator（WCC）の公式サイト。",
+    "結婚式のスマホ映像・当日納品。For Your Wedding Day の公式サイト。",
 };
 
 /** iOS の safe-area（env）を有効にし、下部固定CTAの位置を安定させる */

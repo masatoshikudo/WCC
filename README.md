@@ -7,13 +7,11 @@
 | パス | 内容 |
 | :--- | :--- |
 | `site/` | **Next.js 14（App Router）** の実装。LP・料金・問い合わせ・予約フロー |
-| `DESIGN.md` | デザインシステム（トークン・コンポーネント規約） |
-| `STACK.md` | 技術スタック・アーキテクチャ（Vercel / Supabase / Stripe 等の想定） |
-| `VOICE.md` | トーン・表記の指針 |
-| `reference/` | 調査・実装フェーズの参照資料 |
-| `images/` | ルート用アセット（バックアップ SVG 等） |
+| `docs/` | 事業・プロダクト・ブランド・インフラのドキュメント群 |
+| `reference/` | 調査・参照資料（DB スキーマ・将来構想 SQL 等） |
 
-詳細なルーティングやファイル配置は `site/README.md` および `reference/implementation_phase5.md` を参照してください。
+ロードマップ（事業フェーズ全体の俯瞰）は `docs/WCC_ROADMAP.md` を参照してください。
+開発ルール・AI 協業ルールは `CLAUDE.md` に記載しています。
 
 ## 前提条件
 
@@ -46,4 +44,4 @@ npm run lint
 
 ## AI エージェント向け
 
-コード変更・提案時の制約とルールは **`AGENTS.md`** に記載しています。
+コード変更・提案時の制約とルールは **`CLAUDE.md`** に記載しています。

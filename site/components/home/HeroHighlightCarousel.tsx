@@ -47,7 +47,7 @@ function HeroHighlightFrame({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-[2rem] bg-canvas-subtle",
+        "relative overflow-hidden rounded-[2rem] bg-canvas",
         fillParent ? "h-full min-h-0 w-full" : "aspect-[9/16]",
         animateFloat && "animate-float-slow",
       )}

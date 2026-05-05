@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils/cn";
 const PRICING_SECTION_ROOT_CLASS = cn(
   // `#what-is-wcc` と同じ縦パディング・scroll-mt（`page.tsx` の該当 section と揃える）
   "w-full scroll-mt-48 mt-24 border-t border-hairline pt-40 pb-0 md:mt-28 md:pt-48 md:pb-48",
-  "bg-canvas-subtle",
+  "bg-canvas",
 );
 
 type HomePricingSectionProps = {

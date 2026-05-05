@@ -12,7 +12,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="font-display min-h-[44px] w-full rounded-full bg-accent px-6 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover disabled:opacity-60"
+      className="font-display min-h-[44px] w-full rounded-full bg-accent px-6 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:opacity-80 disabled:opacity-60"
     >
       {pending ? "送信中…" : "ログイン"}
     </button>

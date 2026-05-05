@@ -9,9 +9,9 @@ export function BookFlowLoading() {
         <div className="h-20 max-w-2xl rounded-sm bg-ink/10" />
         <div className="h-8 w-56 max-w-full rounded-sm bg-ink/10" />
         <div className="mt-8 max-w-lg space-y-4">
-          <div className="h-12 w-full rounded-sm border border-hairline bg-canvas-subtle" />
-          <div className="h-12 w-full rounded-sm border border-hairline bg-canvas-subtle" />
-          <div className="h-12 w-full rounded-sm border border-hairline bg-canvas-subtle" />
+          <div className="h-12 w-full rounded-sm border border-hairline bg-canvas" />
+          <div className="h-12 w-full rounded-sm border border-hairline bg-canvas" />
+          <div className="h-12 w-full rounded-sm border border-hairline bg-canvas" />
         </div>
       </div>
     </div>

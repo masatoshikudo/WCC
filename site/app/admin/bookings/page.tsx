@@ -171,7 +171,7 @@ export default async function AdminBookingsPage() {
       </div>
 
       {duplicateEmails.length > 0 ? (
-        <p className="mt-6 rounded-sm border border-hairline bg-canvas-subtle p-3 font-body text-sm text-ink-muted">
+        <p className="mt-6 rounded-sm border border-hairline bg-canvas p-3 font-body text-sm text-ink-muted">
           同一メールアドレスが複数行ある場合：
           <span className="text-ink">{duplicateEmails.join("、")}</span>
         </p>
@@ -182,7 +182,7 @@ export default async function AdminBookingsPage() {
         <div className="mt-3 overflow-x-auto border border-hairline">
           <table className="min-w-[2360px] w-full border-collapse font-body text-left text-sm">
             <thead>
-              <tr className="border-b border-hairline bg-canvas-subtle">
+              <tr className="border-b border-hairline bg-canvas">
                 <th className="p-2 font-semibold">日時</th>
                 <th className="p-2 font-semibold">メール</th>
                 <th className="p-2 font-semibold">挙式日</th>
@@ -282,7 +282,7 @@ export default async function AdminBookingsPage() {
         <div className="mt-3 overflow-x-auto border border-hairline">
           <table className="min-w-[1800px] w-full border-collapse font-body text-left text-sm">
             <thead>
-              <tr className="border-b border-hairline bg-canvas-subtle">
+              <tr className="border-b border-hairline bg-canvas">
                 <th className="p-2 font-semibold">attempt_id</th>
                 <th className="p-2 font-semibold">顧客</th>
                 <th className="p-2 font-semibold">Quote</th>
@@ -470,7 +470,7 @@ export default async function AdminBookingsPage() {
                           <input type="hidden" name="attempt_id" value={intent.attempt_id} />
                           <button
                             type="submit"
-                            className="rounded-sm bg-accent px-3 py-1 text-xs font-semibold text-on-accent hover:bg-accent-hover"
+                            className="rounded-sm bg-accent px-3 py-1 text-xs font-semibold text-on-accent hover:opacity-80"
                           >
                             保存
                           </button>

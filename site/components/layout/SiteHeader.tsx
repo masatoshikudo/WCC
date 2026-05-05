@@ -82,7 +82,7 @@ export function SiteHeader() {
           </a>
           <Link
             href="/book"
-            className="font-display hidden min-h-[52px] min-w-[52px] items-center justify-center rounded-full bg-accent px-6 text-xs font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
+            className="font-display hidden min-h-[52px] min-w-[52px] items-center justify-center rounded-full bg-accent px-6 text-xs font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
             onClick={closeMenu}
           >
             まず相談する
@@ -109,7 +109,7 @@ export function SiteHeader() {
       {isMenuOpen ? (
         <nav
           id="mobile-menu"
-          className="absolute left-0 top-20 z-20 w-full border-b border-white/20 bg-bg-dark md:hidden"
+          className="absolute left-0 top-20 z-20 w-full border-b border-hairline bg-canvas md:hidden"
           aria-label="モバイルメイン"
         >
           <div className="mx-auto flex w-full max-w-content flex-col px-4 py-3">
@@ -117,7 +117,7 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="font-display min-h-[44px] py-2 text-sm font-semibold text-text-on-dark underline-offset-4 transition-colors hover:text-footer-nav-link hover:underline focus-visible:text-footer-nav-link focus-visible:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="font-display min-h-[44px] py-2 text-sm font-semibold text-ink underline-offset-4 transition-opacity hover:opacity-70 hover:underline focus-visible:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 onClick={closeMenu}
               >
                 {item.label}
@@ -125,12 +125,12 @@ export function SiteHeader() {
             ))}
             <Link
               href="/book"
-              className="font-display mt-3 inline-flex min-h-[52px] w-full items-center justify-center rounded-full bg-accent px-6 text-xs font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="font-display mt-3 inline-flex min-h-[52px] w-full items-center justify-center rounded-full bg-accent px-6 text-xs font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               onClick={closeMenu}
             >
               まず相談する
             </Link>
-            <div className="mt-2 flex items-center gap-3 border-t border-white/20 pt-3">
+            <div className="mt-2 flex items-center gap-3 border-t border-hairline pt-3">
               <a
                 href="https://www.instagram.com/"
                 target="_blank"
@@ -142,7 +142,7 @@ export function SiteHeader() {
                   src="/icons/instagram-brands-solid-full.svg"
                   alt=""
                   aria-hidden="true"
-                  className="h-8 w-8 invert"
+                  className="h-8 w-8"
                 />
               </a>
               <a
@@ -156,7 +156,7 @@ export function SiteHeader() {
                   src="/icons/threads-brands-solid-full.svg"
                   alt=""
                   aria-hidden="true"
-                  className="h-8 w-8 invert"
+                  className="h-8 w-8"
                 />
               </a>
               <a
@@ -170,7 +170,7 @@ export function SiteHeader() {
                   src="/icons/tiktok-brands-solid-full.svg"
                   alt=""
                   aria-hidden="true"
-                  className="h-8 w-8 invert"
+                  className="h-8 w-8"
                 />
               </a>
             </div>

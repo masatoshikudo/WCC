@@ -24,7 +24,7 @@ export default function TokuShohoPage() {
 
       <div className="mt-10 space-y-6">
         {sections.map((section) => (
-          <section key={section.id} className="rounded-sm border border-hairline bg-canvas-subtle p-6">
+          <section key={section.id} className="rounded-sm border border-hairline bg-canvas p-6">
             <h2 className="font-display text-xl font-semibold text-ink">{section.title}</h2>
             <p className="mt-2 font-body text-sm leading-relaxed text-ink-muted">{section.description}</p>
 

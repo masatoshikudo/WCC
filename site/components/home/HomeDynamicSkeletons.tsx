@@ -12,7 +12,7 @@ export function HeroHighlightCarouselLoading() {
   return (
     <div
       className={cn(
-        "flex w-full flex-col bg-canvas-subtle/30 animate-pulse md:min-h-0 md:flex-1 md:justify-center",
+        "flex w-full flex-col bg-canvas/30 animate-pulse md:min-h-0 md:flex-1 md:justify-center",
         "max-md:h-[var(--mobile-hero-main-h)] max-md:min-h-0 max-md:max-h-[var(--mobile-hero-main-h)] max-md:flex-none max-md:justify-center",
       )}
       style={
@@ -27,7 +27,7 @@ export function HeroHighlightCarouselLoading() {
 
 const PRICING_SECTION_ROOT_CLASS = cn(
   "w-full scroll-mt-48 mt-24 border-t border-hairline pt-40 pb-0 md:mt-28 md:pt-48 md:pb-48",
-  "bg-canvas-subtle",
+  "bg-canvas",
 );
 
 /** `#pricing` チャンク読み込み中（アンカー維持） */

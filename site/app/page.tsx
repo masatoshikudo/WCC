@@ -53,8 +53,7 @@ const SECTION_H2_CLASS =
   "mx-auto max-w-4xl text-center font-display text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink";
 const SECTION_H2_STYLE: CSSProperties = { letterSpacing: "-0.03em" };
 
-/** `#service-detail` 背景（DESIGN.md §4.0 `--color-canvas-subtle`）— ルートを全幅にし本項のみ変更しやすくする */
-const SERVICE_DETAIL_SECTION_BG_CLASS = "bg-canvas-subtle";
+const SERVICE_DETAIL_SECTION_BG_CLASS = "bg-canvas";
 
 /** `#service-detail` 外枠: ビューポート幅の帯＋区切り・縦余白（`#what-is-wcc` と同じ縦リズム）。SP は `#hero` 下端リザーブと役割が重なるため上マージンを抑える */
 const SERVICE_DETAIL_SECTION_ROOT_CLASS = cn(
@@ -62,16 +61,13 @@ const SERVICE_DETAIL_SECTION_ROOT_CLASS = cn(
   SERVICE_DETAIL_SECTION_BG_CLASS,
 );
 
-/** `#highlights` — フッターと同じ帯。余白は `margin` にせず `padding`（マージンは背景が塗られない） */
 const HIGHLIGHTS_SECTION_ROOT_CLASS = cn(
-  "w-full scroll-mt-24 border-t border-white/20 bg-bg-dark",
-  /** 旧 `mt-16 pt-16` をパディングに統合。下は旧 `#what-is-wcc` の上マージン分をダーク帯で確保 */
+  "w-full scroll-mt-24 border-t border-hairline bg-canvas",
   "pt-32 pb-48 md:pb-56",
 );
 
-/** ダーク帯上の H2（`SECTION_H2_CLASS` の色だけ `text-white` に差し替え） */
 const HIGHLIGHTS_SECTION_H2_CLASS =
-  "mx-auto max-w-4xl text-center font-display text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-white";
+  "mx-auto max-w-4xl text-center font-display text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink";
 
 export default function HomePage() {
   return (
@@ -184,7 +180,7 @@ export default function HomePage() {
             <br />
             そのまま
           </h2>
-          <p className="mx-auto mt-6 max-w-4xl text-center font-body text-base leading-relaxed text-white/80 md:mt-8">
+          <p className="mx-auto mt-6 max-w-4xl text-center font-body text-base leading-relaxed text-ink-muted md:mt-8">
             その日の空気をそのまま残した、9:16 の縦動画作例。
             <br />
             あの一日の高まりが、どんな形で残るのかをご覧ください。

@@ -6,7 +6,7 @@ export const MOBILE_STICKY_DOCK_CLASS =
   "fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-canvas px-4 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:translate3d(0,0,0)] md:hidden";
 
 export const MOBILE_STICKY_DOCK_PRIMARY_CLASS =
-  "font-display inline-flex min-h-[78px] w-full items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover";
+  "font-display inline-flex min-h-[78px] w-full items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80";
 
 /** SP ドック内、予約系 CTA の直下（お問い合わせ送信のみのドックでは使わない） */
 export const MOBILE_STICKY_DOCK_AUX_LINES = [
@@ -20,7 +20,7 @@ export const MOBILE_STICKY_DOCK_AUX_STACK_CLASS =
 
 /** 各行のタイポ — SHELL_HEIGHT の本文高さと揃える（改行・2行×2想定で余裕を取る） */
 export const MOBILE_STICKY_DOCK_AUX_LINE_CLASS =
-  "font-body text-xs leading-relaxed text-footer-muted";
+  "font-body text-xs leading-relaxed text-ink-muted";
 
 /**
  * ドック帯の実高（MOBILE_STICKY_DOCK_CLASS の pt-6 + border-t + primary min-h + 補助文 + pb）

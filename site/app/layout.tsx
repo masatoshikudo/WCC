@@ -25,11 +25,12 @@ const notoSansJp = Noto_Sans_JP({
   weight: ["400", "500", "600", "700"],
 });
 
+// Phase 2 でヒーロー H1 を weight 300 で組む想定のため細い weight を追加
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
-  weight: ["500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {

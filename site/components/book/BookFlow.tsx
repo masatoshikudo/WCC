@@ -517,7 +517,7 @@ export function BookFlow() {
             <button
               type="button"
               onClick={goToStep3}
-              className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover md:inline-flex"
+              className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80 md:inline-flex"
             >
               次へ：送信内容を確認
             </button>
@@ -606,7 +606,7 @@ export function BookFlow() {
           </p>
 
           {submitState === "success" ? (
-            <div role="status" className="rounded-sm border border-hairline bg-canvas-subtle p-4">
+            <div role="status" className="rounded-sm border border-hairline bg-canvas p-4">
               <p className="font-body text-sm text-success">ご相談内容を受け付けました。</p>
               <p className="mt-2 font-body text-sm leading-relaxed text-ink-muted">
                 通常24時間以内を目安に、見積のご案内メールをお送りします。
@@ -634,7 +634,7 @@ export function BookFlow() {
               onClick={() => {
                 void submitBookingRequest();
               }}
-              className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-ink-subtle disabled:text-canvas disabled:opacity-80 md:inline-flex"
+              className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:bg-ink-subtle disabled:text-canvas disabled:opacity-80 md:inline-flex"
             >
               {submitState === "submitting" ? "送信中…" : submitState === "success" ? "送信済み" : "相談内容を送信"}
             </button>

@@ -44,7 +44,7 @@ export default function PackagesPage() {
 
       <section className="mt-10 grid gap-4 lg:grid-cols-2">
         {WCC_PACKAGE_PLANS.map((plan) => (
-          <article key={plan.id} className="bg-canvas-subtle p-6">
+          <article key={plan.id} className="bg-canvas p-6">
             <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
               {plan.displayId}
             </p>
@@ -65,7 +65,7 @@ export default function PackagesPage() {
         ))}
       </section>
 
-      <section className="mt-10 bg-canvas-subtle p-6">
+      <section className="mt-10 bg-canvas p-6">
         <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
           Extras
         </p>
@@ -81,7 +81,7 @@ export default function PackagesPage() {
       </section>
 
       <section className="mt-10 grid gap-4 md:grid-cols-2">
-        <div className="bg-canvas-subtle p-6">
+        <div className="bg-canvas p-6">
           <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
             Bespoke Packages
           </p>
@@ -94,7 +94,7 @@ export default function PackagesPage() {
             <li>・デスティネーション（遠方・海外）: 個別お見積もり（税抜）</li>
           </ul>
         </div>
-        <div className="bg-canvas-subtle p-6">
+        <div className="bg-canvas p-6">
           <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
             Payment
           </p>
@@ -107,7 +107,7 @@ export default function PackagesPage() {
         </div>
       </section>
 
-      <section className="mt-10 bg-canvas-subtle p-6">
+      <section className="mt-10 bg-canvas p-6">
         <p className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
           Next Steps
         </p>

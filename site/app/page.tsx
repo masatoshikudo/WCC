@@ -164,86 +164,44 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/*
+        #highlights セクション
+
+        現状: ダミー動画 6 本(WC_movie_sample_1〜6.mp4)を作例として表示。
+        本番運用時は実案件の動画ファイルに差し替える想定。
+
+        証言テキスト(couple / venue / description)は M1 進行中(実績ゼロ)のため
+        非表示。実案件の納品が始まり、掲載許諾が取れた時点で再有効化を検討する。
+
+        関連ドキュメント:
+        - docs/WCC_ROADMAP.md(M1〜M2 で実績蓄積)
+        - docs/drafts/LP_CURRENT_STATE.md 論点3(架空カップル処理方針)
+      */}
       <section id="highlights" className={HIGHLIGHTS_SECTION_ROOT_CLASS}>
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
-        <h2 className={HIGHLIGHTS_SECTION_H2_CLASS} style={SECTION_H2_STYLE}>
-          その日の空気を
-          <br />
-          そのまま
-        </h2>
-        <p className="mx-auto mt-6 max-w-4xl text-center font-body text-base leading-relaxed text-white/80 md:mt-8">
-        その日の空気をそのまま残した縦型コンテンツ動画と、実際の新郎新婦の声をまとめています
-          <br />
-          あの一日の高まりが、どんな形で残るのかをご覧ください
-        </p>
-        <div className="mt-8 grid gap-6 md:mt-10 md:grid-cols-2 lg:grid-cols-3">
-          {(
-            [
-              {
-                couple: "K・Y 様",
-                venue: "東京都内（会場名非公開）",
-                description:
-                  "「披露宴後すぐに家族へ共有できました。自然な空気感がそのまま残っていて安心しました。」",
-                credit: "2025年秋婚 / 東京都",
-              },
-              {
-                couple: "M・R 様",
-                venue: "神奈川県内（会場名非公開）",
-                description:
-                  "「フォト・ムービーと役割が分かれていたので、記録用とSNS用をどちらも無理なく残せました。」",
-                credit: "2026年春婚 / 神奈川県",
-              },
-              {
-                couple: "Lucy and Chris",
-                venue: "The Post Barn, Newbury, UK",
-                description:
-                  "「短い動画でも流れが自然で、スマホで何度も見返したくなりました。」",
-              },
-              {
-                couple: "Sophie & Daniel",
-                venue: "Villa Balbiano, Lake Como, Italy",
-                description:
-                  "「景色と余韻が、一本の縦動画にまとまって届くのがうれしかったです。」",
-              },
-              {
-                couple: "Taylor Morgan",
-                venue: "New York City Loft Wedding",
-                description:
-                  "「準備から祝宴まで、縦型でも臨場感が伝わるとゲストにも好評でした。」",
-              },
-              {
-                couple: "Amelia & George",
-                venue: "Cotswolds Barn Celebration, UK",
-                description:
-                  "「屋外と屋内の切り替えがスムーズで、すぐ共有できて助かりました。」",
-              },
-            ] as const
-          ).map((item, index) => {
-            const slide = HOME_HIGHLIGHT_VIDEO_SLIDES[index];
-            const credit = "credit" in item ? item.credit : undefined;
-            return (
-            <article key={`highlight-${index}`} className="p-3 animate-fade-up" style={{ animationDelay: `${index * 120}ms` }}>
-              <div className="relative aspect-[9/16] overflow-hidden rounded-[2rem]">
-                {slide ? (
+          <h2 className={HIGHLIGHTS_SECTION_H2_CLASS} style={SECTION_H2_STYLE}>
+            その日の空気を
+            <br />
+            そのまま
+          </h2>
+          <p className="mx-auto mt-6 max-w-4xl text-center font-body text-base leading-relaxed text-white/80 md:mt-8">
+            その日の空気をそのまま残した、9:16 の縦動画作例。
+            <br />
+            あの一日の高まりが、どんな形で残るのかをご覧ください。
+          </p>
+          <div className="mt-8 grid gap-6 md:mt-10 md:grid-cols-2 lg:grid-cols-3">
+            {HOME_HIGHLIGHT_VIDEO_SLIDES.map((slide, index) => (
+              <article
+                key={slide.src}
+                className="p-3 animate-fade-up"
+                style={{ animationDelay: `${index * 120}ms` }}
+              >
+                <div className="relative aspect-[9/16] overflow-hidden rounded-[2rem]">
                   <HomeHighlightLazyVideo slide={slide} />
-                ) : (
-                  <div className="flex h-full items-center justify-center">
-                    <p className="font-display text-[10px] font-semibold uppercase tracking-[0.1em] text-white/80">9:16</p>
-                  </div>
-                )}
-              </div>
-              <div className="mt-3 px-4 py-4 text-center">
-                <p className="font-body text-sm font-semibold text-white/80">{item.couple}</p>
-                <h4 className="mt-1 font-display text-base font-semibold text-white/80">{item.venue}</h4>
-                <p className="mt-2 font-body text-sm leading-relaxed text-white/80">{item.description}</p>
-                {credit ? (
-                  <p className="mt-2 font-body text-xs leading-relaxed text-white/60">{credit}</p>
-                ) : null}
-              </div>
-            </article>
-            );
-          })}
-        </div>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 

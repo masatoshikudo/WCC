@@ -8,7 +8,7 @@ export function SiteFooter() {
       <div className="mx-auto w-full max-w-content px-4 py-40 md:px-6 md:py-48 lg:px-8 lg:py-56">
         <FooterCtaSection />
         <p className="mt-24 font-body text-sm text-footer-muted md:mt-28 md:text-center lg:mt-32">
-          © {new Date().getFullYear()} Wedding Content Creator. All rights
+          © {new Date().getFullYear()} For Your Wedding Day. All rights
           reserved.
         </p>
         <nav className="mt-4 flex flex-wrap items-center gap-4 md:justify-center" aria-label="フッター法務リンク">

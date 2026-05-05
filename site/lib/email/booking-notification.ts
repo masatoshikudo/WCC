@@ -10,6 +10,7 @@ const COVERAGE_SCOPE_LABELS: Record<RecordBookingIntentInput["coverageScope"], s
 
 const DIVIDER = "─".repeat(16);
 const ADMIN_URL = "https://for-your-wedding-day.com/admin/bookings";
+const STRIPE_INVOICE_URL = "https://dashboard.stripe.com/invoices/";
 
 export async function notifyOwnerOfBookingIntent(
   input: RecordBookingIntentInput,
@@ -97,4 +98,106 @@ function formatDate(dateStr: string): string {
   if (parts.length !== 3) return dateStr;
   const [year, month, day] = parts;
   return `${year}年${parseInt(month, 10)}月${parseInt(day, 10)}日`;
+}
+
+// ─── 支払い失敗通知 ───────────────────────────────────────────────
+
+export interface PaymentFailedNotificationInput {
+  invoiceId: string;
+  attemptCount: number;
+  failureReason: string | null;
+  nextPaymentAttempt: number | null;
+  attemptId: string;
+  email: string;
+  bookerName: string | null;
+  amountDue: number;
+  currency: string;
+}
+
+export async function notifyOwnerOfPaymentFailure(
+  input: PaymentFailedNotificationInput,
+): Promise<void> {
+  const to = process.env.OWNER_NOTIFICATION_EMAIL?.trim();
+  if (!to) {
+    console.warn("[booking-notification] OWNER_NOTIFICATION_EMAIL is not set; skipping payment failure notification");
+    return;
+  }
+
+  const subject = buildPaymentFailedSubject(input);
+  const text = buildPaymentFailedText(input);
+
+  await sendEmailSafe({
+    to,
+    subject,
+    html: `<pre style="font-family:monospace;white-space:pre-wrap;font-size:14px;">${escapeHtml(text)}</pre>`,
+    text,
+  });
+}
+
+function buildPaymentFailedSubject(input: PaymentFailedNotificationInput): string {
+  const namePart = input.bookerName ? `${input.bookerName} 様` : input.email;
+  return `[支払い失敗] ${input.invoiceId} / ${namePart}（${input.attemptCount}回目）`;
+}
+
+function buildPaymentFailedText(input: PaymentFailedNotificationInput): string {
+  const lines: string[] = [
+    "お支払いの失敗を検知しました。",
+    "",
+    DIVIDER,
+    "顧客",
+    input.bookerName ? `${input.bookerName}（${input.email}）` : input.email,
+    "",
+    "Invoice ID",
+    input.invoiceId,
+    "",
+    "請求金額",
+    formatAmount(input.amountDue, input.currency),
+    "",
+    "失敗回数",
+    `${input.attemptCount}回目`,
+  ];
+
+  if (input.failureReason) {
+    lines.push("", "失敗理由", input.failureReason);
+  }
+
+  lines.push(
+    "",
+    "次回リトライ",
+    input.nextPaymentAttempt
+      ? formatJst(input.nextPaymentAttempt)
+      : "リトライなし（要手動対応）",
+  );
+
+  lines.push(
+    DIVIDER,
+    "",
+    "Stripe Dashboard:",
+    `${STRIPE_INVOICE_URL}${input.invoiceId}`,
+    "",
+    "管理画面:",
+    ADMIN_URL,
+    "",
+    `attempt_id: ${input.attemptId}`,
+  );
+
+  return lines.join("\n");
+}
+
+function formatAmount(amountSmallestUnit: number, currency: string): string {
+  if (currency.toLowerCase() === "jpy") {
+    return `¥${amountSmallestUnit.toLocaleString("ja-JP")}`;
+  }
+  return `${currency.toUpperCase()} ${(amountSmallestUnit / 100).toFixed(2)}`;
+}
+
+function formatJst(unixSeconds: number): string {
+  return new Date(unixSeconds * 1000).toLocaleString("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }

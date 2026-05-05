@@ -14,7 +14,7 @@
 **M1（初件納品）— 実装進行中（Phase 1: 2026-05-04〜）**
 
 受付基盤（M0）は完了済み。初件納品（M1）の達成に向けて、
-SNS 実績アカウント立ち上げ・問い合わせフォーム整備・LP 整合を進めている段階。
+SNS 実績アカウント立ち上げ・LP 整合（P3）を進めている段階。
 
 ---
 
@@ -70,9 +70,9 @@ M1 完了の定義: **実顧客への初件納品完了**。
 
 ### 技術タスク
 
-- [ ] **LP P1: 問い合わせフォームの Supabase 接続**（`docs/LP_REVISION_PLAN.md`）
-  - フォーム送信 → `messages` テーブルへ保存
-  - 運営者への Resend 通知メール + 自動返信メール
+- [x] **LP P1: 問い合わせフォームの Supabase 接続** — BookFlow により代替済み
+  - `/book`（BookFlow）→ `booking_intents` 保存 + 運営者通知 + 顧客確認メール実装済み
+  - `/contact` → `/book` 301 リダイレクト設定済み
 - [ ] **LP P3: BRAND.md 準拠見直し**（`docs/LP_REVISION_PLAN.md`）
   - ヘッダーロゴ「WCC」→「For Your Wedding Day」修正
   - カラーパレット・禁句リスト確認

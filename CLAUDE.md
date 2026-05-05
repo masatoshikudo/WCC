@@ -127,7 +127,9 @@ weddingcontentscreator_project/
 
 ### Phase 1 実装タスク（優先度順）
 
-1. **LP の BRAND.md 準拠見直し**（`docs/LP_REVISION_PLAN.md` P3 項目、ヘッダーロゴ修正含む）
+1. **LP P3: BRAND.md 準拠見直し**（`docs/LP_REVISION_PLAN.md` P3 項目）
+   - 前段: `docs/drafts/WCC_BRAND_v2.md` の論点1〜5（カラー・ロゴ・コピー）を人間が決定してから実装着手
+   - 高優先度修正（人間決定後すぐ実装可）: ヘッダーロゴ「WCC」→「For Your Wedding Day」/ ヒーローコピー / メール差出人
 2. **SNS 実績アカウント立ち上げ**（Instagram / TikTok）
 3. **`docs/INFRA_SETUP.md` 残項目消化**（LINE・SNS・GitHub branch 保護）
 4. **テストデータのクリーンアップ**（Phase 1 完了時）

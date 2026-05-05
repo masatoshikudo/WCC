@@ -73,7 +73,9 @@ M1 完了の定義: **実顧客への初件納品完了**。
 - [x] **LP P1: 問い合わせフォームの Supabase 接続** — BookFlow により代替済み
   - `/book`（BookFlow）→ `booking_intents` 保存 + 運営者通知 + 顧客確認メール実装済み
   - `/contact` → `/book` 301 リダイレクト設定済み
-- [ ] **LP P3: BRAND.md 準拠見直し**（`docs/LP_REVISION_PLAN.md`）
+- [ ] **LP P3: BRAND.md 準拠見直し**（`docs/LP_REVISION_PLAN.md`）— **ブランド見直し結論待ち**
+  - 前段: `docs/drafts/WCC_BRAND_v2.md` 起草済み（カラーパレット・ロゴ表示・ヒーローコピー 各3案）
+  - 論点1〜5 の人間決定後に実装着手（`docs/drafts/WCC_BRAND_v2.md` 末尾参照）
   - ヘッダーロゴ「WCC」→「For Your Wedding Day」修正
   - カラーパレット・禁句リスト確認
   - ヒーローコピーの世界観整合

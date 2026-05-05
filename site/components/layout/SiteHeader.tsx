@@ -20,10 +20,10 @@ export function SiteHeader() {
       <div className="mx-auto flex h-full w-full max-w-content items-center justify-between gap-4 px-5 md:px-8 lg:px-12">
         <Link
           href="/"
-          className="font-display text-sm font-semibold uppercase tracking-[0.08em] text-ink md:text-base"
+          className="font-display text-sm font-medium tracking-[0.04em] text-ink md:text-base"
           onClick={closeMenu}
         >
-          WCC
+          For Your Wedding Day
         </Link>
 
         <div className="flex items-center gap-3">

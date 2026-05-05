@@ -8,7 +8,7 @@ function getResend(): Resend | null {
 
 /** Resend ダッシュボードで検証済みの送信元。未検証時は onboarding@resend.dev を利用可 */
 export function getDefaultFrom(): string {
-  return process.env.RESEND_FROM?.trim() || "Wedding Content Creator <onboarding@resend.dev>";
+  return process.env.RESEND_FROM?.trim() || "For Your Wedding Day <onboarding@resend.dev>";
 }
 
 export async function sendEmailSafe(params: {

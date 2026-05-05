@@ -73,12 +73,11 @@ M1 完了の定義: **実顧客への初件納品完了**。
 - [x] **LP P1: 問い合わせフォームの Supabase 接続** — BookFlow により代替済み
   - `/book`（BookFlow）→ `booking_intents` 保存 + 運営者通知 + 顧客確認メール実装済み
   - `/contact` → `/book` 301 リダイレクト設定済み
-- [ ] **LP P3: BRAND.md 準拠見直し**（`docs/LP_REVISION_PLAN.md`）— **ブランド見直し結論待ち**
-  - 前段: `docs/drafts/WCC_BRAND_v2.md` 起草済み（カラーパレット・ロゴ表示・ヒーローコピー 各3案）
-  - 論点1〜5 の人間決定後に実装着手（`docs/drafts/WCC_BRAND_v2.md` 末尾参照）
-  - ヘッダーロゴ「WCC」→「For Your Wedding Day」修正
-  - カラーパレット・禁句リスト確認
-  - ヒーローコピーの世界観整合
+- [x] **LP P3: BRAND.md 準拠見直し**（2026-05-06 完了）
+  - ヘッダーロゴ「WCC」→「For Your Wedding Day」（Cormorant Garamond）
+  - ヒーローコピー「挙式の感動を、」→「翌朝、ふたりで観る、昨日のすべて。」（翌朝軸）
+  - `--color-ink-muted` を `#525252` に修正
+  - WCC_BRAND.md v2 確定版を正式反映（`docs/drafts/WCC_BRAND_v2.md` 参照）
 - [ ] **INFRA: Stripe 本番設定**（`docs/INFRA_SETUP.md`）
   - Stripe アカウント整理（Tinykomainu と統合 or 分離の判断）
   - 本番用公開鍵・秘密鍵の取得と Vercel 設定

@@ -98,21 +98,15 @@ export default function HomePage() {
                 )}
                 lang="ja"
               >
-                挙式の感動を、
+                翌朝、ふたりで観る、
                 <br />
-                縦型動画で
-                <br />
-                その日のうちに
+                昨日のすべて。
               </h1>
               <div className="flex flex-col gap-3">
                 <p className={cn("font-body text-lg leading-relaxed text-ink", HERO_TEXT_SHADOW_CLASS)}>
-                あなたの結婚式に、
-                <br />
-                コンテンツクリエイターを
-                <br />
-                Wedding Content Creator
-                <br />
-                for Your Wedding Day
+                  結婚式の翌朝、コーヒーを淹れて。
+                  <br />
+                  その日のうちに届く、ふたりだけの縦動画。
                 </p>
               </div>
             </div>

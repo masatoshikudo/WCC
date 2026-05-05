@@ -18,11 +18,11 @@ export function FooterCtaSection() {
   return (
     <section className="border-b border-hairline pb-28 md:pb-32 md:text-center lg:pb-40">
       <h2 className="font-display text-[1.75rem] font-bold leading-tight text-ink">
-        永遠に残る思い出を捉える
+        翌朝のふたりへ、ひとつ届ける。
       </h2>
       <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
         日程が未定でも、先にご相談いただけます。希望日と残したい瞬間を共有いただければ、対応範囲をご案内します。
-        舞台裏のありのままの表情まで、何度でも追体験し、共有できます。
+        気になることがあれば、お気軽にお声がけください。
       </p>
       <div className="mt-6 flex flex-wrap gap-3 md:justify-center">
         <Link

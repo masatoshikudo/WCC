@@ -1,6 +1,6 @@
 /**
  * モバイル下部固定 CTA のシェル（MobileBottomCta / BookFlow で共有）
- * SP では viewport 下端に固定。背景は :root の canvas（#f9f4f1）でページ地色と揃える
+ * SP では viewport 下端に固定。背景は :root の canvas でページ地色と揃える
  */
 export const MOBILE_STICKY_DOCK_CLASS =
   "fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-canvas px-4 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:translate3d(0,0,0)] md:hidden";

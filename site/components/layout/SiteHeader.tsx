@@ -6,8 +6,8 @@ import { useState } from "react";
 import { HOME_ANCHOR_HREF } from "@/lib/site-links";
 
 const nav = [
-  { href: HOME_ANCHOR_HREF.pricing, label: "価格" },
-  { href: HOME_ANCHOR_HREF.highlights, label: "ギャラリー" },
+  { href: HOME_ANCHOR_HREF.pricing, label: "PRICING" },
+  { href: HOME_ANCHOR_HREF.highlights, label: "GALLERY" },
 ] as const;
 
 export function SiteHeader() {
@@ -32,7 +32,7 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="font-display text-xs font-semibold uppercase tracking-[0.08em] text-ink underline-offset-4 transition-colors hover:text-accent hover:underline focus-visible:text-accent focus-visible:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="font-display text-xs font-semibold uppercase tracking-[0.15em] text-ink underline-offset-4 transition-colors hover:text-accent hover:underline focus-visible:text-accent focus-visible:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {item.label}
               </Link>
@@ -117,7 +117,7 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="font-display min-h-[44px] py-2 text-sm font-semibold text-ink underline-offset-4 transition-opacity hover:opacity-70 hover:underline focus-visible:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="font-display min-h-[44px] py-2 text-sm font-semibold uppercase tracking-[0.15em] text-ink underline-offset-4 transition-opacity hover:opacity-70 hover:underline focus-visible:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 onClick={closeMenu}
               >
                 {item.label}

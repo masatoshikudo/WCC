@@ -3,16 +3,10 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { HomeHeroSection } from "@/components/marketing/HomeHeroSection";
 import { HomeHighlightsSection } from "@/components/marketing/HomeHighlightsSection";
-import {
-  HomeFaqSectionSkeleton,
-  HomePricingSectionSkeleton,
-  HomeServiceFlowSectionSkeleton,
-} from "@/components/home/HomeDynamicSkeletons";
-import { getHomeFaqJsonLd } from "@/lib/home-faq";
+import { HomePricingSectionSkeleton } from "@/components/home/HomeDynamicSkeletons";
 import { HOME_ANCHOR_HREF } from "@/lib/site-links";
 import {
   HOME_CONTENT_INNER_COLUMN_CLASS,
-  HOME_FAQ_SECTION_OUTER_CLASS,
   HOME_WHAT_IS_WCC_VERT_PAD_CLASS,
 } from "@/lib/layout/home-sections";
 import { cn } from "@/lib/utils/cn";
@@ -22,18 +16,6 @@ const HomePricingSection = dynamic(
   { loading: () => <HomePricingSectionSkeleton /> },
 );
 
-const HomeServiceFlowSection = dynamic(
-  () => import("@/components/home/HomeServiceFlowSection").then((m) => m.HomeServiceFlowSection),
-  { loading: () => <HomeServiceFlowSectionSkeleton /> },
-);
-
-const HomeFaqSection = dynamic(
-  () => import("@/components/home/HomeFaqSection").then((m) => m.HomeFaqSection),
-  { loading: () => <HomeFaqSectionSkeleton /> },
-);
-
-const HOME_FAQ_JSON_LD = getHomeFaqJsonLd();
-
 /** トップ各セクションの H2 */
 const SECTION_H2_CLASS =
   "mx-auto max-w-4xl text-center font-display text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink";
@@ -42,11 +24,6 @@ const SECTION_H2_STYLE: CSSProperties = { letterSpacing: "-0.03em" };
 export default function HomePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(HOME_FAQ_JSON_LD) }}
-      />
-
       <HomeHeroSection />
 
       <HomeHighlightsSection />
@@ -107,13 +84,11 @@ export default function HomePage() {
         </section>
       </div>
 
-      <HomePricingSection sectionH2ClassName={SECTION_H2_CLASS} sectionH2Style={SECTION_H2_STYLE} />
-
-      <HomeServiceFlowSection sectionH2ClassName={SECTION_H2_CLASS} sectionH2Style={SECTION_H2_STYLE} />
-
-      <div className={HOME_FAQ_SECTION_OUTER_CLASS}>
-        <HomeFaqSection sectionH2ClassName={SECTION_H2_CLASS} sectionH2Style={SECTION_H2_STYLE} />
-      </div>
+      <HomePricingSection
+        sectionH2ClassName={SECTION_H2_CLASS}
+        sectionH2Style={SECTION_H2_STYLE}
+        compact
+      />
     </>
   );
 }

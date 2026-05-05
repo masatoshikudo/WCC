@@ -3,14 +3,21 @@
 ## Files
 
 - `client.ts` — Stripe SDK 初期化（`createStripeClient()`）
-- (Step 2 以降で追加: `handlers/` — quote.accepted / invoice.paid 等のイベントハンドラ)
+- `handlers/quote-accepted.ts` — `quote.accepted`: `booking_quotes.status` → `approved`
+- `handlers/invoice-paid.ts` — `invoice.paid`: `booking_quotes.status` → `paid` + `paid_at` + `booking_payments` 冪等 upsert
+- `handlers/invoice-payment-failed.ts` — `invoice.payment_failed`: ログ出力のみ（通知メールは Step 4）
 
 ## Webhook Endpoint
 
 `POST /api/stripe/webhook`
 
-署名検証済み。受信イベントのログ出力まで実装済み（Step 1）。
-イベントハンドラ（booking_quotes / booking_payments への書き込み）は Step 2 で実装。
+署名検証済み。Step 2 でイベントハンドラを実装済み。
+
+### 冪等性の担保
+
+- `quote.accepted`: status が `approved` / `paid` 済みなら早期 return
+- `invoice.paid`: status が `paid` 済みなら早期 return。`booking_payments` は `ignoreDuplicates: true` で upsert（既存レコードを上書きしない）
+- 失敗時は 500 を返して Stripe の自動リトライを促す
 
 ## ローカル開発
 
@@ -38,6 +45,6 @@ stripe trigger quote.accepted
 Stripe Dashboard → Developers → Webhooks でエンドポイント登録:
 
 - URL: `https://for-your-wedding-day.com/api/stripe/webhook`
-- Listen to events: Step 2 実装後に追加（`quote.accepted`, `invoice.paid`, `invoice.payment_failed`）
+- Listen to events: `quote.accepted`, `invoice.paid`, `invoice.payment_failed`
 
 登録後に表示される署名シークレット (`whsec_xxx`) を Vercel 環境変数 `STRIPE_WEBHOOK_SECRET` に設定。

@@ -48,10 +48,10 @@ export function HomePricingSection({
                   {plan.name}
                 </h3>
                 <p className="mt-6 font-display text-3xl font-semibold tabular-nums text-ink md:mt-8">
-                  {plan.priceExTaxYen.toLocaleString("ja-JP")}
+                  {plan.priceInTaxYen.toLocaleString("ja-JP")}
                   <span className="text-2xl font-semibold">円</span>
                   <span className="ml-1 align-baseline text-sm font-medium tabular-nums text-ink-muted sm:text-base">
-                    （税抜）
+                    （税込）
                   </span>
                 </p>
                 <p className="mt-4 font-body text-sm leading-relaxed text-ink-muted">
@@ -61,7 +61,7 @@ export function HomePricingSection({
                   href="/pricing"
                   className="mt-6 inline-flex items-center gap-1 font-body text-sm text-ink underline underline-offset-4 hover:opacity-70"
                 >
-                  パッケージの詳細を見る
+                  料金の詳細・オプションを見る
                   <span aria-hidden="true">→</span>
                 </Link>
               </div>
@@ -82,7 +82,7 @@ export function HomePricingSection({
           <>
             <p className="mx-auto mt-6 max-w-prose text-center font-body text-sm leading-relaxed text-ink-muted md:mt-8 md:text-base">
               一本は9:16の縦動画で、SNSにそのまま載せられる形でお渡しします。ハイライトは当日中から翌日を目安に届くため、あの日の高まりを、すぐに誰かと分け合えます。
-              表示は税抜です。内訳の条件は下のパッケージ内容で確認でき、FAQと食い違うときはこちらを優先してください。
+              内訳の条件は下のパッケージ内容で確認でき、FAQと食い違うときはこちらを優先してください。
             </p>
 
             <div className={cn("mx-auto max-w-5xl", HOME_WHAT_IS_WCC_VERT_PAD_CLASS)}>
@@ -96,10 +96,10 @@ export function HomePricingSection({
                     {plan.name}
                   </h3>
                   <p className="mt-6 font-display text-3xl font-semibold tabular-nums text-ink md:mt-8">
-                    {plan.priceExTaxYen.toLocaleString("ja-JP")}
+                    {plan.priceInTaxYen.toLocaleString("ja-JP")}
                     <span className="text-2xl font-semibold">円</span>
                     <span className="ml-1 align-baseline text-sm font-medium tabular-nums text-ink-muted sm:text-base">
-                      （税抜）
+                      （税込）
                     </span>
                   </p>
                 </div>

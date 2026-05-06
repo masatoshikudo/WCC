@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { HOME_CONTENT_INNER_COLUMN_CLASS } from "@/lib/layout/home-sections";
 
 export function HomeWhatIsSection() {
@@ -25,6 +26,12 @@ export function HomeWhatIsSection() {
               <p className="font-body text-base leading-relaxed text-ink-muted">
                 納品は、SNSにそのまま使える9:16の縦動画です。ハイライトは当日中から翌日を目安にお届けするため、ご家族やゲストともすぐ共有できます。
               </p>
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1 font-body text-xs uppercase tracking-[0.12em] text-ink hover:opacity-70"
+              >
+                LEARN MORE <span aria-hidden="true">→</span>
+              </Link>
             </div>
           </div>
         </div>

@@ -23,10 +23,10 @@ export function HomeDoINeedSection() {
             </h2>
             <div className="flex flex-col gap-8">
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                Wedding Content Creator（以下、WCC）は、結婚式当日におふたりのそばで取材する担当です。iPhoneで式の流れを記録し、あとから見て情景がつながる短い映像に編集します。
+                すでに写真家や本編ムービーを手配していても、「翌日SNSで使える縦動画が手元にない」と気づく方は少なくありません。このサービスは、その空白にそっと応えます。
               </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                大掛かりな演出を組み立てる役割ではなく、近い距離から拾った表情やゲストの反応を、一本の流れとして立ち上げます。プロの本編ムービーとは役割が異なり、当日の空気を手軽に残したい方向けの記録です。
+                当日の余韻が薄れる前に、ふたりで、あるいはゲストと、あの日を振り返れる。そんな使い方を想定しているなら、このサービスはあなたに向いています。
               </p>
               <Link
                 href="/pricing"

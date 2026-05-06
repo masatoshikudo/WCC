@@ -76,6 +76,12 @@
     font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
     letter-spacing: normal;
   }
+
+  h1[lang="ja"] {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-break: strict;
+  }
 }
 
 @layer utilities {

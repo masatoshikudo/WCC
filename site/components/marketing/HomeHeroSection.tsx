@@ -16,7 +16,7 @@ export function HomeHeroSection() {
       <div className="mx-auto w-full max-w-3xl text-center">
         <div className="animate-fade-up flex flex-col items-center gap-8 [animation-delay:120ms]">
           <h1
-            className="font-heading font-light text-[clamp(2.75rem,6vw,5rem)] leading-[1.1] tracking-[0.02em] text-ink"
+            className="font-heading font-light text-[clamp(2.25rem,6vw,5rem)] leading-[1.1] tracking-[0.02em] text-ink"
             lang="ja"
           >
             翌朝、ふたりで観る、

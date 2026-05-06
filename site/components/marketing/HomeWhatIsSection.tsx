@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { HOME_CONTENT_INNER_COLUMN_CLASS } from "@/lib/layout/home-sections";
 
 export function HomeWhatIsSection() {
@@ -20,11 +21,17 @@ export function HomeWhatIsSection() {
             </h2>
             <div className="flex flex-col gap-8">
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                Wedding Content Creatorは、演出ではなく当日その場の高まりをそのまま縦型のショート動画へ仕立てるサービスです。軽やかに流れる一本は、見返すたびにあの日の空気がよみがえり、気分が上がる記録になります。
+                写真は瞬間を、動画はその日の流れを残します。プロのフォト・ビデオを既に契約していても、SNSで気軽に共有できる縦動画として補完的に役立ちます。
               </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                納品は、SNSにそのまま使える9:16の縦動画です。ハイライトは当日中から翌日を目安にお届けするため、ご家族やゲストともすぐ共有できます。
+                「式の翌朝、コーヒーを淹れながらふたりで観返したい」「ゲストにすぐ送りたい」そんな方に向いています。
               </p>
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1 font-body text-xs uppercase tracking-[0.12em] text-ink hover:opacity-70"
+              >
+                LEARN MORE <span aria-hidden="true">→</span>
+              </Link>
             </div>
           </div>
         </div>

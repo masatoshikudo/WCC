@@ -19,9 +19,9 @@ export const WCC_PACKAGE_PLANS = [
     id: "standard" as const,
     displayId: "01",
     name: "パッケージプラン",
-    // TODO: Stripe ダッシュボード側で Price を 165,000 円（税込）に更新し、.env.local と Vercel の STRIPE_PRICE_ID も差し替えること
-    priceExTaxYen: 150_000,
-    priceInTaxYen: 165_000,
+    // TODO: Stripe ダッシュボード側で Price を 176,000 円（税込）に更新し、.env.local と Vercel の STRIPE_PRICE_ID も差し替えること
+    priceExTaxYen: 160_000,
+    priceInTaxYen: 176_000,
     items: [
       "6時間のコンテンツ撮影",
       "24時間以内に納品",
@@ -36,7 +36,7 @@ export const WCC_PACKAGE_PLANS = [
 
 export type WccPlanId = (typeof WCC_PACKAGE_PLANS)[number]["id"];
 
-/** 予約確認・メール等で使う「165,000円（税込）」形式 */
+/** 予約確認・メール等で使う「176,000円（税込）」形式 */
 export function formatPlanPriceInTaxLabel(yen: number): string {
   return `${yen.toLocaleString("ja-JP")}円（税込）`;
 }

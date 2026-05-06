@@ -21,10 +21,13 @@ export function HomeWhatIsSection() {
             </h2>
             <div className="flex flex-col gap-8">
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                写真は瞬間を、動画はその日の流れを残します。プロのフォト・ビデオを既に契約していても、SNSで気軽に共有できる縦動画として補完的に役立ちます。
+                翌朝、ふたりで見れる動画って、手元にある?
               </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                「式の翌朝、コーヒーを淹れながらふたりで観返したい」「ゲストにすぐ送りたい」そんな方に向いています。
+                当日、ふたりのそばにいる。笑ったとき、泣いたとき、ゲストと抱き合ったとき、全部そこにいて、全部拾う！iPhone で、9:16 で、ふたりだけの一本にするから。
+              </p>
+              <p className="font-body text-base leading-relaxed text-ink-muted">
+                次の日見てみて、最高に幸せだから！
               </p>
               <Link
                 href="/pricing"

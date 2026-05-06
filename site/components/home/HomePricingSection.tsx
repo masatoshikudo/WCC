@@ -81,8 +81,10 @@ export function HomePricingSection({
         ) : (
           <>
             <p className="mx-auto mt-6 max-w-prose text-center font-body text-sm leading-relaxed text-ink-muted md:mt-8 md:text-base">
-              一本は9:16の縦動画で、SNSにそのまま載せられる形でお渡しします。ハイライトは当日中から翌日を目安に届くため、あの日の高まりを、すぐに誰かと分け合えます。
-              内訳の条件は下のパッケージ内容で確認でき、FAQと食い違うときはこちらを優先してください。
+              当日中から次の日には届く！9:16 の縦動画で、SNS にそのままあげられる。家族に、ゲストに、すぐ送れる！
+            </p>
+            <p className="mx-auto mt-4 max-w-prose text-center font-body text-sm leading-relaxed text-ink-muted md:text-base">
+              あの日の気持ちが冷めないうちに、ふたりの手元に。中身は下のパッケージをチェックして！
             </p>
 
             <div className={cn("mx-auto max-w-5xl", HOME_WHAT_IS_WCC_VERT_PAD_CLASS)}>

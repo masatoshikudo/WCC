@@ -21,8 +21,10 @@ export function FooterCtaSection() {
         翌朝のふたりへ、ひとつ届ける
       </h2>
       <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
-        日程が未定でも、先にご相談いただけます。希望日と残したい瞬間を共有いただければ、対応範囲をご案内します。
-        気になることがあれば、お気軽にお声がけください。
+        残したい瞬間、ひとつでいい！教えてくれたら、そこから一緒に考えるから！
+      </p>
+      <p className="mt-2 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
+        日程が決まってなくても、全然大丈夫！まずは話そう！
       </p>
       <div className="mt-6 flex flex-wrap gap-3 md:justify-center">
         <Link

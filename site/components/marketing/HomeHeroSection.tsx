@@ -21,7 +21,7 @@ export function HomeHeroSection() {
           >
             翌朝、ふたりで観る、
             <br />
-            昨日のすべて。
+            昨日のすべて
           </h1>
           <p className="max-w-xl font-body text-lg leading-relaxed text-ink-muted">
             結婚式の翌朝、コーヒーを淹れて。

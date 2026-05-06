@@ -28,20 +28,12 @@ export function HomeHeroSection() {
             <br />
             その日のうちに届く、ふたりだけの縦動画。
           </p>
-          <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <Link
-              href="/book"
-              className="font-display inline-flex min-h-[52px] min-w-[200px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              まず相談する
-            </Link>
-            <Link
-              href={HOME_ANCHOR_HREF.pricing}
-              className="font-display inline-flex min-h-[52px] min-w-[200px] items-center justify-center rounded-full border border-ink px-8 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              パッケージを見る
-            </Link>
-          </div>
+          <Link
+            href={HOME_ANCHOR_HREF.pricing}
+            className="font-display inline-flex min-h-[52px] min-w-[200px] items-center justify-center rounded-full border border-ink px-8 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            パッケージを見る
+          </Link>
         </div>
       </div>
     </section>

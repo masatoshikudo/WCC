@@ -18,7 +18,7 @@ export function FooterCtaSection() {
   return (
     <section className="border-b border-hairline pb-28 md:pb-32 md:text-center lg:pb-40">
       <h2 className="font-display text-[1.75rem] font-bold leading-tight text-ink">
-        翌朝のふたりへ、ひとつ届ける。
+        翌朝のふたりへ、ひとつ届ける
       </h2>
       <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
         日程が未定でも、先にご相談いただけます。希望日と残したい瞬間を共有いただければ、対応範囲をご案内します。

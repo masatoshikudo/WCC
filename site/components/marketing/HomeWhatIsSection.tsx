@@ -15,7 +15,9 @@ export function HomeWhatIsSection() {
               style={{ letterSpacing: "0.02em" }}
               lang="ja"
             >
-              ウェディングコンテンツ
+              ウェディング
+              <br />
+              コンテンツ
               <br />
               とは
             </h2>

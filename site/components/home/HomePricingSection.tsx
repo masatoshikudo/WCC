@@ -45,7 +45,9 @@ export function HomePricingSection({
                   style={sectionH2Style}
                   lang="ja"
                 >
-                  {plan.name}
+                  スタンダード
+                  <br />
+                  プラン
                 </h3>
                 <p className="mt-6 font-display text-3xl font-semibold tabular-nums text-ink md:mt-8">
                   {plan.priceInTaxYen.toLocaleString("ja-JP")}
@@ -95,7 +97,9 @@ export function HomePricingSection({
                     style={sectionH2Style}
                     lang="ja"
                   >
-                    {plan.name}
+                    スタンダード
+                  <br />
+                  プラン
                   </h3>
                   <p className="mt-6 font-display text-3xl font-semibold tabular-nums text-ink md:mt-8">
                     {plan.priceInTaxYen.toLocaleString("ja-JP")}

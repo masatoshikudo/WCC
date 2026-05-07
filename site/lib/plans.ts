@@ -4,7 +4,7 @@
 
 /** 特商法「支払時期」など、いつ支払うかの明示用 */
 export const WCC_PAYMENT_TIMING_NOTE =
-  "ご予約確定時（オンライン（ZOOM）でのお打ち合わせ後、お見積りをご案内したタイミング）に一括でお支払いいただきます。";
+  "お見積りメール記載の Stripe 決済リンクより一括でお支払いいただきます。決済完了後、公式 LINE へのご招待と ZOOM お打ち合わせ日程調整のご案内をお送りします。";
 
 /** 税込表示の補足（支払時期と併用） */
 export const WCC_PACKAGE_TAX_LUMP_NOTE =
@@ -23,9 +23,9 @@ export const WCC_PACKAGE_PLANS = [
     priceExTaxYen: 160_000,
     priceInTaxYen: 176_000,
     items: [
-      "6時間のコンテンツ撮影",
+      "4時間連続のコンテンツ撮影",
       "24時間以内に納品",
-      "ご契約前のオンライン（ZOOM）での無料相談・お打ち合わせ",
+      "ご決済後の ZOOM ミーティング（詳細打ち合わせ）",
       "契約後の公式LINEチャット相談",
       "編集済みのTikTokまたはReels動画2本",
       "メイキング映像、細部ショット、その他のシーン",
@@ -48,3 +48,14 @@ export const WCC_BOOKING_PLANS = WCC_PACKAGE_PLANS.map((p) => ({
   priceLabel: formatPlanPriceInTaxLabel(p.priceInTaxYen),
   planNote: `${WCC_PAYMENT_TIMING_NOTE}${WCC_PACKAGE_TAX_LUMP_NOTE}`,
 }));
+
+/** エクストラオプション（/pricing ページ用） */
+export const WCC_EXTRAS = [
+  { id: "extension", name: "撮影時間延長", priceYen: 33_000, unit: "回", note: "※2 名体制時は +25% 加算", maxQuantity: null },
+  { id: "additional-edit", name: "追加編集動画", priceYen: 33_000, unit: "本", note: null, maxQuantity: null },
+  { id: "additional-staff", name: "WCC スタッフ追加", priceYen: 132_000, unit: "人", note: null, maxQuantity: null },
+  { id: "equipment-rental", name: "機材レンタル", priceYen: 38_500, unit: "台", note: null, maxQuantity: 2 },
+  { id: "remote-travel", name: "遠方交通費実費", priceYen: 11_000, unit: "件", note: "※実費に加算", maxQuantity: null },
+] as const;
+
+export type WccExtra = (typeof WCC_EXTRAS)[number];

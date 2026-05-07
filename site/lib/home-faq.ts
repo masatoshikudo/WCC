@@ -17,7 +17,7 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "どの機材で撮影しますか？",
-        a: "最新のiPhoneを中心に、ジンバルやライトを併用します。撮影データはRAWでもお渡し可能です。",
+        a: "最新の iPhone または DJI Osmo Pocket で撮影します。ジンバルやライトを適宜併用します。",
       },
       {
         q: "フォト・ビデオチームと同時に入れますか？",
@@ -42,7 +42,7 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "お支払いのタイミングは？",
-        a: "フォームよりお問い合わせいただいた後、オンライン（ZOOM）にて詳細をお伺いします。その後、最終的なお見積りと請求URLをメールでお送りします。お支払いは請求ページにて一括（税抜）となります。",
+        a: "フォームよりお問い合わせいただいた後、お見積りをメールでお送りします。記載の Stripe 決済リンクより一括でお支払いいただき、決済完了後に ZOOM お打ち合わせの日程調整へ進みます。",
         seeAlso: [
           { href: HOME_ANCHOR_HREF.pricing, label: "料金とプラン" },
           { href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" },
@@ -50,7 +50,7 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "予約後、日程はどのように確定しますか？",
-        a: "ご相談フォーム送信後、ZOOMでのお打ち合わせを経てお見積りをお送りします。お見積り金額の決済（お支払い）が完了した時点で、正式に日程（ご予約）が確定となります。",
+        a: "フォーム送信後、お見積りメールをお送りします。Stripe 決済リンクよりお支払いが完了した時点で、正式にご予約確定となります。その後、ZOOM お打ち合わせにて撮影詳細を確認します。",
         seeAlso: [
           { href: "/book", label: "ご予約" },
           { href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" },
@@ -58,7 +58,7 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "ZOOMお打ち合わせでは何を確認しますか？",
-        a: "お見積り前のZOOMお打ち合わせでは、ご希望の撮影内容や当日の動線、式場側のルールなどを確認させていただきます。",
+        a: "ご決済後の ZOOM ミーティングでは、撮影当日の動線・タイムライン、式場側のルール、ご希望の撮影シーンなどを確認します。",
         seeAlso: [
           { href: HOME_ANCHOR_HREF.pricing, label: "料金とプラン" },
           { href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" },

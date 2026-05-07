@@ -80,7 +80,7 @@ export const TOKUSHOHO_DRAFT: TokuShohoDraft = {
     {
       id: "price",
       label: "販売価格",
-      value: "パッケージプラン 150,000円（税抜）",
+      value: "スタンダードプラン 160,000円（税抜）",
       status: "confirmed",
       note: "追加プランを公開する場合は併記",
     },

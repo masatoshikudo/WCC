@@ -18,7 +18,7 @@ export const WCC_PACKAGE_PLANS = [
   {
     id: "standard" as const,
     displayId: "01",
-    name: "パッケージプラン",
+    name: "スタンダードプラン",
     // TODO: Stripe ダッシュボード側で Price を 176,000 円（税込）に更新し、.env.local と Vercel の STRIPE_PRICE_ID も差し替えること
     priceExTaxYen: 160_000,
     priceInTaxYen: 176_000,

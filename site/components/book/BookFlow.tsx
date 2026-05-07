@@ -132,7 +132,7 @@ export function BookFlow() {
       !partner2FirstName.trim() ||
       !partner2LastName.trim()
     ) {
-      setFormError("おふたりのお名前（姓・名）を入力してください。");
+      setFormError("お二人のお名前（姓・名）を入力してください。");
       return;
     }
     if (!emergencyContact.trim()) {

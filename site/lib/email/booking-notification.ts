@@ -43,10 +43,10 @@ function buildSubject(input: RecordBookingIntentInput): string {
 
 function buildText(input: RecordBookingIntentInput): string {
   const lines: string[] = [
-    "おふたりからのご相談を受け付けました。",
+    "お二人からのご相談を受け付けました。",
     "",
     DIVIDER,
-    "おふたり",
+    "お二人",
     input.coupleName || "（未入力）",
     "",
     "挙式日",

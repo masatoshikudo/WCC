@@ -51,11 +51,81 @@ export const WCC_BOOKING_PLANS = WCC_PACKAGE_PLANS.map((p) => ({
 
 /** エクストラオプション（/pricing ページ用） */
 export const WCC_EXTRAS = [
-  { id: "extension", name: "撮影時間延長", priceYen: 33_000, unit: "回", note: "※2 名体制時は +25% 加算", maxQuantity: null },
-  { id: "additional-edit", name: "追加編集動画", priceYen: 33_000, unit: "本", note: null, maxQuantity: null },
-  { id: "additional-staff", name: "WCC スタッフ追加", priceYen: 132_000, unit: "人", note: null, maxQuantity: null },
-  { id: "equipment-rental", name: "機材レンタル", priceYen: 38_500, unit: "台", note: null, maxQuantity: 2 },
-  { id: "remote-travel", name: "遠方交通費実費", priceYen: 11_000, unit: "件", note: "※実費に加算", maxQuantity: null },
+  {
+    id: "extension",
+    name: "撮影時間延長",
+    priceYen: 33_000,
+    unit: "time",
+    note: "※2 名体制時は +25% 加算",
+    description: "1 時間単位で撮影時間を延長（2 名体制時は +25% 加算）",
+    maxQuantity: null,
+  },
+  {
+    id: "additional-edit",
+    name: "追加編集動画",
+    priceYen: 33_000,
+    unit: "video",
+    note: null,
+    description: "標準 2 本以上の編集",
+    maxQuantity: null,
+  },
+  {
+    id: "additional-staff",
+    name: "WCC スタッフ追加",
+    priceYen: 132_000,
+    unit: "person",
+    note: "時間内固定",
+    description: "撮影クリエイターを追加（時間内固定）",
+    maxQuantity: null,
+  },
+  {
+    id: "gear-rental",
+    name: "機材貸出(DJI Osmo Pocket)",
+    priceYen: 38_500,
+    unit: "unit",
+    note: "最大 2 台",
+    description: "DJI Osmo Pocket を最大 2 台までお貸出し",
+    maxQuantity: 2,
+  },
+  {
+    id: "travel",
+    name: "遠方出張費",
+    priceYen: 11_000,
+    unit: "flat",
+    note: "関東圏外、実費 + 11,000 円",
+    description: "関東圏外への出張対応（交通費・宿泊費別）",
+    maxQuantity: 1,
+  },
 ] as const;
 
 export type WccExtra = (typeof WCC_EXTRAS)[number];
+
+/**
+ * WccExtra の unit に応じた価格表示文字列を返す。
+ * - time:   "+33,000 円 / 1 時間"
+ * - video:  "+33,000 円 / 1 本"
+ * - person: "+132,000 円 / 1 名"
+ * - unit:   "+38,500 円 / 1 台"
+ * - flat:   "実費 + 11,000 円"
+ */
+export function formatExtraPrice(extra: WccExtra): string {
+  const formattedYen = extra.priceYen.toLocaleString("ja-JP");
+  const unit = extra.unit;
+
+  switch (unit) {
+    case "time":
+      return `+${formattedYen} 円 / 1 時間`;
+    case "video":
+      return `+${formattedYen} 円 / 1 本`;
+    case "person":
+      return `+${formattedYen} 円 / 1 名`;
+    case "unit":
+      return `+${formattedYen} 円 / 1 台`;
+    case "flat":
+      return `実費 + ${formattedYen} 円`;
+    default: {
+      const _exhaustive: never = unit;
+      throw new Error(`Unknown extra unit: ${_exhaustive}`);
+    }
+  }
+}

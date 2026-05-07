@@ -41,7 +41,7 @@ export function HomePricingSection({
             <div className="grid gap-20 md:grid-cols-2 md:items-center md:gap-24 lg:gap-32">
               <div className="min-w-0">
                 <h3
-                  className="max-w-xl text-left font-body text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink"
+                  className="max-w-xl text-left font-heading font-normal text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink"
                   style={sectionH2Style}
                   lang="ja"
                 >
@@ -91,7 +91,7 @@ export function HomePricingSection({
               <div className="grid gap-20 md:grid-cols-2 md:items-center md:gap-24 lg:gap-32">
                 <div className="min-w-0">
                   <h3
-                    className="max-w-xl text-left font-body text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink"
+                    className="max-w-xl text-left font-heading font-normal text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink"
                     style={sectionH2Style}
                     lang="ja"
                   >

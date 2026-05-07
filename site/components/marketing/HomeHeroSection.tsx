@@ -19,7 +19,7 @@ export function HomeHeroSection() {
             className="font-heading font-light text-[clamp(2.25rem,6vw,5rem)] leading-[1.1] tracking-[0.02em] text-ink"
             lang="ja"
           >
-            明日の2人へ
+            明日の<span className="hero-number">2</span>人へ
           </h1>
           <p className="max-w-xl font-body text-lg leading-relaxed text-ink-muted">
             24 時間以内に届く、2人だけの縦動画。

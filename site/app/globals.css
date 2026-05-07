@@ -85,6 +85,12 @@
 }
 
 @layer utilities {
+  /* Hero H1 の半角数字を Cormorant Garamond の漢字と同じ視覚サイズに揃える */
+  .hero-number {
+    font-size: 2em;
+    vertical-align: baseline;
+  }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;

@@ -57,7 +57,7 @@ export function HomePricingSection({
                   </span>
                 </p>
                 <p className="mt-4 font-body text-sm leading-relaxed text-ink-muted">
-                  6時間撮影 / 24時間納品 / 9:16 縦動画 2 本
+                  4時間撮影 / 24時間納品 / 9:16 縦動画 2 本
                 </p>
                 <Link
                   href="/pricing"

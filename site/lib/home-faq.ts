@@ -21,7 +21,7 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "フォト・ビデオチームと同時に入れますか？",
-        a: "可能です。進行を妨げない形で、SNS向けの瞬間を補完的に撮影します。",
+        a: "可能です。進行を妨げない形で、SNS向けの瞬間を撮影します。",
         seeAlso: [{ href: HOME_ANCHOR_HREF.whatIsWcc, label: "WCCとは" }],
       },
       {
@@ -42,7 +42,7 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "お支払いのタイミングは？",
-        a: "フォームよりお問い合わせいただいた後、オンライン（ZOOM）にて詳細をお伺いします。その後、最終的なお見積りと請求URLをメールでご案内します。お支払いは請求ページにて一括（税抜）となります。",
+        a: "フォームよりお問い合わせいただいた後、オンライン（ZOOM）にて詳細をお伺いします。その後、最終的なお見積りと請求URLをメールでお送りします。お支払いは請求ページにて一括（税抜）となります。",
         seeAlso: [
           { href: HOME_ANCHOR_HREF.pricing, label: "料金とプラン" },
           { href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" },
@@ -50,7 +50,7 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "予約後、日程はどのように確定しますか？",
-        a: "ご相談フォーム送信後、ZOOMでのお打ち合わせを経てお見積りをご案内します。お見積り金額の決済（お支払い）が完了した時点で、正式に日程（ご予約）が確定となります。",
+        a: "ご相談フォーム送信後、ZOOMでのお打ち合わせを経てお見積りをお送りします。お見積り金額の決済（お支払い）が完了した時点で、正式に日程（ご予約）が確定となります。",
         seeAlso: [
           { href: "/book", label: "ご予約" },
           { href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" },
@@ -66,7 +66,7 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "予約前に相談できますか？",
-        a: "可能です。まずはご相談フォームより、日程（未定でも可）とご希望内容をお気軽にお知らせください。",
+        a: "可能です。まずはご相談フォームより、日程（未定でも可）とご希望内容をお知らせください。",
         seeAlso: [{ href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" }],
       },
       {

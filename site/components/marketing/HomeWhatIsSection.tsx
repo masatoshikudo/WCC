@@ -21,13 +21,13 @@ export function HomeWhatIsSection() {
             </h2>
             <div className="flex flex-col gap-8">
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                翌朝、ふたりで見れる動画って、手元にある?
+                次の日の朝、ふたりで見れる動画って、手元にある?
               </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
                 当日、ふたりのそばにいる。笑ったとき、泣いたとき、ゲストと抱き合ったとき、全部そこにいて、全部拾う！iPhone で、9:16 で、ふたりだけの一本にするから。
               </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                次の日見てみて、最高に幸せだから！
+                朝起きたら見てみて、最高に幸せだから！
               </p>
               <Link
                 href="/pricing"

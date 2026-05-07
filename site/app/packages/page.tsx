@@ -13,7 +13,7 @@ export default function PackagesPage() {
   const faqs = [
     {
       q: "お支払いのタイミングは？",
-      a: "フォームよりお問い合わせいただいた後、オンライン（ZOOM）にて詳細をお伺いします。その後、最終的なお見積りと請求URLをメールでご案内します。お支払いは請求ページにて一括（税抜）となります。",
+      a: "フォームよりお問い合わせいただいた後、オンライン（ZOOM）にて詳細をお伺いします。その後、最終的なお見積りと請求URLをメールでお送りします。お支払いは請求ページにて一括（税抜）となります。",
     },
     {
       q: "どの機材で撮影しますか？",
@@ -21,7 +21,7 @@ export default function PackagesPage() {
     },
     {
       q: "フォト・ビデオチームと同時に入れますか？",
-      a: "可能です。フォト/ムービーの進行を妨げない形で、SNS向けの瞬間を補完的に撮影します。",
+      a: "可能です。フォト/ムービーの進行を妨げない形で、SNS向けの瞬間を撮影します。",
     },
     {
       q: "海外ウェディングにも対応できますか？",
@@ -101,7 +101,7 @@ export default function PackagesPage() {
           <h2 className="mt-2 font-display text-xl font-semibold text-ink">お支払いフロー</h2>
           <ul className="mt-4 space-y-2 font-body text-sm leading-relaxed text-ink-muted">
             <li>・ご相談フォーム送信後、担当より確認のメールとZOOM日程の調整</li>
-            <li>・ZOOMでのお打ち合わせ後にお見積りと決済リンクをご案内し、お支払い完了でご予約確定</li>
+            <li>・ZOOMでのお打ち合わせ後にお見積りと決済リンクをお送りし、お支払い完了でご予約確定</li>
             <li>・ご予約確定後は公式LINEで担当クリエイターと当日までやり取り</li>
           </ul>
         </div>

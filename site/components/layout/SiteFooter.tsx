@@ -24,7 +24,7 @@ export function SiteFooter() {
           </p>
 
           <p className="max-w-xs font-body text-sm leading-relaxed text-ink-muted">
-            結婚式の翌朝に届ける、
+            明日のふたりへ届ける、
             <br />
             ふたりだけの縦動画。
           </p>

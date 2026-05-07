@@ -10,30 +10,14 @@ import {
   HOME_CONTENT_INNER_COLUMN_CLASS,
   HOME_FAQ_SECTION_OUTER_CLASS,
 } from "@/lib/layout/home-sections";
+import { WCC_EXTRAS, formatExtraPrice } from "@/lib/plans";
 
 export const metadata: Metadata = {
   title: "料金プラン | For Your Wedding Day",
   description:
-    "結婚式当日の縦動画パッケージ。標準 176,000 円（税込）から。追加オプション・オーダーメイドプランもご用意。6時間撮影・24時間納品・9:16 縦動画 2 本。",
+    "結婚式当日の縦動画パッケージ。標準 176,000 円（税込）から。追加オプション・オーダーメイドプランもご用意。4時間撮影・24時間納品・9:16 縦動画 2 本。",
 };
 
-const EXTRAS = [
-  {
-    name: "撮影時間延長",
-    price: "+33,000 円 / 1 時間",
-    note: "標準 6 時間に追加",
-  },
-  {
-    name: "追加編集動画（9:16 縦動画）",
-    price: "+33,000 円 / 1 本",
-    note: "標準 2 本以上の編集",
-  },
-  {
-    name: "遠方出張費",
-    price: "実費 + 11,000 円",
-    note: "関東圏外への出張対応（交通費・宿泊費別）",
-  },
-] as const;
 
 const SECTION_H2_CLASS =
   "mx-auto max-w-4xl text-center font-display text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink";
@@ -64,9 +48,9 @@ export default function PricingPage() {
               料金プラン
             </h1>
             <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
-              6時間の同行撮影、当日中〜翌日納品。
+              4時間の同行撮影、24 時間以内の納品。
               <br />
-              ご相談は無料・日程未定でも受け付けています。
+              日程未定の段階からご相談いただけます。
             </p>
             <div className="mt-8">
               <Link
@@ -104,9 +88,9 @@ export default function PricingPage() {
               </div>
               <div>
                 <ul>
-                  {EXTRAS.map((item) => (
+                  {WCC_EXTRAS.map((item) => (
                     <li
-                      key={item.name}
+                      key={item.id}
                       className="border-t border-hairline py-5 first:border-t-0 first:pt-0"
                     >
                       <div className="flex items-baseline justify-between gap-4">
@@ -114,11 +98,11 @@ export default function PricingPage() {
                           {item.name}
                         </span>
                         <span className="shrink-0 font-body text-base tabular-nums text-ink">
-                          {item.price}
+                          {formatExtraPrice(item)}
                         </span>
                       </div>
                       <p className="mt-1 font-body text-sm leading-relaxed text-ink-muted">
-                        {item.note}
+                        {item.description}
                       </p>
                     </li>
                   ))}
@@ -153,16 +137,19 @@ export default function PricingPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="font-display text-3xl font-semibold tabular-nums text-ink">
-                  220,000 円
+                  330,000 円
                   <span className="ml-1 align-baseline text-sm font-medium text-ink-muted">
                     （税込）〜
                   </span>
                 </p>
                 <p className="font-body text-base leading-relaxed text-ink-muted">
-                  定型プランに収まらないご要望にも対応いたします。
+                  基本となる 4 時間撮影とクリエイター 1 名のご派遣はスタンダードプランと同じ。そのうえで、メニューにないご要望にも、お二人専用のプランとしてご対応します。
                 </p>
                 <p className="font-body text-base leading-relaxed text-ink-muted">
-                  2 日間にわたる撮影、海外挙式、企業イベント、その他特殊なご要件があれば、まずはご相談ください。お話を伺い、お二人専用のプランをお見積もりします。
+                  例: 結婚式以外のフォトジェニックな日常シーンの撮影、特定シーンへの密着強化、ご家族向けの別動画制作、企業イベントとの連動、複数会場移動を含む工程設計など。
+                </p>
+                <p className="font-body text-base leading-relaxed text-ink-muted">
+                  ご要件をお伺いしたうえで、お二人専用のプランをお見積もりします。
                 </p>
                 <div className="flex flex-col gap-2">
                   <Link

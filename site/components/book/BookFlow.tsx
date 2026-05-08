@@ -52,6 +52,7 @@ export function BookFlow() {
   const [referenceVideoUrlsText, setReferenceVideoUrlsText] = useState("");
   const [venueRestrictions, setVenueRestrictions] = useState("");
   const [emergencyContact, setEmergencyContact] = useState("");
+  const [extrasNote, setExtrasNote] = useState("");
   const [bookerEmailError, setBookerEmailError] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [submitState, setSubmitState] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -185,6 +186,7 @@ export function BookFlow() {
         referenceVideoUrls,
         venueRestrictions: venueRestrictions.trim() ? venueRestrictions.trim() : null,
         emergencyContact: emergencyContact.trim() ? emergencyContact.trim() : null,
+        extrasNote: extrasNote.trim() ? extrasNote.trim() : null,
         planId: BOOK_PLAN_ID,
         planLabel: BOOK_PLAN.label,
         priceLabel: BOOK_PLAN.priceLabel,
@@ -468,6 +470,20 @@ export function BookFlow() {
               </div>
 
               <div>
+                <label htmlFor="extras-note" className="font-body text-sm font-semibold text-ink">
+                  ご希望の追加オプション・撮影体制
+                </label>
+                <textarea
+                  id="extras-note"
+                  value={extrasNote}
+                  onChange={(e) => setExtrasNote(e.target.value)}
+                  rows={3}
+                  placeholder="例: 撮影時間を延長したい、2名体制希望、機材レンタルあり、遠方出張あり。わかる範囲でご記入ください。詳細はお見積もりにてご提案します。"
+                  className="mt-2 w-full rounded-sm border border-hairline bg-canvas px-3 py-2 font-body text-sm text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                />
+              </div>
+
+              <div>
                 <p className="font-body text-sm font-semibold text-ink">使用予定媒体（複数選択可）</p>
                 <div className="mt-3 grid gap-2 sm:grid-cols-2">
                   {DELIVERY_CHANNEL_OPTIONS.map((option) => (
@@ -594,6 +610,12 @@ export function BookFlow() {
                 <dt className="text-ink-muted">希望シーン</dt>
                 <dd className="max-w-[60%] text-right text-ink">{requestedScenes.trim() || "—"}</dd>
               </div>
+              {extrasNote.trim() ? (
+                <div className="flex justify-between gap-4">
+                  <dt className="text-ink-muted">追加オプション・撮影体制</dt>
+                  <dd className="max-w-[60%] text-right text-ink">{extrasNote.trim()}</dd>
+                </div>
+              ) : null}
               <div className="flex justify-between gap-4">
                 <dt className="text-ink-muted">撮影制限情報</dt>
                 <dd className="max-w-[60%] text-right text-ink">{venueRestrictions.trim() || "—"}</dd>
@@ -602,7 +624,7 @@ export function BookFlow() {
           </section>
 
           <p className="font-body text-sm leading-relaxed text-ink-muted">
-            送信後、担当より見積と請求URLをメールでお送りします。48時間以内の納品条件を前提に、当日の進行に合わせて最終調整します。
+            送信後、担当より見積と請求URLをメールでお送りします。24時間以内の納品条件を前提に、当日の進行に合わせて最終調整します。
           </p>
 
           {submitState === "success" ? (

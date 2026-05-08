@@ -22,6 +22,7 @@ export type RecordBookingIntentInput = {
   referenceVideoUrls: string[];
   venueRestrictions: string | null;
   emergencyContact: string | null;
+  extrasNote: string | null;
   planId: string;
   planLabel: string;
   priceLabel: string;

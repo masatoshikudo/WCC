@@ -40,6 +40,7 @@ alter table if exists public.booking_intents add column if not exists delivery_c
 alter table if exists public.booking_intents add column if not exists reference_video_urls text[] not null default '{}';
 alter table if exists public.booking_intents add column if not exists venue_restrictions text;
 alter table if exists public.booking_intents add column if not exists emergency_contact text;
+alter table if exists public.booking_intents add column if not exists extras_note text;
 alter table if exists public.booking_intents drop constraint if exists booking_intents_coverage_scope_check;
 alter table if exists public.booking_intents add constraint booking_intents_coverage_scope_check check (coverage_scope in ('ceremony_only', 'ceremony_reception', 'through_afterparty'));
 

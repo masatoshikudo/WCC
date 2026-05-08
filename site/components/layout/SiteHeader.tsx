@@ -39,11 +39,11 @@ export function SiteHeader() {
             ))}
           </nav>
           <a
-            href="https://www.instagram.com/"
+            href="https://www.instagram.com/for_your_weddingday/"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="hidden min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
-            aria-label="Instagram"
+            aria-label="Instagram (@for_your_weddingday)"
           >
             <img
               src="/icons/instagram-brands-solid-full.svg"
@@ -53,11 +53,11 @@ export function SiteHeader() {
             />
           </a>
           <a
-            href="https://www.threads.net/"
+            href="https://www.threads.com/@for_your_weddingday"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="hidden min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
-            aria-label="Threads"
+            aria-label="Threads (@for_your_weddingday)"
           >
             <img
               src="/icons/threads-brands-solid-full.svg"
@@ -67,11 +67,11 @@ export function SiteHeader() {
             />
           </a>
           <a
-            href="https://www.tiktok.com/"
+            href="https://www.tiktok.com/@foryourweddingday"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="hidden min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
-            aria-label="TikTok"
+            aria-label="TikTok (@foryourweddingday)"
           >
             <img
               src="/icons/tiktok-brands-solid-full.svg"
@@ -132,11 +132,11 @@ export function SiteHeader() {
             </Link>
             <div className="mt-2 flex items-center gap-3 border-t border-hairline pt-3">
               <a
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/for_your_weddingday/"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                aria-label="Instagram"
+                aria-label="Instagram (@for_your_weddingday)"
               >
                 <img
                   src="/icons/instagram-brands-solid-full.svg"
@@ -146,11 +146,11 @@ export function SiteHeader() {
                 />
               </a>
               <a
-                href="https://www.threads.net/"
+                href="https://www.threads.com/@for_your_weddingday"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                aria-label="Threads"
+                aria-label="Threads (@for_your_weddingday)"
               >
                 <img
                   src="/icons/threads-brands-solid-full.svg"
@@ -160,11 +160,11 @@ export function SiteHeader() {
                 />
               </a>
               <a
-                href="https://www.tiktok.com/"
+                href="https://www.tiktok.com/@foryourweddingday"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                aria-label="TikTok"
+                aria-label="TikTok (@foryourweddingday)"
               >
                 <img
                   src="/icons/tiktok-brands-solid-full.svg"

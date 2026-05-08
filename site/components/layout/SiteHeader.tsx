@@ -10,10 +10,16 @@ const nav = [
   { href: HOME_ANCHOR_HREF.highlights, label: "GALLERY" },
 ] as const;
 
+const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
+const threadsUrl = process.env.NEXT_PUBLIC_THREADS_URL;
+const tiktokUrl = process.env.NEXT_PUBLIC_TIKTOK_URL;
+
 export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
+
+  const hasAnySocial = !!(instagramUrl || threadsUrl || tiktokUrl);
 
   return (
     <header className="relative h-20 shrink-0 border-b border-hairline bg-canvas md:h-24">
@@ -38,48 +44,54 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
-          <a
-            href="https://www.instagram.com/for_your_weddingday/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
-            aria-label="Instagram (@for_your_weddingday)"
-          >
-            <img
-              src="/icons/instagram-brands-solid-full.svg"
-              alt=""
-              aria-hidden="true"
-              className="h-8 w-8"
-            />
-          </a>
-          <a
-            href="https://www.threads.com/@for_your_weddingday"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
-            aria-label="Threads (@for_your_weddingday)"
-          >
-            <img
-              src="/icons/threads-brands-solid-full.svg"
-              alt=""
-              aria-hidden="true"
-              className="h-8 w-8"
-            />
-          </a>
-          <a
-            href="https://www.tiktok.com/@foryourweddingday"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
-            aria-label="TikTok (@foryourweddingday)"
-          >
-            <img
-              src="/icons/tiktok-brands-solid-full.svg"
-              alt=""
-              aria-hidden="true"
-              className="h-8 w-8"
-            />
-          </a>
+          {instagramUrl && (
+            <a
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
+              aria-label="Instagram (@for_your_weddingday)"
+            >
+              <img
+                src="/icons/instagram-brands-solid-full.svg"
+                alt=""
+                aria-hidden="true"
+                className="h-8 w-8"
+              />
+            </a>
+          )}
+          {threadsUrl && (
+            <a
+              href={threadsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
+              aria-label="Threads (@for_your_weddingday)"
+            >
+              <img
+                src="/icons/threads-brands-solid-full.svg"
+                alt=""
+                aria-hidden="true"
+                className="h-8 w-8"
+              />
+            </a>
+          )}
+          {tiktokUrl && (
+            <a
+              href={tiktokUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
+              aria-label="TikTok (@foryourweddingday)"
+            >
+              <img
+                src="/icons/tiktok-brands-solid-full.svg"
+                alt=""
+                aria-hidden="true"
+                className="h-8 w-8"
+              />
+            </a>
+          )}
           <Link
             href="/book"
             className="font-display hidden min-h-[52px] min-w-[52px] items-center justify-center rounded-full bg-accent px-6 text-xs font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:inline-flex"
@@ -130,50 +142,58 @@ export function SiteHeader() {
             >
               まず相談する
             </Link>
-            <div className="mt-2 flex items-center gap-3 border-t border-hairline pt-3">
-              <a
-                href="https://www.instagram.com/for_your_weddingday/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                aria-label="Instagram (@for_your_weddingday)"
-              >
-                <img
-                  src="/icons/instagram-brands-solid-full.svg"
-                  alt=""
-                  aria-hidden="true"
-                  className="h-8 w-8"
-                />
-              </a>
-              <a
-                href="https://www.threads.com/@for_your_weddingday"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                aria-label="Threads (@for_your_weddingday)"
-              >
-                <img
-                  src="/icons/threads-brands-solid-full.svg"
-                  alt=""
-                  aria-hidden="true"
-                  className="h-8 w-8"
-                />
-              </a>
-              <a
-                href="https://www.tiktok.com/@foryourweddingday"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                aria-label="TikTok (@foryourweddingday)"
-              >
-                <img
-                  src="/icons/tiktok-brands-solid-full.svg"
-                  alt=""
-                  aria-hidden="true"
-                  className="h-8 w-8"
-                />
-              </a>
-            </div>
+            {hasAnySocial && (
+              <div className="mt-2 flex items-center gap-3 border-t border-hairline pt-3">
+                {instagramUrl && (
+                  <a
+                    href={instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    aria-label="Instagram (@for_your_weddingday)"
+                  >
+                    <img
+                      src="/icons/instagram-brands-solid-full.svg"
+                      alt=""
+                      aria-hidden="true"
+                      className="h-8 w-8"
+                    />
+                  </a>
+                )}
+                {threadsUrl && (
+                  <a
+                    href={threadsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    aria-label="Threads (@for_your_weddingday)"
+                  >
+                    <img
+                      src="/icons/threads-brands-solid-full.svg"
+                      alt=""
+                      aria-hidden="true"
+                      className="h-8 w-8"
+                    />
+                  </a>
+                )}
+                {tiktokUrl && (
+                  <a
+                    href={tiktokUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    aria-label="TikTok (@foryourweddingday)"
+                  >
+                    <img
+                      src="/icons/tiktok-brands-solid-full.svg"
+                      alt=""
+                      aria-hidden="true"
+                      className="h-8 w-8"
+                    />
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </nav>
       ) : null}

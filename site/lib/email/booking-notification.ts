@@ -71,6 +71,9 @@ function buildText(input: RecordBookingIntentInput): string {
   if (input.requestedScenes?.trim()) {
     lines.push("", "撮影してほしいシーン", input.requestedScenes.trim());
   }
+  if (input.extrasNote?.trim()) {
+    lines.push("", "ご希望の追加オプション", input.extrasNote.trim());
+  }
   if (input.deliveryChannels.length > 0) {
     lines.push("", "使用予定媒体", input.deliveryChannels.join(", "));
   }

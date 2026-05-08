@@ -54,6 +54,7 @@ export async function recordBookingIntent(input: RecordBookingIntentInput): Prom
     reference_video_urls: input.referenceVideoUrls,
     venue_restrictions: input.venueRestrictions?.trim() || null,
     emergency_contact: input.emergencyContact?.trim() || null,
+    extras_note: input.extrasNote?.trim() || null,
     plan_id: input.planId,
     plan_label: input.planLabel,
     price_label: input.priceLabel,

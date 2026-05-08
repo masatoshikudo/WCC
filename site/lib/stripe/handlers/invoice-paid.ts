@@ -1,5 +1,6 @@
 import type Stripe from "stripe";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { sendPaymentConfirmationToCustomer } from "@/lib/email/payment-confirmation";
 
 const LOG = "[stripe-webhook][invoice-paid]";
 
@@ -44,7 +45,7 @@ export async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> 
     return;
   }
 
-  // 冪等 upsert: attempt_id が既存なら何もしない（success_page 経由のレコードを保護）
+  // 冪等 upsert: attempt_id が既存なら何もしない
   const { error: paymentError } = await supabase
     .from("booking_payments")
     .upsert(
@@ -76,6 +77,18 @@ export async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> 
   if (quoteUpdateError) {
     console.error(`${LOG} Failed to update booking_quotes status:`, quoteUpdateError.message);
     throw quoteUpdateError;
+  }
+
+  try {
+    await sendPaymentConfirmationToCustomer({
+      email: intent.email,
+      bookerName: intent.booker_name,
+      planLabel: intent.plan_label,
+    });
+  } catch (mailError) {
+    const message = mailError instanceof Error ? mailError.message : String(mailError);
+    console.error(`${LOG} Failed to send customer payment confirmation:`, message);
+    // メール失敗は webhook 全体を失敗にしない(DB は更新済み)
   }
 
   console.log(`${LOG} booking_payments upserted + booking_quotes set to paid for:`, invoice.id);

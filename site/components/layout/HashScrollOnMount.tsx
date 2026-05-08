@@ -23,7 +23,7 @@ function scrollToHashIfPresent() {
 
 /**
  * フルロード・クライアント遷移・同一ページ内のハッシュ変更で、
- * `/#pricing` 等のフラグメント先へスクロールする（旧 `/packages` リダイレクト含む）。
+ * `/#pricing` 等のフラグメント先へスクロールする。
  */
 export function HashScrollOnMount() {
   const pathname = usePathname();

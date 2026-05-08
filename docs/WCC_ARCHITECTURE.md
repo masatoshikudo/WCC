@@ -369,7 +369,7 @@ LINE Messaging API の Webhook を Supabase Edge Function で受信:
 | `#faq` | FAQ | 境界条件・不明点解消 |
 
 **旧ルート廃止:**
-- `/packages` → `/#pricing` (恒久リダイレクト)
+- `/packages` → `/pricing` (恒久リダイレクト)
 - `/portfolio` → `/#highlights` (恒久リダイレクト)
 
 ### 5.2 アンカー命名ルール

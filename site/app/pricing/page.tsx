@@ -15,7 +15,7 @@ import { WCC_EXTRAS, formatExtraPrice } from "@/lib/plans";
 export const metadata: Metadata = {
   title: "料金プラン | For Your Wedding Day",
   description:
-    "結婚式当日の縦動画パッケージ。標準 176,000 円（税込）から。追加オプション・オーダーメイドプランもご用意。4時間撮影・24時間納品・9:16 縦動画 2 本。",
+    "結婚式当日の縦動画パッケージ。標準 176,000 円（税込）から。追加オプション・オーダーメイドプランもご用意。4 時間撮影・24 時間納品・9:16 縦動画 2 本",
 };
 
 
@@ -48,9 +48,9 @@ export default function PricingPage() {
               料金プラン
             </h1>
             <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
-              4時間の同行撮影、24 時間以内の納品。
+              4時間の同行撮影、24 時間以内の納品
               <br />
-              日程未定の段階からご相談いただけます。
+              日程未定の段階からご相談いただけます
             </p>
             <div className="mt-8">
               <Link
@@ -108,7 +108,7 @@ export default function PricingPage() {
                   ))}
                 </ul>
                 <p className="mt-8 font-body text-xs leading-relaxed text-ink-muted">
-                  ※ 価格はすべて税込です。
+                  ※ 価格はすべて税込です
                 </p>
               </div>
             </div>
@@ -143,13 +143,15 @@ export default function PricingPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="font-body text-base leading-relaxed text-ink-muted">
-                  基本となる 4 時間撮影とクリエイター 1 名のご派遣はスタンダードプランと同じ。そのうえで、メニューにないご要望にも、お二人専用のプランとしてご対応します。
+                  基本となる 4 時間撮影とクリエイター 1 名のご派遣はスタンダードプランと同じ
+                  <br />
+                  そのうえで、メニューにないご要望にも、お二人専用のプランとしてご対応します
                 </p>
                 <p className="font-body text-base leading-relaxed text-ink-muted">
-                  例: 結婚式以外のフォトジェニックな日常シーンの撮影、特定シーンへの密着強化、ご家族向けの別動画制作、企業イベントとの連動、複数会場移動を含む工程設計など。
+                  例: 結婚式以外のフォトジェニックな日常シーンの撮影、特定シーンへの密着強化、ご家族向けの別動画制作、企業イベントとの連動、複数会場移動を含む工程設計など
                 </p>
                 <p className="font-body text-base leading-relaxed text-ink-muted">
-                  ご要件をお伺いしたうえで、お二人専用のプランをお見積もりします。
+                  ご要件をお伺いしたうえで、お二人専用のプランをお見積もりします
                 </p>
               </div>
             </div>

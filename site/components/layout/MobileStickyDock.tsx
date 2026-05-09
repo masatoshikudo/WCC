@@ -4,9 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import {
-  MOBILE_STICKY_DOCK_AUX_LINE_CLASS,
-  MOBILE_STICKY_DOCK_AUX_LINES,
-  MOBILE_STICKY_DOCK_AUX_STACK_CLASS,
   MOBILE_STICKY_DOCK_CLASS,
   MOBILE_STICKY_DOCK_PRIMARY_CLASS,
 } from "@/lib/layout/mobile-dock";
@@ -30,13 +27,6 @@ export function SiteMobileStickyDock() {
       <Link href="/book" className={MOBILE_STICKY_DOCK_PRIMARY_CLASS}>
         まず相談する
       </Link>
-      <div className={MOBILE_STICKY_DOCK_AUX_STACK_CLASS}>
-        {MOBILE_STICKY_DOCK_AUX_LINES.map((line) => (
-          <p key={line} className={MOBILE_STICKY_DOCK_AUX_LINE_CLASS}>
-            {line}
-          </p>
-        ))}
-      </div>
     </div>
   );
 }
@@ -78,13 +68,6 @@ export function BookMobileStickyDock({
         </button>
       ) : null}
 
-      <div className={MOBILE_STICKY_DOCK_AUX_STACK_CLASS}>
-        {MOBILE_STICKY_DOCK_AUX_LINES.map((line) => (
-          <p key={line} className={MOBILE_STICKY_DOCK_AUX_LINE_CLASS}>
-            {line}
-          </p>
-        ))}
-      </div>
     </div>
   );
 }

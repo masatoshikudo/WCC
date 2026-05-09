@@ -8,20 +8,6 @@ export const MOBILE_STICKY_DOCK_CLASS =
 export const MOBILE_STICKY_DOCK_PRIMARY_CLASS =
   "font-display inline-flex min-h-[56px] w-full items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80";
 
-/** SP ドック内、予約系 CTA の直下（お問い合わせ送信のみのドックでは使わない） */
-export const MOBILE_STICKY_DOCK_AUX_LINES = [
-  "日程が未定でもご相談いただけます",
-  "送信後に担当よりメールでご連絡します",
-] as const;
-
-/** 補助文ブロックのラッパー — SHELL_HEIGHT の上余白（mt-2）と揃える */
-export const MOBILE_STICKY_DOCK_AUX_STACK_CLASS =
-  "mt-2 flex flex-col gap-1 text-center";
-
-/** 各行のタイポ — SHELL_HEIGHT の本文高さと揃える（改行・2行×2想定で余裕を取る） */
-export const MOBILE_STICKY_DOCK_AUX_LINE_CLASS =
-  "font-body text-xs leading-relaxed text-ink-muted";
-
 /**
  * ドック帯の実高（MOBILE_STICKY_DOCK_CLASS の pt-4 + border-t + primary min-h + 補助文 + pb）
  * 補助文はお問い合わせ（送信のみ）では出さないが、レイアウト退避は常に最大高で取る

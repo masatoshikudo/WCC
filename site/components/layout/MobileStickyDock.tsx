@@ -27,6 +27,9 @@ export function SiteMobileStickyDock() {
       <Link href="/book" className={MOBILE_STICKY_DOCK_PRIMARY_CLASS}>
         まず相談する
       </Link>
+      <p className="mt-2 text-center font-body text-xs leading-relaxed text-ink-muted">
+        日程が未定でもご相談いただけます
+      </p>
     </div>
   );
 }

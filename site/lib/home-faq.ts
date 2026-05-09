@@ -42,7 +42,7 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "お支払いのタイミングは？",
-        a: "フォームよりお問い合わせいただいた後、お見積りをメールでお送りします 記載の Stripe 決済リンクより一括でお支払いいただき、決済完了後に ZOOM お打ち合わせの日程調整へ進みます",
+        a: "フォームよりお問い合わせいただいた後、お見積もりをメールでお送りします 記載の Stripe 決済リンクより一括でお支払いいただき、決済完了後に ZOOM お打ち合わせの日程調整へ進みます",
         seeAlso: [
           { href: HOME_ANCHOR_HREF.pricing, label: "料金とプラン" },
           { href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" },
@@ -50,7 +50,7 @@ export const HOME_FAQ_GROUPS = [
       },
       {
         q: "予約後、日程はどのように確定しますか？",
-        a: "フォーム送信後、お見積りメールをお送りします Stripe 決済リンクよりお支払いが完了した時点で、正式にご予約確定となります その後、ZOOM お打ち合わせにて撮影詳細を確認します",
+        a: "フォーム送信後、お見積もりメールをお送りします Stripe 決済リンクよりお支払いが完了した時点で、正式にご予約確定となります その後、ZOOM お打ち合わせにて撮影詳細を確認します",
         seeAlso: [
           { href: "/book", label: "ご予約" },
           { href: HOME_ANCHOR_HREF.serviceFlow, label: "ご利用の流れ" },

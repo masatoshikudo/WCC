@@ -48,7 +48,7 @@ export default function PricingPage() {
               料金プラン
             </h1>
             <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
-              4時間の同行撮影、24 時間以内の納品
+              4 時間の同行撮影、24 時間以内の納品
               <br />
               日程未定の段階からご相談いただけます
             </p>

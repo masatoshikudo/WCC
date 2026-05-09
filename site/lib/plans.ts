@@ -4,7 +4,7 @@
 
 /** 特商法「支払時期」など、いつ支払うかの明示用 */
 export const WCC_PAYMENT_TIMING_NOTE =
-  "お見積りメール記載の Stripe 決済リンクより一括でお支払いいただきます 決済完了後、公式 LINE へのご招待と ZOOM お打ち合わせ日程調整のご案内をお送りします";
+  "お見積もりメール記載の Stripe 決済リンクより一括でお支払いいただきます 決済完了後、公式 LINE へのご招待と ZOOM お打ち合わせ日程調整のご案内をお送りします";
 
 /** 税込表示の補足（支払時期と併用） */
 export const WCC_PACKAGE_TAX_LUMP_NOTE =
@@ -23,8 +23,8 @@ export const WCC_PACKAGE_PLANS = [
     priceExTaxYen: 160_000,
     priceInTaxYen: 176_000,
     items: [
-      "4時間連続のコンテンツ撮影",
-      "24時間以内に納品",
+      "4 時間連続のコンテンツ撮影",
+      "24 時間以内に納品",
       "ご決済後の ZOOM ミーティング（詳細打ち合わせ）",
       "契約後の公式LINEチャット相談",
       "編集済みのTikTokまたはReels動画2本",

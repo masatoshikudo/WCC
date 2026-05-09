@@ -17,7 +17,10 @@ export function FooterCtaSection() {
 
   return (
     <section className="border-b border-hairline pb-28 md:pb-32 md:text-center lg:pb-40">
-      <h2 className="font-display text-[1.75rem] font-bold leading-tight text-ink">
+      <h2
+        className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
+        style={{ letterSpacing: "0.02em" }}
+      >
         明日の2人のために、縦型動画を届けます
       </h2>
       <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">

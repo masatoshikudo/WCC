@@ -91,10 +91,7 @@ type HomeServiceFlowSectionProps = {
   sectionH2Style: CSSProperties;
 };
 
-export function HomeServiceFlowSection({
-  sectionH2ClassName,
-  sectionH2Style,
-}: HomeServiceFlowSectionProps) {
+export function HomeServiceFlowSection({}: HomeServiceFlowSectionProps) {
   return (
     <section
       id="service-flow"
@@ -102,7 +99,11 @@ export function HomeServiceFlowSection({
       aria-labelledby="service-flow-heading"
     >
       <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
-        <h2 id="service-flow-heading" className={sectionH2ClassName} style={sectionH2Style}>
+        <h2
+          id="service-flow-heading"
+          className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
+          style={{ letterSpacing: "0.02em" }}
+        >
           ご相談から当日までの流れ
         </h2>
         <p className="mx-auto mt-6 max-w-prose text-center font-body text-sm leading-relaxed text-ink-muted md:mt-8 md:text-base">

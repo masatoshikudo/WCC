@@ -203,7 +203,7 @@ export function BookFlow() {
       <TwoColumnCtaSection
         className="lg:mt-6 lg:items-start"
         leftAside={
-          <div className="lg:sticky lg:top-40 lg:self-start">
+          <div>
             <SideColumnVisualPanel />
           </div>
         }

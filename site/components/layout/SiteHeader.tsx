@@ -23,7 +23,7 @@ export function SiteHeader() {
   const hasAnySocial = !!(instagramUrl || threadsUrl || tiktokUrl);
 
   return (
-    <header className="relative h-24 shrink-0 border-b-2 border-hairline bg-canvas md:h-28">
+    <header className="relative h-24 shrink-0 border-b-[1.5px] border-hairline bg-canvas md:h-28">
       <div className="mx-auto flex h-full w-full max-w-content items-center justify-between gap-4 px-5 md:px-8 lg:px-12">
         <Link href="/" className="inline-flex items-center" onClick={closeMenu}>
           {/* デスクトップ用: 横長ロゴ */}

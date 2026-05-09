@@ -42,7 +42,7 @@ export function FooterCtaSection() {
         </div>
       </div>
       {/* /book 以外でのみレンダリングされるため、このボーダーも条件付きで全幅に引かれる */}
-      <div className="border-t-2 border-hairline" />
+      <div className="border-t-[1.5px] border-hairline" />
     </>
   );
 }

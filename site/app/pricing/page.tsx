@@ -70,7 +70,7 @@ export default function PricingPage() {
       />
 
       {/* Extras セクション */}
-      <section className="w-full border-t border-hairline bg-canvas">
+      <section className="w-full border-t-[1.5px] border-hairline bg-canvas">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-5xl py-32 md:py-48">
             <div className="grid gap-16 md:grid-cols-2 md:items-start md:gap-24 lg:gap-32">
@@ -117,7 +117,7 @@ export default function PricingPage() {
       </section>
 
       {/* Bespoke セクション */}
-      <section className="w-full border-t border-hairline bg-canvas">
+      <section className="w-full border-t-[1.5px] border-hairline bg-canvas">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-5xl py-32 md:py-48">
             <div className="grid gap-16 md:grid-cols-2 md:items-start md:gap-24 lg:gap-32">
@@ -173,7 +173,7 @@ export default function PricingPage() {
         sectionH2Style={SECTION_H2_STYLE}
       />
 
-      <div className="w-full border-t-2 border-hairline">
+      <div className="w-full border-t-[1.5px] border-hairline">
         <div className={HOME_FAQ_SECTION_OUTER_CLASS}>
           <HomeFaqSection
             sectionH2ClassName={SECTION_H2_CLASS}

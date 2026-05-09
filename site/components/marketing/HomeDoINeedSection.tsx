@@ -5,7 +5,7 @@ export function HomeDoINeedSection() {
   return (
     <section
       id="what-is-wcc"
-      className="w-full scroll-mt-24 border-t-2 border-hairline bg-canvas pt-32 pb-32 md:pt-48 md:pb-48"
+      className="w-full scroll-mt-24 border-t-[1.5px] border-hairline bg-canvas pt-32 pb-32 md:pt-48 md:pb-48"
     >
       <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
         <div className="mx-auto max-w-5xl">

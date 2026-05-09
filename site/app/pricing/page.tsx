@@ -134,14 +134,14 @@ export default function PricingPage() {
                   <br />
                   プラン
                 </h2>
-              </div>
-              <div className="flex flex-col gap-6">
-                <p className="font-display text-3xl font-semibold tabular-nums text-ink">
+                <p className="mt-6 font-display text-3xl font-semibold tabular-nums text-ink">
                   330,000 円
                   <span className="ml-1 align-baseline text-sm font-medium text-ink-muted">
                     （税込）〜
                   </span>
                 </p>
+              </div>
+              <div className="flex flex-col gap-6">
                 <p className="font-body text-base leading-relaxed text-ink-muted">
                   基本となる 4 時間撮影とクリエイター 1 名のご派遣はスタンダードプランと同じ。そのうえで、メニューにないご要望にも、お二人専用のプランとしてご対応します。
                 </p>

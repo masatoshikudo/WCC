@@ -23,10 +23,14 @@ export function HomeDoINeedSection() {
             </h2>
             <div className="flex flex-col gap-8">
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                すでに写真家や本編ムービーを手配していても、「翌日SNSで使える縦動画が手元にない」と気づく方は少なくありません。このサービスは、その空白にそっと応えます。
+                すでに写真家や本編ムービーを手配していても、「翌日SNSで使える縦動画が手元にない」と気づく方は少なくありません
+                <br />
+                このサービスは、その空白にそっと応えます
               </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                当日の余韻が薄れる前に、ふたりで、あるいはゲストと、あの日を振り返れる。そんな使い方を想定しているなら、このサービスはあなたに向いています。
+                当日の余韻が薄れる前に、ふたりで、あるいはゲストと、あの日を振り返れる
+                <br />
+                そんな使い方を想定しているなら、このサービスはあなたに向いています
               </p>
               <Link
                 href="/pricing"

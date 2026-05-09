@@ -13,10 +13,14 @@ type HomeFaqSectionProps = {
   sectionH2Style: CSSProperties;
 };
 
-export function HomeFaqSection({ sectionH2ClassName, sectionH2Style }: HomeFaqSectionProps) {
+export function HomeFaqSection({}: HomeFaqSectionProps) {
   return (
     <section id="faq" className={HOME_SECTION_ANCHOR_STACK_CLASS} aria-labelledby="faq-heading">
-      <h2 id="faq-heading" className={sectionH2ClassName} style={sectionH2Style}>
+      <h2
+        id="faq-heading"
+        className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
+        style={{ letterSpacing: "0.02em" }}
+      >
         よくある質問
       </h2>
       <div className="mt-10 space-y-12">

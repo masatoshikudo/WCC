@@ -21,7 +21,6 @@ type HomePricingSectionProps = {
 };
 
 export function HomePricingSection({
-  sectionH2ClassName,
   sectionH2Style,
   compact = false,
 }: HomePricingSectionProps) {
@@ -30,7 +29,10 @@ export function HomePricingSection({
   return (
     <section id="pricing" className={PRICING_SECTION_ROOT_CLASS}>
       <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
-        <h2 className={sectionH2ClassName} style={sectionH2Style}>
+        <h2
+          className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
+          style={{ letterSpacing: "0.02em" }}
+        >
           翌日までに
           <br />
           手元に届くパッケージ

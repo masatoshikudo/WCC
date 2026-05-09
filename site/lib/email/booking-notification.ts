@@ -43,7 +43,7 @@ function buildSubject(input: RecordBookingIntentInput): string {
 
 function buildText(input: RecordBookingIntentInput): string {
   const lines: string[] = [
-    "お二人からのご相談を受け付けました。",
+    "お二人からのご相談を受け付けました",
     "",
     DIVIDER,
     "お二人",
@@ -144,7 +144,7 @@ function buildPaymentFailedSubject(input: PaymentFailedNotificationInput): strin
 
 function buildPaymentFailedText(input: PaymentFailedNotificationInput): string {
   const lines: string[] = [
-    "お支払いの失敗を検知しました。",
+    "お支払いの失敗を検知しました",
     "",
     DIVIDER,
     "顧客",

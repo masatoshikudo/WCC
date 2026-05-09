@@ -12,11 +12,11 @@ const FOOTER_NAV_LINKS = [
 export function SiteFooter() {
   return (
     <footer className="border-t-2 border-hairline bg-canvas">
-      {/* メインコンテンツ */}
-      <div className="mx-auto w-full max-w-content px-4 pt-40 md:px-6 md:pt-48 lg:px-8">
-        <FooterCtaSection />
+      {/* FooterCTA — /book では null を返すためボーダーも出ない */}
+      <FooterCtaSection />
 
-        {/* ブランドブロック */}
+      {/* ブランドブロック */}
+      <div className="mx-auto w-full max-w-content px-4 md:px-6 lg:px-8">
         <div className="mt-24 flex flex-col items-center gap-8 text-center md:mt-28 lg:mt-32">
           <Image
             src="/Footer_FYWD_logo.png"

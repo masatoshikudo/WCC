@@ -16,29 +16,33 @@ export function FooterCtaSection() {
   }
 
   return (
-    <section className="border-b-2 border-hairline pb-28 md:pb-32 md:text-center lg:pb-40">
-      <h2
-        className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
-        style={{ letterSpacing: "0.02em" }}
-      >
-        明日の2人のために、
-        <br />
-        縦型動画を届けます
-      </h2>
-      <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
-        残したい瞬間、ひとつでいい！教えてくれたら、そこから一緒に考えるから！
-      </p>
-      <p className="mt-2 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
-        日程が決まってなくても、全然大丈夫！まずは話そう！
-      </p>
-      <div className="mt-6 flex flex-wrap gap-3 md:justify-center">
-        <Link
-          href="/book"
-          className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80 md:inline-flex"
+    <>
+      <div className="mx-auto w-full max-w-content px-4 pt-40 pb-28 md:px-6 md:pt-48 md:pb-32 md:text-center lg:px-8 lg:pb-40">
+        <h2
+          className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
+          style={{ letterSpacing: "0.02em" }}
         >
-          まず相談する
-        </Link>
+          明日の2人のために、
+          <br />
+          縦型動画を届けます
+        </h2>
+        <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
+          残したい瞬間、ひとつでいい！教えてくれたら、そこから一緒に考えるから！
+        </p>
+        <p className="mt-2 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
+          日程が決まってなくても、全然大丈夫！まずは話そう！
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3 md:justify-center">
+          <Link
+            href="/book"
+            className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80 md:inline-flex"
+          >
+            まず相談する
+          </Link>
+        </div>
       </div>
-    </section>
+      {/* /book 以外でのみレンダリングされるため、このボーダーも条件付きで全幅に引かれる */}
+      <div className="border-t-2 border-hairline" />
+    </>
   );
 }

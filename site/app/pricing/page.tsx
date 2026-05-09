@@ -34,7 +34,7 @@ export default function PricingPage() {
       />
 
       {/* ページヘッダー帯 */}
-      <section className="w-full border-b border-hairline bg-canvas px-4 pt-24 pb-20 md:pt-32 md:pb-28">
+      <section className="w-full bg-canvas px-4 pt-24 pb-20 md:pt-32 md:pb-28">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-2xl text-center">
             <p className="font-display text-sm uppercase tracking-[0.15em] text-ink-muted">
@@ -173,11 +173,13 @@ export default function PricingPage() {
         sectionH2Style={SECTION_H2_STYLE}
       />
 
-      <div className={HOME_FAQ_SECTION_OUTER_CLASS}>
-        <HomeFaqSection
-          sectionH2ClassName={SECTION_H2_CLASS}
-          sectionH2Style={SECTION_H2_STYLE}
-        />
+      <div className="w-full border-t-2 border-hairline">
+        <div className={HOME_FAQ_SECTION_OUTER_CLASS}>
+          <HomeFaqSection
+            sectionH2ClassName={SECTION_H2_CLASS}
+            sectionH2Style={SECTION_H2_STYLE}
+          />
+        </div>
       </div>
     </>
   );

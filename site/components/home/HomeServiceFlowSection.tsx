@@ -3,7 +3,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { HOME_CONTENT_INNER_COLUMN_CLASS } from "@/lib/layout/home-sections";
 
 const SERVICE_FLOW_SECTION_ROOT_CLASS =
-  "w-full scroll-mt-48 border-t border-hairline bg-canvas pt-40 pb-40 md:pt-48 md:pb-48";
+  "w-full scroll-mt-48 border-t-2 border-hairline bg-canvas pt-40 pb-40 md:pt-48 md:pb-48";
 
 type FlowStep = {
   title: string;

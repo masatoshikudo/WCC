@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { LEGAL_PAGE_HREF } from "@/lib/site-links";
 import { FooterCtaSection } from "@/components/layout/FooterCtaSection";
@@ -16,12 +17,13 @@ export function SiteFooter() {
 
         {/* ブランドブロック */}
         <div className="mt-24 flex flex-col items-center gap-8 text-center md:mt-28 lg:mt-32">
-          <p
-            className="font-heading font-normal text-[1.35rem] leading-snug text-ink md:text-[1.5rem]"
-            style={{ letterSpacing: "0.02em" }}
-          >
-            For Your Wedding Day
-          </p>
+          <Image
+            src="/Footer_FYWD_logo.png"
+            alt="For Your Wedding Day"
+            width={1600}
+            height={1772}
+            className="w-24 h-auto"
+          />
 
           <p className="max-w-xs font-body text-sm leading-relaxed text-ink-muted">
             明日のふたりへ届ける、

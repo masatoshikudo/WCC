@@ -26,12 +26,22 @@ export function SiteHeader() {
     <header className="relative h-24 shrink-0 border-b border-hairline bg-canvas md:h-28">
       <div className="mx-auto flex h-full w-full max-w-content items-center justify-between gap-4 px-5 md:px-8 lg:px-12">
         <Link href="/" className="inline-flex items-center" onClick={closeMenu}>
+          {/* デスクトップ用: 横長ロゴ */}
           <Image
-            src="/FYWD_logo.png"
+            src="/FYWD_logo_PC.png"
             alt="For Your Wedding Day"
             width={1600}
-            height={336}
-            className="h-12 w-auto md:h-16"
+            height={329}
+            className="hidden h-16 w-auto md:block"
+            priority
+          />
+          {/* モバイル用: シンボルのみ正方形ロゴ */}
+          <Image
+            src="/FYWD_logo_SP.png"
+            alt="For Your Wedding Day"
+            width={1600}
+            height={1600}
+            className="block h-12 w-auto md:hidden"
             priority
           />
         </Link>

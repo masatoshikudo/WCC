@@ -101,7 +101,7 @@ export function HomeServiceFlowSection({}: HomeServiceFlowSectionProps) {
       <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
         <h2
           id="service-flow-heading"
-          className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
+          className="text-center font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
           style={{ letterSpacing: "0.02em" }}
         >
           ご相談から当日までの流れ

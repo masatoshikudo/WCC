@@ -21,7 +21,9 @@ export function FooterCtaSection() {
         className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
         style={{ letterSpacing: "0.02em" }}
       >
-        明日の2人のために、縦型動画を届けます
+        明日の2人のために、
+        <br />
+        縦型動画を届けます
       </h2>
       <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
         残したい瞬間、ひとつでいい！教えてくれたら、そこから一緒に考えるから！

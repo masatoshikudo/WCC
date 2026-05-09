@@ -30,7 +30,7 @@ export function HomePricingSection({
     <section id="pricing" className={PRICING_SECTION_ROOT_CLASS}>
       <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
         <h2
-          className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
+          className="text-center font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
           style={{ letterSpacing: "0.02em" }}
         >
           翌日までに

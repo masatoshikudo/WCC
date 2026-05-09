@@ -18,7 +18,7 @@ export function HomeFaqSection({}: HomeFaqSectionProps) {
     <section id="faq" className={HOME_SECTION_ANCHOR_STACK_CLASS} aria-labelledby="faq-heading">
       <h2
         id="faq-heading"
-        className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
+        className="text-center font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
         style={{ letterSpacing: "0.02em" }}
       >
         よくある質問

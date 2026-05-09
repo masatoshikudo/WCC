@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -24,12 +25,15 @@ export function SiteHeader() {
   return (
     <header className="relative h-20 shrink-0 border-b border-hairline bg-canvas md:h-24">
       <div className="mx-auto flex h-full w-full max-w-content items-center justify-between gap-4 px-5 md:px-8 lg:px-12">
-        <Link
-          href="/"
-          className="font-heading text-sm font-medium tracking-[0.04em] text-ink md:text-base"
-          onClick={closeMenu}
-        >
-          For Your Wedding Day
+        <Link href="/" className="inline-flex items-center" onClick={closeMenu}>
+          <Image
+            src="/FYWD_logo.png"
+            alt="For Your Wedding Day"
+            width={1600}
+            height={336}
+            className="h-8 w-auto md:h-9"
+            priority
+          />
         </Link>
 
         <div className="flex items-center gap-3">

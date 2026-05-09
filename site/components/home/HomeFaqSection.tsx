@@ -32,7 +32,7 @@ export function HomeFaqSection({}: HomeFaqSectionProps) {
             >
               {group.title}
             </h3>
-            <div className="mt-4 divide-y-2 divide-hairline border-y-2 border-hairline">
+            <div className="mt-4 divide-y-[1.5px] divide-hairline border-y-[1.5px] border-hairline">
               {group.items.map((faq) => (
                 <details key={faq.q} className="group py-4">
                   <summary className="font-body flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-ink">

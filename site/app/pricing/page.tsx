@@ -73,7 +73,7 @@ export default function PricingPage() {
       <section className="w-full border-t-[1.5px] border-hairline bg-canvas">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-5xl py-32 md:py-48">
-            <div className="grid gap-16 md:grid-cols-2 md:items-start md:gap-24 lg:gap-32">
+            <div className="grid gap-16 md:grid-cols-2 md:items-center md:gap-24 lg:gap-32">
               <div>
                 <p className="font-display text-sm uppercase tracking-[0.15em] text-ink-muted">
                   Extras
@@ -120,7 +120,7 @@ export default function PricingPage() {
       <section className="w-full border-t-[1.5px] border-hairline bg-canvas">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-5xl py-32 md:py-48">
-            <div className="grid gap-16 md:grid-cols-2 md:items-start md:gap-24 lg:gap-32">
+            <div className="grid gap-16 md:grid-cols-2 md:items-center md:gap-24 lg:gap-32">
               <div>
                 <p className="font-display text-sm uppercase tracking-[0.15em] text-ink-muted">
                   Bespoke
@@ -151,17 +151,6 @@ export default function PricingPage() {
                 <p className="font-body text-base leading-relaxed text-ink-muted">
                   ご要件をお伺いしたうえで、お二人専用のプランをお見積もりします。
                 </p>
-                <div className="flex flex-col gap-2">
-                  <Link
-                    href="/book"
-                    className="font-display inline-flex min-h-[52px] min-w-[200px] items-center justify-center self-start rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80"
-                  >
-                    まず相談する
-                  </Link>
-                  <p className="font-body text-xs leading-relaxed text-ink-muted">
-                    日程が未定でもご相談いただけます
-                  </p>
-                </div>
               </div>
             </div>
           </div>

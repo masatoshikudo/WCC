@@ -30,7 +30,7 @@ export function HomeDoINeedSection() {
               <p className="font-body text-base leading-relaxed text-ink-muted">
                 当日の余韻が薄れる前に、ふたりで、あるいはゲストと、あの日を振り返れる
                 <br />
-                そんな使い方を想定しているなら、このサービスはあなたに向いています
+                そんな使い方を想定しているなら、このサービスはふたりに向いています
               </p>
               <Link
                 href="/pricing"

@@ -16,7 +16,7 @@ export function FooterCtaSection() {
   }
 
   return (
-    <section className="border-b border-hairline pb-28 md:pb-32 md:text-center lg:pb-40">
+    <section className="border-b-2 border-hairline pb-28 md:pb-32 md:text-center lg:pb-40">
       <h2
         className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
         style={{ letterSpacing: "0.02em" }}

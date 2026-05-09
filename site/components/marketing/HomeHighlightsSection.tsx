@@ -24,7 +24,7 @@ export function HomeHighlightsSection() {
   return (
     <section
       id="highlights"
-      className="w-full scroll-mt-24 border-t border-hairline bg-canvas pt-24 pb-32 md:pt-32 md:pb-48"
+      className="w-full scroll-mt-24 border-t-2 border-hairline bg-canvas pt-24 pb-32 md:pt-32 md:pb-48"
     >
       <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
         <div className="mx-auto max-w-4xl text-center">

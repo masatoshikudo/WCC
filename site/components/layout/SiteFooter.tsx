@@ -12,13 +12,8 @@ const FOOTER_NAV_LINKS = [
 export function SiteFooter() {
   return (
     <footer className="border-t-2 border-hairline bg-canvas">
-      {/* FooterCTA — ボーダーは下の全幅 div で引く */}
-      <div className="mx-auto w-full max-w-content px-4 pt-40 md:px-6 md:pt-48 lg:px-8">
-        <FooterCtaSection />
-      </div>
-
-      {/* FooterCTA 下端ボーダー — ビューポート全幅 */}
-      <div className="border-t-2 border-hairline" />
+      {/* FooterCTA — /book では null を返すためボーダーも出ない */}
+      <FooterCtaSection />
 
       {/* ブランドブロック */}
       <div className="mx-auto w-full max-w-content px-4 md:px-6 lg:px-8">

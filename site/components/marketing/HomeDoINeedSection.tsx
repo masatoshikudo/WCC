@@ -11,7 +11,7 @@ export function HomeDoINeedSection() {
         <div className="mx-auto max-w-5xl">
           <div className="grid gap-16 md:grid-cols-2 md:items-start md:gap-24 lg:gap-32">
             <h2
-              className="font-heading font-normal text-[clamp(2rem,5vw,4rem)] leading-[1.12] text-ink md:sticky md:top-32"
+              className="font-heading font-normal text-[clamp(2rem,5vw,4rem)] leading-[1.12] text-ink"
               style={{ letterSpacing: "0.02em" }}
               lang="en"
             >

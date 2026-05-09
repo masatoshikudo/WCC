@@ -22,7 +22,7 @@ export function SiteFooter() {
             alt="For Your Wedding Day"
             width={1600}
             height={1772}
-            className="w-24 h-auto"
+            className="h-[180px] w-auto"
           />
 
           <p className="max-w-xs font-body text-sm leading-relaxed text-ink-muted">

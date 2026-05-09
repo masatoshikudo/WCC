@@ -11,7 +11,7 @@ const FOOTER_NAV_LINKS = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t-2 border-hairline bg-canvas">
+    <footer className="border-t-[1.5px] border-hairline bg-canvas">
       {/* FooterCTA — /book では null を返すためボーダーも出ない */}
       <FooterCtaSection />
 
@@ -53,7 +53,7 @@ export function SiteFooter() {
       </div>
 
       {/* 法務情報 — ボーダーをビューポート全幅に伸ばすためコンテナの外に出す */}
-      <div className="mt-16 border-t-2 border-hairline md:mt-20">
+      <div className="mt-16 border-t-[1.5px] border-hairline md:mt-20">
         <div className="mx-auto w-full max-w-content px-4 pt-8 pb-16 md:px-6 md:pb-20 md:text-center lg:px-8">
           <p className="font-body text-sm text-ink-muted">
             © {new Date().getFullYear()} For Your Wedding Day. All rights reserved.

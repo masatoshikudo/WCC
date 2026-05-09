@@ -2,7 +2,7 @@ import { HOME_CONTENT_INNER_COLUMN_CLASS } from "@/lib/layout/home-sections";
 import { cn } from "@/lib/utils/cn";
 
 const PRICING_SECTION_ROOT_CLASS = cn(
-  "w-full scroll-mt-48 mt-24 border-t-2 border-hairline pt-40 pb-0 md:mt-28 md:pt-48 md:pb-48",
+  "w-full scroll-mt-48 mt-24 border-t-[1.5px] border-hairline pt-40 pb-0 md:mt-28 md:pt-48 md:pb-48",
   "bg-canvas",
 );
 

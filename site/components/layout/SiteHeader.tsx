@@ -23,7 +23,7 @@ export function SiteHeader() {
   const hasAnySocial = !!(instagramUrl || threadsUrl || tiktokUrl);
 
   return (
-    <header className="relative h-20 shrink-0 border-b border-hairline bg-canvas md:h-24">
+    <header className="relative h-24 shrink-0 border-b border-hairline bg-canvas md:h-28">
       <div className="mx-auto flex h-full w-full max-w-content items-center justify-between gap-4 px-5 md:px-8 lg:px-12">
         <Link href="/" className="inline-flex items-center" onClick={closeMenu}>
           <Image
@@ -31,7 +31,7 @@ export function SiteHeader() {
             alt="For Your Wedding Day"
             width={1600}
             height={336}
-            className="h-8 w-auto md:h-9"
+            className="h-12 w-auto md:h-16"
             priority
           />
         </Link>
@@ -125,7 +125,7 @@ export function SiteHeader() {
       {isMenuOpen ? (
         <nav
           id="mobile-menu"
-          className="absolute left-0 top-20 z-20 w-full border-b border-hairline bg-canvas md:hidden"
+          className="absolute left-0 top-24 z-20 w-full border-b border-hairline bg-canvas md:hidden"
           aria-label="モバイルメイン"
         >
           <div className="mx-auto flex w-full max-w-content flex-col px-4 py-3">

@@ -43,10 +43,10 @@ function buildText(greeting: string, input: RecordBookingIntentInput): string {
   const lines: string[] = [
     greeting,
     "",
-    "このたびはご相談をありがとうございます。",
+    "このたびはご相談をありがとうございます",
     "",
-    "内容を確認のうえ、担当よりお見積もりをメールでお送りします。",
-    "通常 2 営業日以内のご連絡となります。",
+    "内容を確認のうえ、担当よりお見積もりをメールでお送りします",
+    "通常 2 営業日以内のご連絡となります",
     "",
     DIVIDER,
     "お預かりした内容",
@@ -79,7 +79,7 @@ function buildText(greeting: string, input: RecordBookingIntentInput): string {
   lines.push(
     DIVIDER,
     "",
-    "お急ぎの場合は、このメールに返信いただくか、公式サイトからお問い合わせください。",
+    "お急ぎの場合は、このメールに返信いただくか、公式サイトからお問い合わせください",
     "",
     DIVIDER,
     "For Your Wedding Day",

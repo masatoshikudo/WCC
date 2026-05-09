@@ -22,9 +22,9 @@ export function HomeHeroSection() {
             明日の<span className="hero-number">2</span>人へ
           </h1>
           <p className="max-w-xl font-body text-lg leading-relaxed text-ink-muted">
-            24 時間以内に届く、2人だけの縦動画。
+            24 時間以内に届く、2人だけの縦動画
             <br />
-            SNS で、家族へ、ゲストへ、すぐ送れる。
+            SNS で、家族へ、ゲストへ、すぐ送れる
           </p>
           <Link
             href={HOME_ANCHOR_HREF.pricing}

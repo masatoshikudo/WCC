@@ -40,8 +40,9 @@ export function HomeHighlightsSection() {
             そのまま
           </h2>
           <p className="mx-auto mt-6 max-w-2xl font-body text-base leading-relaxed text-ink-muted md:mt-8">
-            その日の空気をそのまま残した、9:16 の縦動画作例。
-            あの一日の高まりが、どんな形で残るのかをご覧ください。
+            その日の空気をそのまま残した、9:16 の縦動画作例
+            <br />
+            あの一日の高まりが、どんな形で残るのかをご覧ください
           </p>
         </div>
         <div className="mt-12 grid grid-cols-1 gap-6 md:mt-16 md:grid-cols-3">

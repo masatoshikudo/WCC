@@ -24,6 +24,7 @@ export function HighlightVideoCard({ slide }: Props) {
         src={slide.src}
         poster={slide.poster}
         playsInline
+        muted
         preload="metadata"
         onEnded={() => setPlaying(false)}
       />

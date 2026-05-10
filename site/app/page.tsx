@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import dynamic from "next/dynamic";
 import { HomeHeroSection } from "@/components/marketing/HomeHeroSection";
-import { HomeHighlightsSection } from "@/components/marketing/HomeHighlightsSection";
+// import { HomeHighlightsSection } from "@/components/marketing/HomeHighlightsSection";
 import { HomeWhatIsSection } from "@/components/marketing/HomeWhatIsSection";
 import { HomeDoINeedSection } from "@/components/marketing/HomeDoINeedSection";
 import { HomePricingSectionSkeleton } from "@/components/home/HomeDynamicSkeletons";
@@ -21,7 +21,7 @@ export default function HomePage() {
     <>
       <HomeHeroSection />
 
-      <HomeHighlightsSection />
+      {/* <HomeHighlightsSection /> */}
 
       <HomeWhatIsSection />
 

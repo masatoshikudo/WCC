@@ -8,7 +8,7 @@ import { HOME_ANCHOR_HREF } from "@/lib/site-links";
 
 const nav = [
   { href: HOME_ANCHOR_HREF.pricing, label: "PRICING" },
-  { href: HOME_ANCHOR_HREF.highlights, label: "GALLERY" },
+  { href: "/founding-couple", label: "GALLERY" },
 ] as const;
 
 const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL;

@@ -33,9 +33,7 @@ export function HomePricingSection({
           className="text-center font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
           style={{ letterSpacing: "0.02em" }}
         >
-          翌日までに
-          <br />
-          手元に届くパッケージ
+          余韻が残るうちに届くプラン
         </h2>
 
         {compact ? (
@@ -59,7 +57,7 @@ export function HomePricingSection({
                   </span>
                 </p>
                 <p className="mt-4 font-body text-sm leading-relaxed text-ink-muted">
-                  4時間撮影 / 24時間納品 / 9:16 縦動画 2 本
+                  4時間撮影 / 24時間以内納品 / 9:16 縦動画 2本
                 </p>
                 <Link
                   href="/pricing"

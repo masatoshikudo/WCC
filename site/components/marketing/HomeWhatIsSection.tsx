@@ -15,23 +15,23 @@ export function HomeWhatIsSection() {
               style={{ letterSpacing: "0.02em" }}
               lang="ja"
             >
-              ウェディング
-              <br />
-              コンテンツ
+              ウェディングコンテンツ
               <br />
               とは
             </h2>
             <div className="flex flex-col gap-8">
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                次の日の朝、ふたりで見れる動画って、手元にある?
+                式の翌朝、ふたりで見返せる動画は、手元にありますか
               </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                当日、ふたりのそばにいる
+                写真が届くまでの数週間
                 <br />
-                笑ったとき、泣いたとき、ゲストと抱き合ったとき、全部そこにいて、全部拾う！iPhone で、9:16 で、ふたりだけの一本にするから
+                ムービーが届くまでの数ヶ月
               </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                朝起きたら見てみて、最高に幸せだから！
+                その前に、当日の空気をもう一度見返せるように
+                <br />
+                余韻が一番濃い時間のうちに、ふたりの手元へ届ける動画です
               </p>
               <Link
                 href="/pricing"

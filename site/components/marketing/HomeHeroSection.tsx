@@ -19,12 +19,17 @@ export function HomeHeroSection() {
             className="font-heading font-light text-[clamp(2.25rem,6vw,5rem)] leading-[1.1] tracking-[0.02em] text-ink"
             lang="ja"
           >
-            明日の<span className="hero-number">2</span>人へ
+            明日のふたりへ
           </h1>
           <p className="max-w-xl font-body text-lg leading-relaxed text-ink-muted">
-            24 時間以内に届く、2人だけの縦動画
+            24時間以内に届く
             <br />
-            SNS で、家族へ、ゲストへ、すぐ送れる
+            ふたりだけの縦型ウェディング動画
+          </p>
+          <p className="max-w-xl font-body text-lg leading-relaxed text-ink-muted">
+            SNSで、家族へ、ゲストへ
+            <br />
+            余韻が残るうちに、すぐ送れる
           </p>
           <Link
             href={HOME_ANCHOR_HREF.pricing}

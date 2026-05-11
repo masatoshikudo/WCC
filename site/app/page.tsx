@@ -36,7 +36,7 @@ export default function HomePage() {
               lang="ja"
             >
               <span className="font-display">2026</span> 年{" "}
-              <span className="font-display">6</span> 月、
+              <span className="font-display">6</span> 月
               <br />
               撮影をはじめます
             </h2>

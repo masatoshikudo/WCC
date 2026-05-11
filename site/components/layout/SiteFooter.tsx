@@ -27,9 +27,9 @@ export function SiteFooter() {
           />
 
           <p className="max-w-xs font-body text-sm leading-relaxed text-ink-muted">
-            明日のふたりへ届ける、
+            明日のふたりへ届ける
             <br />
-            ふたりだけの縦動画。
+            ふたりだけの縦動画
           </p>
 
           <nav aria-label="フッターナビゲーション">

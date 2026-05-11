@@ -35,7 +35,8 @@ export default function HomePage() {
               style={{ letterSpacing: "0.02em" }}
               lang="ja"
             >
-              2026 年 6 月、
+              <span className="font-display">2026</span> 年{" "}
+              <span className="font-display">6</span> 月、
               <br />
               撮影をはじめます
             </h2>

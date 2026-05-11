@@ -25,11 +25,10 @@ export function HomeHeroSection() {
             24時間以内に届く
             <br />
             ふたりだけの縦型ウェディング動画
-          </p>
-          <p className="max-w-xl font-body text-lg leading-relaxed text-ink-muted">
+            <br />
             SNSで、家族へ、ゲストへ
             <br />
-            余韻が残るうちに、すぐ送れる
+            余韻が残るうちにすぐ送れる
           </p>
           <Link
             href={HOME_ANCHOR_HREF.pricing}

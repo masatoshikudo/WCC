@@ -33,7 +33,9 @@ export function HomePricingSection({
           className="text-center font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
           style={{ letterSpacing: "0.02em" }}
         >
-          余韻が残るうちに届くプラン
+          よろこびと祝福を
+          <br />
+          明日のふたりへ届けるプラン
         </h2>
 
         {compact ? (
@@ -83,12 +85,16 @@ export function HomePricingSection({
         ) : (
           <>
             <p className="mx-auto mt-6 max-w-prose text-center font-body text-sm leading-relaxed text-ink-muted md:mt-8 md:text-base">
-              当日中から次の日には届く！9:16 の縦動画で、SNS にそのままあげられる。家族に、ゲストに、すぐ送れる！
+            24時間以内に届く9:16の縦型動画
+            <br />
+            SNSにそのまま投稿できて
+            <br />
+            家族やゲストにもすぐに送れます
+            <br />
+            あの日の喜びと祝福を
+            <br />
+            ふたりの手元へお届けします
             </p>
-            <p className="mx-auto mt-4 max-w-prose text-center font-body text-sm leading-relaxed text-ink-muted md:text-base">
-              あの日の気持ちが冷めないうちに、ふたりの手元に。中身は下のパッケージをチェックして！
-            </p>
-
             <div className={cn("mx-auto max-w-5xl", HOME_WHAT_IS_WCC_VERT_PAD_CLASS)}>
               <div className="grid gap-20 md:grid-cols-2 md:items-center md:gap-24 lg:gap-32">
                 <div className="min-w-0">

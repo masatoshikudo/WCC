@@ -22,15 +22,19 @@ export function FooterCtaSection() {
           className="font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
           style={{ letterSpacing: "0.02em" }}
         >
-          明日の2人のために、
+          明日のふたりへ、
           <br />
-          縦型動画を届けます
+          動画を届けます
         </h2>
         <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
-          残したい瞬間、ひとつでいい！教えてくれたら、そこから一緒に考えるから！
+          残したい瞬間が、ひとつだけでも構いません
+          <br />
+          日程が決まる前のご相談も歓迎です
         </p>
         <p className="mt-2 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
-          日程が決まってなくても、全然大丈夫！まずは話そう！
+          どんな一日にしたいか
+          <br />
+          そこから、一緒に組み立てていきます
         </p>
         <div className="mt-6 flex flex-wrap gap-3 md:justify-center">
           <Link

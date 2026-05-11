@@ -35,7 +35,7 @@ const nextConfig = {
     /** フラグメントは `lib/site-links.ts` の `HOME_ANCHOR_HREF` と一致させる */
     return [
       { source: "/packages", destination: "/pricing", permanent: true },
-      { source: "/portfolio", destination: "/#highlights", permanent: true },
+      { source: "/portfolio", destination: "/founding-couple", permanent: true },
       { source: "/contact", destination: "/book", permanent: true },
     ];
   },

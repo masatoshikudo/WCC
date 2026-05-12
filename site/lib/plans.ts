@@ -80,11 +80,17 @@ export const WCC_EXTRAS = [
   },
   {
     id: "gear-rental",
-    name: "機材貸出(DJI Osmo Pocket)",
+    name: "ご友人撮影オプション(DJI Osmo Pocket 貸出)",
     priceYen: 38_500,
     unit: "unit",
     note: "最大 2 台",
-    description: "DJI Osmo Pocket を最大 2 台までお貸出し",
+    description:
+      "ご友人代表の方に DJI Osmo Pocket をお渡しし、ご友人視点での撮影をお願いいただけるオプションです。",
+    breakdown: [
+      "機材貸出（DJI Osmo Pocket、当日）",
+      "友人撮影分の素材確認・編集組み込み",
+      "機材保険・消耗品",
+    ],
     maxQuantity: 2,
   },
   {

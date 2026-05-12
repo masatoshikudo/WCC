@@ -101,9 +101,26 @@ export default function PricingPage() {
                           {formatExtraPrice(item)}
                         </span>
                       </div>
+                      {"breakdown" in item && item.note ? (
+                        <p className="mt-1 font-body text-xs text-ink-muted">
+                          {item.note}
+                        </p>
+                      ) : null}
                       <p className="mt-1 font-body text-sm leading-relaxed text-ink-muted">
                         {item.description}
                       </p>
+                      {"breakdown" in item && item.breakdown ? (
+                        <>
+                          <p className="mt-2 font-body text-sm leading-relaxed text-ink-muted">
+                            内訳:
+                          </p>
+                          <ul className="mt-1 list-disc space-y-1 pl-5 font-body text-sm leading-relaxed text-ink-muted">
+                            {item.breakdown.map((line) => (
+                              <li key={line}>{line}</li>
+                            ))}
+                          </ul>
+                        </>
+                      ) : null}
                     </li>
                   ))}
                 </ul>

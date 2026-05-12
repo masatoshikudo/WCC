@@ -24,12 +24,12 @@ export default function FoundingCouplePage() {
               style={{ letterSpacing: "0.02em" }}
               lang="ja"
             >
-              最初のふたりへ
+              最初のおふたりへ
             </h1>
             <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
-              2026 年 6 月、For Your Wedding Day は撮影をスタートします
+              2026 年 6 月、For Your Wedding Day は撮影をスタートいたします
               <br />
-              最初の 2 組のカップルを、Founding Couple として招待します
+              Founding Couple として、最初の 2 組の新郎新婦を探しております
             </p>
             <div className="mt-8">
               <a
@@ -66,7 +66,6 @@ export default function FoundingCouplePage() {
                 {[
                   "スタンダードプラン（通常 176,000 円・税込）を無償でご提供",
                   "撮影当日の縦動画 2 本を 24 時間以内に納品",
-                  "サービスの最初のカップルとして、一緒に作り上げる体験",
                 ].map((item) => (
                   <li key={item} className="py-5 font-body text-base leading-relaxed text-ink-muted">
                     {item}
@@ -98,7 +97,7 @@ export default function FoundingCouplePage() {
               <ul className="flex flex-col divide-y-[1.5px] divide-hairline border-y-[1.5px] border-hairline">
                 {[
                   "2026 年 6 月〜8 月に挙式予定のカップル",
-                  "完成した動画のポートフォリオ掲載を承諾いただけること",
+                  "サイトや SNS で作例としてご紹介させていただけること",
                   "Instagram DM で気軽にやり取りができること",
                 ].map((item) => (
                   <li key={item} className="py-5 font-body text-base leading-relaxed text-ink-muted">

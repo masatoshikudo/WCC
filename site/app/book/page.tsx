@@ -19,10 +19,16 @@ export default function BookPage() {
       <section aria-label="ご相談のご案内">
         <div className="mx-auto w-full max-w-content px-4 pt-12 text-center md:px-6 md:pt-16 lg:px-8">
           <p className="mx-auto max-w-2xl text-center font-body text-base leading-relaxed text-ink-muted md:text-lg">
-            日程が決まっていなくても、式場が確定していなくても、まずはお知らせください。
+            日程が決まっていなくても、式場が確定していなくても
+            <br />
+            まずはお知らせください
           </p>
           <p className="mt-3 text-center font-body text-sm leading-relaxed text-ink-muted md:text-base">
-            「空き状況だけ確認したい」「希望シーンの相談だけしたい」段階でも、フォームから送っていただいて大丈夫です。ご記入できる範囲で進めてください。
+            「空き状況だけ確認したい」「希望シーンの相談だけしたい」段階でも
+            <br />
+            フォームから送っていただいて大丈夫です
+            <br />
+            ご記入できる範囲で進めてください
           </p>
         </div>
       </section>

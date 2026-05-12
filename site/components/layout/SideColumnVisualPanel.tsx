@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 
 import { WCC_SIDE_COLUMN_IMAGE_ALT, WCC_SIDE_COLUMN_IMAGE_URL } from "@/lib/site-media";
 
@@ -14,11 +15,12 @@ export function SideColumnVisualPanel({ eyebrow, children }: SideColumnVisualPan
   return (
     <article className="flex h-full flex-col p-4 md:p-5">
       <div className="relative mx-auto aspect-[9/16] w-full overflow-hidden lg:w-[80%]">
-        <img
+        <Image
           src={WCC_SIDE_COLUMN_IMAGE_URL}
           alt={WCC_SIDE_COLUMN_IMAGE_ALT}
-          className="h-full w-full object-cover"
-          loading="lazy"
+          fill
+          sizes="(min-width: 1024px) 480px, 90vw"
+          className="object-cover"
         />
       </div>
       {hasMeta ? (

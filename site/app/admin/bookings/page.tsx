@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { adminLogoutAction, upsertBookingQuoteReferenceAction } from "@/app/admin/actions";
 import { requireAdminSession } from "@/lib/admin-auth-server";
+import { formatWeddingScheduleLabel } from "@/lib/reception";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 type IntentRow = {
@@ -11,6 +12,7 @@ type IntentRow = {
   booker_name: string | null;
   wedding_date: string;
   date_undecided: boolean;
+  preferred_wedding_month: string | null;
   venue_name: string | null;
   venue_area: string | null;
   start_time: string | null;
@@ -225,7 +227,11 @@ export default async function AdminBookingsPage() {
                       </td>
                       <td className="p-2 align-top break-all">{row.email}</td>
                       <td className="p-2 align-top whitespace-nowrap">
-                        {row.date_undecided ? "未定" : row.wedding_date || "—"}
+                        {formatWeddingScheduleLabel({
+                          dateUndecided: row.date_undecided,
+                          weddingDate: row.wedding_date,
+                          preferredWeddingMonth: row.preferred_wedding_month,
+                        })}
                       </td>
                       <td className="p-2 align-top">{row.venue_name || "—"}</td>
                       <td className="p-2 align-top">{row.venue_area || "—"}</td>

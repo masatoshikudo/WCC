@@ -1,12 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
+import { recordBookingIntent } from "@/app/actions/booking";
+import { fetchReceptionAvailability } from "@/app/actions/reception";
+import { BookingIntentError } from "@/lib/booking-errors";
 import { BookMobileStickyDock } from "@/components/layout/MobileStickyDock";
 import { SideColumnVisualPanel } from "@/components/layout/SideColumnVisualPanel";
 import { TwoColumnCtaSection } from "@/components/layout/TwoColumnCtaSection";
-import { recordBookingIntent } from "@/app/actions/booking";
 import { WCC_BOOKING_PLANS, WCC_STANDARD_PACKAGE_DISCLAIMER } from "@/lib/plans";
+import {
+  RECEPTION_COPY,
+  type MonthAvailability,
+  type PreferredWeddingMonth,
+  formatPreferredMonthLabelLong,
+  formatWeddingScheduleLabel,
+  getCapacityErrorMessage,
+  getDatePickerBounds,
+  getSelectableWeddingMonths,
+  isJulyExceptionActive,
+  validateWeddingScheduling,
+} from "@/lib/reception";
 import { emailFieldSchema } from "@/lib/validations/email";
 
 function newBookingAttemptId(): string {
@@ -36,6 +50,8 @@ export function BookFlow() {
   const [step, setStep] = useState<1 | 3>(1);
   const [weddingDate, setWeddingDate] = useState("");
   const [dateUndecided, setDateUndecided] = useState(false);
+  const [preferredWeddingMonth, setPreferredWeddingMonth] = useState<PreferredWeddingMonth | "">("");
+  const [monthAvailability, setMonthAvailability] = useState<MonthAvailability[]>([]);
   const [venueName, setVenueName] = useState("");
   const [venueArea, setVenueArea] = useState("");
   const [startTime, setStartTime] = useState("");
@@ -60,9 +76,11 @@ export function BookFlow() {
   /** ステップ3で発行。相談受付（intent）の突合に利用 */
   const [bookingAttemptId, setBookingAttemptId] = useState<string | null>(null);
 
-  const dateLabel = dateUndecided
-    ? "未定"
-    : weddingDate || "未入力";
+  const dateLabel = formatWeddingScheduleLabel({
+    dateUndecided,
+    weddingDate,
+    preferredWeddingMonth: preferredWeddingMonth || null,
+  });
   const startTimeLabel = startTimeUndecided ? "未定" : startTime || "未入力";
   const coverageScopeLabel =
     COVERAGE_SCOPE_OPTIONS.find((option) => option.value === coverageScope)?.label ?? "未入力";
@@ -77,6 +95,33 @@ export function BookFlow() {
     : "未入力";
   const stepPrimaryLabel =
     step === 1 ? "次へ：送信内容を確認" : "相談内容を送信";
+
+  const datePickerBounds = useMemo(() => getDatePickerBounds(), []);
+  const selectableMonths = useMemo(() => getSelectableWeddingMonths(), []);
+  const showJulyException = useMemo(() => isJulyExceptionActive(), []);
+
+  useEffect(() => {
+    void fetchReceptionAvailability().then(setMonthAvailability);
+  }, []);
+
+  function getAvailabilityForMonth(monthKey: PreferredWeddingMonth): MonthAvailability | undefined {
+    return monthAvailability.find((item) => item.monthKey === monthKey);
+  }
+
+  function validateSchedulingAndCapacity(): string | null {
+    const scheduling = validateWeddingScheduling({
+      dateUndecided,
+      weddingDate,
+      preferredWeddingMonth: preferredWeddingMonth || null,
+    });
+    if (!scheduling.ok) return scheduling.message;
+
+    const availability = getAvailabilityForMonth(scheduling.monthKey);
+    if (availability?.isFull) {
+      return getCapacityErrorMessage(scheduling.monthKey);
+    }
+    return null;
+  }
 
   useEffect(() => {
     if (step !== 3) {
@@ -107,8 +152,9 @@ export function BookFlow() {
       setBookerEmailError(msg);
       return;
     }
-    if (!dateUndecided && !weddingDate) {
-      setFormError("挙式日を入力してください（未定の場合はチェックを付けてください）。");
+    const schedulingError = validateSchedulingAndCapacity();
+    if (schedulingError) {
+      setFormError(schedulingError);
       return;
     }
     if (!venueName.trim()) {
@@ -174,6 +220,7 @@ export function BookFlow() {
         bookerName: null,
         weddingDate,
         dateUndecided,
+        preferredWeddingMonth: dateUndecided ? preferredWeddingMonth || null : null,
         venueName: venueName.trim(),
         venueArea: venueArea.trim(),
         startTime,
@@ -192,9 +239,13 @@ export function BookFlow() {
         priceLabel: BOOK_PLAN.priceLabel,
       });
       setSubmitState("success");
-    } catch {
+    } catch (err) {
       setSubmitState("error");
-      setSubmitError("送信に失敗しました。時間をおいて再度お試しください。");
+      setSubmitError(
+        err instanceof BookingIntentError
+          ? err.message
+          : "送信に失敗しました。時間をおいて再度お試しください。",
+      );
     }
   }
 
@@ -210,6 +261,15 @@ export function BookFlow() {
       >
       <div>
         <h1 className="font-display mt-3 text-[1.75rem] font-bold text-ink">ご相談・お見積もりフォーム</h1>
+        <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
+          {RECEPTION_COPY.bookIntroPrimary}
+          {showJulyException ? (
+            <>
+              <br />
+              {RECEPTION_COPY.bookIntroJulyException}
+            </>
+          ) : null}
+        </p>
         <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
           送信後、見積もりと請求書を順にお送りします。
           <br />
@@ -332,12 +392,25 @@ export function BookFlow() {
                 >
                   挙式日
                 </label>
+                {monthAvailability.length > 0 ? (
+                  <p className="mt-2 font-body text-xs leading-relaxed text-ink-muted">
+                    {monthAvailability
+                      .map((item) =>
+                        item.isFull
+                          ? `${item.label}: 満席`
+                          : `${item.label}: 残り${item.remaining}組`,
+                      )
+                      .join(" / ")}
+                  </p>
+                ) : null}
                 <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <input
                     id="wedding-date"
                     type="date"
                     disabled={dateUndecided}
                     value={weddingDate}
+                    min={datePickerBounds.min}
+                    max={datePickerBounds.max}
                     onChange={(e) => setWeddingDate(e.target.value)}
                     className="min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 sm:max-w-[240px]"
                   />
@@ -347,13 +420,46 @@ export function BookFlow() {
                       checked={dateUndecided}
                       onChange={(e) => {
                         setDateUndecided(e.target.checked);
-                        if (e.target.checked) setWeddingDate("");
+                        if (e.target.checked) {
+                          setWeddingDate("");
+                        } else {
+                          setPreferredWeddingMonth("");
+                        }
                       }}
                       className="h-4 w-4 rounded-sm border-hairline text-accent"
                     />
                     日程は未定
                   </label>
                 </div>
+                {dateUndecided ? (
+                  <fieldset className="mt-4">
+                    <legend className="font-body text-sm font-semibold text-ink">希望挙式月（必須）</legend>
+                    <div className="mt-3 flex flex-col gap-2">
+                      {selectableMonths.map((monthKey) => {
+                        const availability = getAvailabilityForMonth(monthKey);
+                        const isFull = availability?.isFull ?? false;
+                        return (
+                          <label
+                            key={monthKey}
+                            className={`flex cursor-pointer items-center gap-2 font-body text-sm ${isFull ? "text-ink-muted" : "text-ink"}`}
+                          >
+                            <input
+                              type="radio"
+                              name="preferred-wedding-month"
+                              value={monthKey}
+                              checked={preferredWeddingMonth === monthKey}
+                              disabled={isFull}
+                              onChange={() => setPreferredWeddingMonth(monthKey)}
+                              className="h-4 w-4 border-hairline text-accent"
+                            />
+                            {formatPreferredMonthLabelLong(monthKey)}
+                            {isFull ? "（満席）" : availability ? `（残り${availability.remaining}組）` : null}
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </fieldset>
+                ) : null}
               </div>
 
               <div>

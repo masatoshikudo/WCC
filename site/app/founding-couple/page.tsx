@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { HOME_CONTENT_INNER_COLUMN_CLASS } from "@/lib/layout/home-sections";
+import { RECEPTION_COPY } from "@/lib/reception";
 
 export const metadata: Metadata = {
   title: "Founding Couple | For Your Wedding Day",
   description:
-    "2026 年 6 月、For Your Wedding Day は撮影をスタートします。最初の 2 組のカップルを Founding Couple として招待。スタンダードプラン（176,000 円・税込）を無償でご提供。",
+    "2026年8〜10月挙式のカップルから、Founding Couple 2組を募集。スタンダードプラン（176,000円・税込）を無償でご提供。",
 };
 
 const INSTAGRAM_DM_URL = "https://ig.me/m/for_your_weddingday";
@@ -27,9 +28,9 @@ export default function FoundingCouplePage() {
               最初のおふたりへ
             </h1>
             <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
-              2026 年 6 月、For Your Wedding Day は撮影をスタートいたします
+              {RECEPTION_COPY.generalHeadline}
               <br />
-              Founding Couple として、最初の 2 組の新郎新婦を探しております
+              {RECEPTION_COPY.foundingCouple}
             </p>
             <div className="mt-8">
               <a
@@ -96,7 +97,8 @@ export default function FoundingCouplePage() {
               </div>
               <ul className="flex flex-col divide-y-[1.5px] divide-hairline border-y-[1.5px] border-hairline">
                 {[
-                  "2026 年 6 月〜8 月に挙式予定のカップル",
+                  "2026 年 8 月〜10 月に挙式予定のカップル",
+                  "Founding Couple は期間全体で 2 組限定",
                   "サイトや SNS で作例としてご紹介させていただけること",
                   "Instagram DM で気軽にやり取りができること",
                 ].map((item) => (

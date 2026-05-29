@@ -9,6 +9,7 @@ create table if not exists public.booking_intents (
   booker_name text,
   wedding_date text not null,
   date_undecided boolean not null default false,
+  preferred_wedding_month text,
   venue_name text not null default '',
   venue_area text not null default '',
   start_time text not null default '',
@@ -41,6 +42,9 @@ alter table if exists public.booking_intents add column if not exists reference_
 alter table if exists public.booking_intents add column if not exists venue_restrictions text;
 alter table if exists public.booking_intents add column if not exists emergency_contact text;
 alter table if exists public.booking_intents add column if not exists extras_note text;
+alter table if exists public.booking_intents add column if not exists preferred_wedding_month text;
+comment on column public.booking_intents.preferred_wedding_month is 'date_undecided=true のときの希望挙式月（YYYY-MM）';
+create index if not exists booking_intents_preferred_wedding_month_idx on public.booking_intents (preferred_wedding_month) where date_undecided = true;
 alter table if exists public.booking_intents drop constraint if exists booking_intents_coverage_scope_check;
 alter table if exists public.booking_intents add constraint booking_intents_coverage_scope_check check (coverage_scope in ('ceremony_only', 'ceremony_reception', 'through_afterparty'));
 

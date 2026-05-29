@@ -2,6 +2,13 @@
 
 import { sendBookingConfirmationToCustomer } from "@/lib/email/customer-confirmation";
 import { notifyOwnerOfBookingIntent } from "@/lib/email/booking-notification";
+import { BookingIntentError } from "@/lib/booking-errors";
+import { isMonthAtCapacity } from "@/lib/reception-capacity";
+import {
+  type PreferredWeddingMonth,
+  getCapacityErrorMessage,
+  validateWeddingScheduling,
+} from "@/lib/reception";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 export type RecordBookingIntentInput = {
@@ -10,6 +17,7 @@ export type RecordBookingIntentInput = {
   bookerName: string | null;
   weddingDate: string;
   dateUndecided: boolean;
+  preferredWeddingMonth: PreferredWeddingMonth | null;
   venueName: string;
   venueArea: string;
   startTime: string;
@@ -32,16 +40,29 @@ export type RecordBookingIntentInput = {
 export async function recordBookingIntent(input: RecordBookingIntentInput): Promise<void> {
   const supabase = createSupabaseAdmin();
   if (!supabase) {
-    console.warn("[recordBookingIntent] Supabase not configured");
-    return;
+    throw new BookingIntentError("送信に失敗しました。時間をおいて再度お試しください。");
+  }
+
+  const scheduling = validateWeddingScheduling({
+    dateUndecided: input.dateUndecided,
+    weddingDate: input.weddingDate,
+    preferredWeddingMonth: input.preferredWeddingMonth,
+  });
+  if (!scheduling.ok) {
+    throw new BookingIntentError(scheduling.message);
+  }
+
+  if (await isMonthAtCapacity(scheduling.monthKey)) {
+    throw new BookingIntentError(getCapacityErrorMessage(scheduling.monthKey));
   }
 
   const row = {
     attempt_id: input.attemptId,
     email: input.email.trim(),
     booker_name: input.bookerName?.trim() || null,
-    wedding_date: input.weddingDate,
+    wedding_date: input.dateUndecided ? "" : input.weddingDate,
     date_undecided: input.dateUndecided,
+    preferred_wedding_month: input.dateUndecided ? input.preferredWeddingMonth : null,
     venue_name: input.venueName.trim(),
     venue_area: input.venueArea.trim(),
     start_time: input.startTime,
@@ -67,7 +88,7 @@ export async function recordBookingIntent(input: RecordBookingIntentInput): Prom
       return;
     }
     console.error("[recordBookingIntent]", error.message);
-    return;
+    throw new BookingIntentError("送信に失敗しました。時間をおいて再度お試しください。");
   }
 
   await notifyOwnerOfBookingIntent(input);

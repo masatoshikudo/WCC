@@ -1,6 +1,7 @@
 import { type RecordBookingIntentInput } from "@/app/actions/booking";
 import { escapeHtml } from "@/lib/email/escape-html";
 import { sendEmailSafe } from "@/lib/email/resend";
+import { formatWeddingScheduleLabel } from "@/lib/reception";
 
 const COVERAGE_SCOPE_LABELS: Record<RecordBookingIntentInput["coverageScope"], string> = {
   ceremony_only: "挙式のみ",
@@ -37,7 +38,12 @@ function buildSubject(input: RecordBookingIntentInput): string {
   const couplePart = input.coupleName
     ? input.coupleName.split(" / ").map((n) => `${n.trim()} 様`).join("・")
     : "（名前未入力）";
-  const datePart = input.dateUndecided ? "挙式日: 未定" : `${formatDate(input.weddingDate)} 挙式予定`;
+  const scheduleLabel = formatWeddingScheduleLabel({
+    dateUndecided: input.dateUndecided,
+    weddingDate: input.weddingDate,
+    preferredWeddingMonth: input.preferredWeddingMonth,
+  });
+  const datePart = input.dateUndecided ? `挙式日: ${scheduleLabel}` : `${scheduleLabel} 挙式予定`;
   return `[新規ご相談] ${couplePart}（${datePart}）`;
 }
 
@@ -51,7 +57,11 @@ function buildText(input: RecordBookingIntentInput): string {
     "",
     "挙式日",
     input.dateUndecided
-      ? "未定"
+      ? formatWeddingScheduleLabel({
+          dateUndecided: input.dateUndecided,
+          weddingDate: input.weddingDate,
+          preferredWeddingMonth: input.preferredWeddingMonth,
+        })
       : `${formatDate(input.weddingDate)}（開始時刻: ${input.startTimeUndecided ? "未定" : input.startTime || "未入力"}）`,
     "",
     "会場",

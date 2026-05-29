@@ -1,6 +1,7 @@
 import { type RecordBookingIntentInput } from "@/app/actions/booking";
 import { escapeHtml } from "@/lib/email/escape-html";
 import { sendEmailSafe } from "@/lib/email/resend";
+import { formatWeddingScheduleLabel } from "@/lib/reception";
 
 const DIVIDER = "─".repeat(16);
 const SITE_URL = "https://for-your-wedding-day.com";
@@ -35,10 +36,15 @@ function buildGreeting(coupleName: string): string {
 }
 
 function buildText(greeting: string, input: RecordBookingIntentInput): string {
-  const weddingDateLine = input.dateUndecided
-    ? "未定"
-    : formatDate(input.weddingDate) +
-      (input.startTimeUndecided ? "" : input.startTime ? `（${input.startTime} 開始）` : "");
+  const weddingDateLine =
+    formatWeddingScheduleLabel({
+      dateUndecided: input.dateUndecided,
+      weddingDate: input.weddingDate,
+      preferredWeddingMonth: input.preferredWeddingMonth,
+    }) +
+    (!input.dateUndecided && !input.startTimeUndecided && input.startTime
+      ? `（${input.startTime} 開始）`
+      : "");
 
   const lines: string[] = [
     greeting,
@@ -87,11 +93,4 @@ function buildText(greeting: string, input: RecordBookingIntentInput): string {
   );
 
   return lines.join("\n");
-}
-
-function formatDate(dateStr: string): string {
-  const parts = dateStr.split("-");
-  if (parts.length !== 3) return dateStr;
-  const [year, month, day] = parts;
-  return `${year}年${parseInt(month, 10)}月${parseInt(day, 10)}日`;
 }

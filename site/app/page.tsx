@@ -6,6 +6,7 @@ import { HomeHeroSection } from "@/components/marketing/HomeHeroSection";
 import { HOME_CONTENT_INNER_COLUMN_CLASS } from "@/lib/layout/home-sections";
 import { HomeWhatIsSection } from "@/components/marketing/HomeWhatIsSection";
 import { HomeDoINeedSection } from "@/components/marketing/HomeDoINeedSection";
+import { RECEPTION_COPY } from "@/lib/reception";
 import { HomePricingSectionSkeleton } from "@/components/home/HomeDynamicSkeletons";
 
 const HomePricingSection = dynamic(
@@ -35,13 +36,15 @@ export default function HomePage() {
               style={{ letterSpacing: "0.02em" }}
               lang="ja"
             >
-              <span className="font-display">2026</span> 年{" "}
-              <span className="font-display">6</span> 月
-              <br />
-              撮影をはじめます
+              {RECEPTION_COPY.generalHeadline}
             </h2>
             <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
-              最初の 2 組のカップルを募集しています
+              {RECEPTION_COPY.receptionPeriod}
+              <br />
+              {RECEPTION_COPY.capacityNote}
+            </p>
+            <p className="mx-auto mt-4 max-w-xl font-body text-base leading-relaxed text-ink-muted">
+              {RECEPTION_COPY.foundingCouple}
             </p>
             <div className="mt-8">
               <Link

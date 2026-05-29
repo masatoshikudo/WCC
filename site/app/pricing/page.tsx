@@ -6,6 +6,7 @@ import { HomePricingSection } from "@/components/home/HomePricingSection";
 import { HomeServiceFlowSection } from "@/components/home/HomeServiceFlowSection";
 import { HomeFaqSection } from "@/components/home/HomeFaqSection";
 import { getHomeFaqJsonLd } from "@/lib/home-faq";
+import { RECEPTION_COPY } from "@/lib/reception";
 import {
   HOME_CONTENT_INNER_COLUMN_CLASS,
   HOME_FAQ_SECTION_OUTER_CLASS,
@@ -50,7 +51,9 @@ export default function PricingPage() {
             <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
               4 時間の同行撮影、24 時間以内の納品
               <br />
-              日程未定の段階からご相談いただけます
+              {RECEPTION_COPY.generalHeadline}
+              <br />
+              {RECEPTION_COPY.capacityNote}
             </p>
             <div className="mt-8">
               <Link

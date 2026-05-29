@@ -26,24 +26,23 @@ export function HomeDoINeedSection() {
               　<br />
               スマホで見返しやすい縦型動画として残すクリエイターです
               　<br />
-              当日の記録は、写真と本編ムービーで十分
+              写真や本編ムービーを待つ時間も
               <br />
-                そう考えるふたりには、このサービスは必要ありません
+              ふたりにとって大切な時間だと考えています
               　</p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                ただ、
-              </p>
-              <p className="font-body text-base leading-relaxed text-ink-muted">
-                翌日にはSNSに上げたい
-                <br />
-                家族にすぐ送りたい
+              結婚式の翌日、ふたりで昨日をもう一度見返したい
+              <br />
+              離れている家族や友人にも、当日の空気を届けたい
+              <br />
+              ふたりらしい一日を、今の気持ちに近いまま残したい。
                 <br />
                 余韻が残るうちに、ふたりで見返したい
               </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                ひとつでも当てはまるなら
-                <br />
-                このサービスはふたりに向いています
+              そんな気持ちがひとつでもあるなら、
+              <br />
+              このサービスは、きっとふたりの役に立てます。
               </p>
             </div>
           </div>

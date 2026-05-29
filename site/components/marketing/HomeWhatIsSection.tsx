@@ -14,31 +14,25 @@ export function HomeWhatIsSection() {
               style={{ letterSpacing: "0.02em" }}
               lang="ja"
             >
-              ウェディングコンテンツ
+              ウェディング
+              <br />
+              コンテンツ
               <br />
               とは
             </h2>
             <div className="flex flex-col gap-8">
               <p className="font-body text-base leading-relaxed text-ink-muted">
-                ウェディングコンテンツとは
-              </p>
-              <p className="font-body text-base leading-relaxed text-ink-muted">
-                写真や本編ムービーが届くまでのあいだ
-                <br />
-                結婚式当日の様子を
-                <br />
-                ふたりで見返したり
-                <br />
-                列席できなかった友人やご家族へ届けたりできるように
-                <br />
-                スマホで見やすい縦型動画として
-                <br />
-                ふたりの手元へ届けるものです
-              </p>
-              <p className="font-body text-base leading-relaxed text-ink-muted">
-                その前に、当日の空気をもう一度見返せるように
-                <br />
-                余韻が一番濃い時間のうちに、ふたりの手元へ届ける動画です
+              結婚式当日の空気を、スマホで見やすい縦型動画として残すものです
+              <br />
+              翌日、ふたりで「昨日、いい一日だったね」と見返したり
+              <br />
+              当日来られなかったご友人やご家族へ
+              <br />
+              ふたりらしい一日を届けたり
+              <br />
+              大切な一日を、もっと早く、もっと身近に
+              <br />
+              その日の気持ちに近いまま、ふたりの手元へお届けします
               </p>
             </div>
           </div>

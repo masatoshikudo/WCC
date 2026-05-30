@@ -59,7 +59,7 @@ export const PRIVACY_DRAFT: PrivacyDraft = {
       id: "external-services",
       label: "利用する外部サービス",
       value:
-        "Supabase（問い合わせ・予約情報保存）、Resend（メール送信）、Stripe（決済処理）を利用します。",
+        "Supabase（問い合わせ・予約情報保存）、Resend（メール送信）、Stripe（決済処理）を利用します。また、サイトの利用状況分析のため PostHog（PostHog, Inc.／米国）を、実績紹介のため Instagram（Meta Platforms, Inc.）の埋め込みコンテンツの表示を利用します。これらの外部サービスにおける情報の取り扱いは、各社のプライバシーポリシーに従います。",
       status: "confirmed",
     },
     {
@@ -88,9 +88,10 @@ export const PRIVACY_DRAFT: PrivacyDraft = {
     {
       id: "cookies-analytics",
       label: "Cookie・アクセス解析",
-      value: "未設定",
-      status: "needs_input",
-      note: "解析/広告ツールを利用する場合は利用目的・拒否方法を明記",
+      value:
+        "サイトの利用状況を把握し品質向上に役立てるため、PostHog（PostHog, Inc.／米国）を用いてアクセス解析を行います。この際、Cookie や匿名の識別子を使用し、閲覧ページや操作等の情報が PostHog 社のサーバー（米国）へ送信されます。氏名・メールアドレス等、個人を直接特定する情報を解析目的で送信することはありません。また、実績紹介のために表示する Instagram（Meta Platforms, Inc.）の埋め込みコンテンツの閲覧時には、Meta 社の Cookie（第三者 Cookie）が設定され、IP アドレス等の情報が同社へ送信される場合があります。これらの取り扱いは各社のプライバシーポリシーに従います。Cookie はブラウザの設定で拒否・削除できますが、一部の機能がご利用いただけなくなる場合があります。",
+      status: "needs_review",
+      note: "PostHog 計測・Instagram 埋め込み導入に伴い記載（文面は法務確認推奨）",
     },
     {
       id: "disclosure-rights",

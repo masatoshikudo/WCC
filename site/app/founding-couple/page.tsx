@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { InstagramEmbedList } from "@/components/embeds/InstagramEmbed";
 import { HOME_CONTENT_INNER_COLUMN_CLASS } from "@/lib/layout/home-sections";
 import { RECEPTION_COPY } from "@/lib/reception";
 
@@ -9,6 +10,9 @@ export const metadata: Metadata = {
 };
 
 const INSTAGRAM_DM_URL = "https://ig.me/m/for_your_weddingday";
+
+/** GALLERY に並べる実績 Reel（将来は配列に追加するだけで増やせる） */
+const GALLERY_REELS = ["https://www.instagram.com/reel/DLXNT3kh9ed/"];
 
 export default function FoundingCouplePage() {
   return (
@@ -107,6 +111,30 @@ export default function FoundingCouplePage() {
                   </li>
                 ))}
               </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* GALLERY セクション */}
+      <section className="w-full border-t-[1.5px] border-hairline bg-canvas">
+        <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
+          <div className="mx-auto max-w-2xl py-32 text-center md:py-48">
+            <p className="font-display text-sm uppercase tracking-[0.15em] text-ink-muted">
+              Gallery
+            </p>
+            <h2
+              className="mt-4 font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
+              style={{ letterSpacing: "0.02em" }}
+              lang="ja"
+            >
+              作例
+            </h2>
+            <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
+              実際にお届けする縦動画のイメージを Instagram でご覧いただけます
+            </p>
+            <div className="mt-12">
+              <InstagramEmbedList permalinks={GALLERY_REELS} />
             </div>
           </div>
         </div>

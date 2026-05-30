@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { usePostHog } from "posthog-js/react";
 
 import { recordBookingIntent } from "@/app/actions/booking";
 import { fetchReceptionAvailability } from "@/app/actions/reception";
@@ -47,6 +48,7 @@ type CoverageScope = (typeof COVERAGE_SCOPE_OPTIONS)[number]["value"];
 type DeliveryChannel = (typeof DELIVERY_CHANNEL_OPTIONS)[number]["value"];
 
 export function BookFlow() {
+  const posthog = usePostHog();
   const [step, setStep] = useState<1 | 3>(1);
   const [weddingDate, setWeddingDate] = useState("");
   const [dateUndecided, setDateUndecided] = useState(false);
@@ -239,6 +241,17 @@ export function BookFlow() {
         priceLabel: BOOK_PLAN.priceLabel,
       });
       setSubmitState("success");
+      // 成功イベント。個人情報（氏名・メール・緊急連絡先・会場名）は送らない
+      posthog?.capture("booking_intent_submitted", {
+        plan_id: BOOK_PLAN_ID,
+        plan_label: BOOK_PLAN.label,
+        coverage_scope: coverageScope,
+        date_undecided: dateUndecided,
+        preferred_wedding_month: dateUndecided ? preferredWeddingMonth || null : null,
+        start_time_undecided: startTimeUndecided,
+        delivery_channels: deliveryChannels,
+        venue_area: venueArea.trim() || null,
+      });
     } catch (err) {
       setSubmitState("error");
       setSubmitError(

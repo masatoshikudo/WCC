@@ -7,6 +7,8 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { WebVitalsReporter } from "@/components/performance/WebVitalsReporter";
 import { MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS } from "@/lib/layout/mobile-dock";
+import { PostHogProvider } from "@/lib/posthog/provider";
+import { SuspendedPostHogPageView } from "@/lib/posthog/pageview";
 import { cn } from "@/lib/utils/cn";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -56,12 +58,15 @@ export default function RootLayout({
       <body
         className={`${plusJakarta.variable} ${notoSansJp.variable} ${cormorantGaramond.variable} min-h-screen flex flex-col`}
       >
-        <WebVitalsReporter />
-        <HashScrollOnMount />
-        <SiteHeader />
-        <main className={cn("flex-1 w-full", MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS)}>{children}</main>
-        <MobileBottomCta />
-        <SiteFooter />
+        <PostHogProvider>
+          <SuspendedPostHogPageView />
+          <WebVitalsReporter />
+          <HashScrollOnMount />
+          <SiteHeader />
+          <main className={cn("flex-1 w-full", MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS)}>{children}</main>
+          <MobileBottomCta />
+          <SiteFooter />
+        </PostHogProvider>
       </body>
     </html>
   );

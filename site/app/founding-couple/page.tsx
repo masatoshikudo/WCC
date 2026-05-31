@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { InstagramEmbedList } from "@/components/embeds/InstagramEmbed";
+import { InstagramThumbnailCardList } from "@/components/embeds/InstagramEmbed";
 import { HOME_CONTENT_INNER_COLUMN_CLASS } from "@/lib/layout/home-sections";
 import { RECEPTION_COPY } from "@/lib/reception";
 
@@ -11,8 +11,14 @@ export const metadata: Metadata = {
 
 const INSTAGRAM_DM_URL = "https://ig.me/m/for_your_weddingday";
 
-/** GALLERY に並べる実績 Reel（将来は配列に追加するだけで増やせる） */
-const GALLERY_REELS = ["https://www.instagram.com/reel/DLXNT3kh9ed/"];
+/** GALLERY に並べる実績 Reel のサムネイルカード（将来は配列に追加するだけで増やせる） */
+const GALLERY_REELS = [
+  {
+    reelUrl: "https://www.instagram.com/reel/DLXNT3kh9ed/",
+    imageSrc: "/thumbnail.jpg",
+    alt: "ウェディング映像サンプル（Instagramで見る）",
+  },
+];
 
 export default function FoundingCouplePage() {
   return (
@@ -134,7 +140,7 @@ export default function FoundingCouplePage() {
               実際にお届けする縦動画のイメージを Instagram でご覧いただけます
             </p>
             <div className="mt-12">
-              <InstagramEmbedList permalinks={GALLERY_REELS} />
+              <InstagramThumbnailCardList items={GALLERY_REELS} />
             </div>
           </div>
         </div>

@@ -24,7 +24,7 @@ export default function FoundingCouplePage() {
   return (
     <>
       {/* ページヘッダー帯 */}
-      <section className="w-full bg-canvas px-4 pt-24 pb-20 md:pt-32 md:pb-28">
+      <section className="section-hero w-full bg-canvas px-4 pt-24 pb-20 md:pt-32 md:pb-28">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-2xl text-center">
             <p className="font-display text-sm uppercase tracking-[0.15em] text-ink-muted">
@@ -57,7 +57,7 @@ export default function FoundingCouplePage() {
       </section>
 
       {/* 特典セクション */}
-      <section className="w-full border-t-[1.5px] border-hairline bg-canvas">
+      <section className="section-benefits w-full border-t-[1.5px] border-hairline bg-canvas">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-5xl py-32 md:py-48">
             <div className="grid gap-16 md:grid-cols-2 md:items-start md:gap-24 lg:gap-32">
@@ -89,7 +89,7 @@ export default function FoundingCouplePage() {
       </section>
 
       {/* 募集条件セクション */}
-      <section className="w-full border-t-[1.5px] border-hairline bg-canvas">
+      <section className="section-requirements w-full border-t-[1.5px] border-hairline bg-canvas">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-5xl py-32 md:py-48">
             <div className="grid gap-16 md:grid-cols-2 md:items-start md:gap-24 lg:gap-32">
@@ -123,7 +123,7 @@ export default function FoundingCouplePage() {
       </section>
 
       {/* GALLERY セクション */}
-      <section className="w-full border-t-[1.5px] border-hairline bg-canvas">
+      <section className="section-gallery w-full border-t-[1.5px] border-hairline bg-canvas">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-2xl py-32 text-center md:py-48">
             <p className="font-display text-sm uppercase tracking-[0.15em] text-ink-muted">
@@ -147,7 +147,7 @@ export default function FoundingCouplePage() {
       </section>
 
       {/* 応募 CTA セクション */}
-      <section className="w-full border-t-[1.5px] border-hairline bg-canvas">
+      <section className="section-cta w-full border-t-[1.5px] border-hairline bg-canvas">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-2xl py-32 text-center md:py-48">
             <p className="font-display text-sm uppercase tracking-[0.15em] text-ink-muted">

@@ -76,7 +76,7 @@ export default function FoundingCouplePage() {
               <ul className="flex flex-col divide-y-[1.5px] divide-hairline border-y-[1.5px] border-hairline">
                 {[
                   "スタンダードプラン（通常 176,000 円・税込）を無償でご提供",
-                  "撮影当日の縦動画 2 本を 24 時間以内に納品",
+                  "撮影後 24 時間以内に 1 本をお届け、その後 3 営業日までに残りの本数をお届けします",
                 ].map((item) => (
                   <li key={item} className="py-5 font-body text-base leading-relaxed text-ink-muted">
                     {item}
@@ -140,6 +140,7 @@ export default function FoundingCouplePage() {
                 </h2>
                 <p className="mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
                   実際にお届けする縦動画のイメージを Instagram でご覧いただけます
+                  １本あたり15〜60秒以内の編集で、合計120秒までのコンテンツ数をお届けします
                 </p>
               </div>
               <div>
@@ -169,7 +170,7 @@ export default function FoundingCouplePage() {
             <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
               フォームなし、面倒な手続きなし
               <br />
-              @foryour_weddingday にメッセージを送るだけ
+              @foryour_weddingday に「撮影して！」とメッセージを送るだけ
             </p>
             <div className="mt-8">
               <a

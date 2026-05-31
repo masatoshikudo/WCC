@@ -48,7 +48,7 @@ export const RECEPTION_COPY = {
   receptionPeriod: "8〜10月挙式の受付を開始しました",
   capacityNote: "各月2組まで（先着）",
   foundingCouple:
-    "Founding Couple として、8〜10月挙式のカップル2組（期間全体）を募集しています",
+    "Founding Couple として、8〜10月挙式予定のカップル2組を募集しています",
   julyException:
     "7月挙式をご検討の方は、2026年6月10日（火）23:59 までにご相談ください。以降は8月以降の挙式からの受付となります。",
   bookIntroPrimary: "2026年8〜10月挙式の方を受付中です（各月2組まで・先着）。",

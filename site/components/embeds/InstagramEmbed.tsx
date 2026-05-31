@@ -1,126 +1,132 @@
-"use client";
-
-import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 import { cn } from "@/lib/utils/cn";
 
-const EMBED_SCRIPT_SRC = "https://www.instagram.com/embed.js";
+const DEFAULT_IMAGE_SRC = "/thumbnail.jpg";
+const DEFAULT_REEL_URL = "https://www.instagram.com/reel/DLXNT3kh9ed/";
+const DEFAULT_ALT = "ウェディング映像サンプル（Instagramで見る）";
 
-declare global {
-  interface Window {
-    instgrm?: {
-      Embeds: { process: () => void };
-    };
-  }
-}
-
-/** Instagram 公式の埋め込みコードに含まれる既定 permalink（utm 付き）。 */
-const DEFAULT_PERMALINK =
-  "https://www.instagram.com/reel/DLXNT3kh9ed/?utm_source=ig_embed&amp;utm_campaign=loading";
-
-/**
- * Instagram 公式が配布する埋め込みコード（blockquote.instagram-media）を、
- * style・data 属性・内部 HTML を一字一句改変せずそのまま生成する。
- * permalink 部分（data-instgrm-permalink の値）だけを差し替え可能にする。
- *
- * 末尾の `<script async src="//www.instagram.com/embed.js">` は含めない
- * （embed.js のロードと process() は loadEmbedScript / useEffect 側で扱う）。
- */
-function buildEmbedHtml(permalink: string): string {
-  return `<blockquote class="instagram-media" data-instgrm-permalink="${permalink}" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/reel/DLXNT3kh9ed/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">この投稿をInstagramで見る</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; bx; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/reel/DLXNT3kh9ed/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">BNU WEDDING. ｜タペストリー｜ウェルカムスペース(@bnu_wedding)がシェアした投稿</a></p></div></blockquote>`;
-}
-
-/**
- * embed.js をページ内で一度だけロードし、ロード完了で resolve する。
- * 既に `window.instgrm` があれば即 resolve（process は呼び側で実行）。
- */
-function loadEmbedScript(): Promise<void> {
-  return new Promise((resolve) => {
-    if (typeof window === "undefined") return;
-
-    if (window.instgrm) {
-      resolve();
-      return;
-    }
-
-    const existing = document.querySelector<HTMLScriptElement>(
-      `script[src="${EMBED_SCRIPT_SRC}"]`,
-    );
-    if (existing) {
-      if (existing.dataset.loaded === "true") {
-        resolve();
-      } else {
-        existing.addEventListener("load", () => resolve(), { once: true });
-      }
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = EMBED_SCRIPT_SRC;
-    script.async = true;
-    script.addEventListener(
-      "load",
-      () => {
-        script.dataset.loaded = "true";
-        resolve();
-      },
-      { once: true },
-    );
-    document.body.appendChild(script);
-  });
-}
-
-type InstagramEmbedProps = {
-  /** 例: https://www.instagram.com/reel/XXXXXXXXX/（省略時は公式既定の Reel） */
-  permalink?: string;
+type InstagramThumbnailCardProps = {
+  /** 9:16 サムネイル画像のパス（public 配下） */
+  imageSrc?: string;
+  /** クリックで開く Instagram リールの URL */
+  reelUrl?: string;
+  /** 画像の代替テキスト */
+  alt?: string;
   className?: string;
 };
 
 /**
- * Instagram Reel / 投稿の埋め込み 1 本。
+ * Instagram リールへ誘導する 9:16 のクリッカブルなサムネイルカード。
  *
- * Instagram 公式の埋め込みコード（blockquote）をそのまま注入し、embed.js が
- * `process()` で iframe 化する。幅・高さ・wp は一切こちらで指定せず、公式コードと
- * Instagram の挙動に完全に委ねる。
+ * embed.js / iframe を使わず、自前の静止画サムネイル + 再生オーバーレイで
+ * 「動画である」ことを示し、カード全体のクリックでリールを新規タブで開く。
+ * 画像・リール URL・alt を prop 化しており、将来は複数枚を並べられる。
  */
-export function InstagramEmbed({ permalink = DEFAULT_PERMALINK, className }: InstagramEmbedProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    void loadEmbedScript().then(() => {
-      if (!cancelled) {
-        window.instgrm?.Embeds.process();
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [permalink]);
-
+export function InstagramThumbnailCard({
+  imageSrc = DEFAULT_IMAGE_SRC,
+  reelUrl = DEFAULT_REEL_URL,
+  alt = DEFAULT_ALT,
+  className,
+}: InstagramThumbnailCardProps) {
   return (
-    <div
-      ref={containerRef}
-      className={cn("mx-auto w-full text-center", className)}
-      // 公式 HTML をそのまま注入。permalink 変更時はブロックを作り直して再 process させる。
-      key={permalink}
-      dangerouslySetInnerHTML={{ __html: buildEmbedHtml(permalink) }}
-    />
+    <a
+      href={reelUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={alt}
+      className={cn(
+        "group relative mx-auto block aspect-[9/16] w-full max-w-[420px] overflow-hidden rounded-xl bg-canvas",
+        "shadow-[0_1px_2px_rgba(0,0,0,0.04),0_18px_40px_-18px_rgba(0,0,0,0.32)] ring-1 ring-hairline/15",
+        "transition-[transform,box-shadow] duration-500 ease-out",
+        "hover:-translate-y-1 hover:shadow-[0_2px_6px_rgba(0,0,0,0.06),0_34px_64px_-20px_rgba(0,0,0,0.42)]",
+        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+        className,
+      )}
+    >
+      {/* サムネイル（9:16 を object-cover でフル表示。画像自体が 9:16 なのでクロップなし） */}
+      <Image
+        src={imageSrc}
+        alt={alt}
+        fill
+        sizes="(min-width: 640px) 420px, 90vw"
+        className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]"
+      />
+
+      {/* 上下のグラデーション：映像らしい奥行きと、再生 UI／ラベルの可読性を確保 */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-b from-ink/20 via-transparent to-ink/55 transition-opacity duration-500 group-hover:from-ink/15 group-hover:to-ink/60"
+      />
+
+      {/* 中央の再生ボタン */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="relative flex h-16 w-16 items-center justify-center">
+          {/* ホバー時に静かに広がるリング（動画らしいインタラクション） */}
+          <span
+            aria-hidden
+            className="absolute inset-0 scale-90 rounded-full ring-1 ring-canvas/60 opacity-0 transition-all duration-700 ease-out group-hover:scale-[1.55] group-hover:opacity-100"
+          />
+          <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-canvas/85 shadow-[0_10px_28px_-10px_rgba(0,0,0,0.55)] ring-1 ring-canvas/60 backdrop-blur-[2px] transition duration-500 ease-out group-hover:scale-110 group-hover:bg-canvas">
+            <svg
+              className="h-6 w-6 translate-x-[2px] text-ink"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+        </span>
+      </div>
+
+      {/* 下部の控えめなラベル */}
+      <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-2 px-4 pb-5">
+        <svg
+          className="h-4 w-4 text-canvas/90"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.6}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none" />
+        </svg>
+        <span className="font-display text-xs font-medium uppercase tracking-[0.14em] text-canvas/95">
+          Instagram で見る
+        </span>
+      </div>
+    </a>
   );
 }
 
-type InstagramEmbedListProps = {
-  /** 並べて表示する Reel / 投稿の permalink 配列 */
-  permalinks: string[];
+type InstagramThumbnailCardItem = {
+  imageSrc?: string;
+  reelUrl?: string;
+  alt?: string;
+};
+
+type InstagramThumbnailCardListProps = {
+  /** 並べて表示するサムネイルカードの配列（将来複数枚に対応） */
+  items: InstagramThumbnailCardItem[];
   className?: string;
 };
 
-/** 複数の埋め込みを縦に中央寄せで並べるラッパー。 */
-export function InstagramEmbedList({ permalinks, className }: InstagramEmbedListProps) {
+/** 複数のサムネイルカードを縦に中央寄せで並べるラッパー。 */
+export function InstagramThumbnailCardList({ items, className }: InstagramThumbnailCardListProps) {
   return (
     <div className={cn("flex flex-col items-center gap-12", className)}>
-      {permalinks.map((permalink) => (
-        <InstagramEmbed key={permalink} permalink={permalink} />
+      {items.map((item) => (
+        <InstagramThumbnailCard
+          key={item.reelUrl ?? item.imageSrc}
+          imageSrc={item.imageSrc}
+          reelUrl={item.reelUrl}
+          alt={item.alt}
+        />
       ))}
     </div>
   );

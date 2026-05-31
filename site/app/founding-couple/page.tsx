@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     "2026年8〜10月挙式のカップルから、Founding Couple 2組を募集。スタンダードプラン（176,000円・税込）を無償でご提供。",
 };
 
-const INSTAGRAM_DM_URL = "https://ig.me/m/for_your_weddingday";
+const INSTAGRAM_DM_URL = "https://ig.me/m/foryour_weddingday";
 
 /** GALLERY に並べる実績 Reel のサムネイルカード（将来は配列に追加するだけで増やせる） */
 const GALLERY_REELS = [
@@ -169,7 +169,7 @@ export default function FoundingCouplePage() {
             <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
               フォームなし、面倒な手続きなし
               <br />
-              @for_your_weddingday にメッセージを送るだけ
+              @foryour_weddingday にメッセージを送るだけ
             </p>
             <div className="mt-8">
               <a
@@ -182,7 +182,7 @@ export default function FoundingCouplePage() {
               </a>
             </div>
             <p className="mt-4 font-body text-sm text-ink-muted">
-              @for_your_weddingday
+              @foryour_weddingday
             </p>
           </div>
         </div>

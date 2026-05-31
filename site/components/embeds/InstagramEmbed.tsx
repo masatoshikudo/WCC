@@ -1,60 +1,110 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 import { cn } from "@/lib/utils/cn";
 
-/** Instagram の埋め込み iframe が想定する基準幅（これを超えると描画が崩れる）。 */
-const EMBED_WIDTH = 540;
-/** Reel カード（動画 + ヘッダー/フッター UI）が収まる余裕を持たせた高さ。 */
-const EMBED_HEIGHT = 1100;
+const EMBED_SCRIPT_SRC = "https://www.instagram.com/embed.js";
+
+declare global {
+  interface Window {
+    instgrm?: {
+      Embeds: { process: () => void };
+    };
+  }
+}
+
+/** Instagram 公式が配布する既定 permalink（utm 付き）。 */
+const DEFAULT_PERMALINK =
+  "https://www.instagram.com/reel/DLXNT3kh9ed/?utm_source=ig_embed&utm_campaign=loading";
 
 /**
- * permalink から Reel / 投稿の shortcode を抽出する。
- * 例: https://www.instagram.com/reel/DLXNT3kh9ed/ → "DLXNT3kh9ed"
- * reel / p / tv のいずれの形式にも対応する。
+ * Instagram 公式の埋め込みコード（blockquote.instagram-media）を、style・data 属性を
+ * 一切改変せずそのまま生成する。permalink 部分だけを差し替え可能にする。
  */
-function extractShortcode(permalink: string): string | null {
-  const match = permalink.match(/instagram\.com\/(?:reel|p|tv)\/([^/?#]+)/i);
-  return match ? match[1] : null;
+function buildEmbedHtml(permalink: string): string {
+  return `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="${permalink}" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:1px auto; max-width:540px; min-width:326px; padding:0; width:calc(100% - 2px);"></blockquote>`;
+}
+
+/**
+ * embed.js をページ内で一度だけロードし、ロード完了で resolve する。
+ * 既に `window.instgrm` があれば即 resolve（process は呼び側で実行）。
+ */
+function loadEmbedScript(): Promise<void> {
+  return new Promise((resolve) => {
+    if (typeof window === "undefined") return;
+
+    if (window.instgrm) {
+      resolve();
+      return;
+    }
+
+    const existing = document.querySelector<HTMLScriptElement>(
+      `script[src="${EMBED_SCRIPT_SRC}"]`,
+    );
+    if (existing) {
+      if (existing.dataset.loaded === "true") {
+        resolve();
+      } else {
+        existing.addEventListener("load", () => resolve(), { once: true });
+      }
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = EMBED_SCRIPT_SRC;
+    script.async = true;
+    script.addEventListener(
+      "load",
+      () => {
+        script.dataset.loaded = "true";
+        resolve();
+      },
+      { once: true },
+    );
+    document.body.appendChild(script);
+  });
 }
 
 type InstagramEmbedProps = {
-  /** 例: https://www.instagram.com/reel/XXXXXXXXX/ */
-  permalink: string;
+  /** 例: https://www.instagram.com/reel/XXXXXXXXX/（省略時は公式既定の Reel） */
+  permalink?: string;
   className?: string;
 };
 
 /**
  * Instagram Reel / 投稿の埋め込み 1 本。
  *
- * embed.js（blockquote → process() で iframe 化）方式は、process 時に測った幅で
- * Instagram 側のレイアウト幅 (wp) が決まり、親幅が 540px を超えると映像が潰れていた。
- * そこで本コンポーネントは Instagram 公式の embed iframe を直接描画し、`wp=540` /
- * `width=540` を明示して常に 540px 基準でレンダリングさせる。
+ * Instagram 公式の埋め込みコード（blockquote）をそのまま注入し、embed.js が
+ * `process()` で iframe 化する。幅・高さ・wp は一切こちらで指定せず、公式コードと
+ * Instagram の挙動に完全に委ねる（独自の min-h / max-w / wp 制約は付けない）。
  */
-export function InstagramEmbed({ permalink, className }: InstagramEmbedProps) {
-  const shortcode = extractShortcode(permalink);
-  if (!shortcode) return null;
+export function InstagramEmbed({ permalink = DEFAULT_PERMALINK, className }: InstagramEmbedProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void loadEmbedScript().then(() => {
+      if (!cancelled) {
+        window.instgrm?.Embeds.process();
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [permalink]);
 
   return (
-    <div className={cn("mx-auto w-full max-w-[540px]", className)}>
-      <iframe
-        src={`https://www.instagram.com/reel/${shortcode}/embed/?cr=1&v=14&wp=${EMBED_WIDTH}`}
-        title="Instagram Reel"
-        width={EMBED_WIDTH}
-        height={EMBED_HEIGHT}
-        frameBorder={0}
-        scrolling="no"
-        allowTransparency
-        allowFullScreen
-        loading="lazy"
-        style={{
-          display: "block",
-          width: "100%",
-          maxWidth: `${EMBED_WIDTH}px`,
-          border: "none",
-          margin: "0 auto",
-          background: "#fff",
-        }}
-      />
-    </div>
+    <div
+      ref={containerRef}
+      // 幅は縛らない（max は付けない）。w-full で利用可能幅まで広げ、最終幅は blockquote
+      // 自身の max-width:540px に委ねる。InstagramEmbedList の items-center により幅未指定
+      // だと子が min-width(326px) まで縮むため、w-full で 540px に届かせる。
+      className={cn("mx-auto w-full text-center", className)}
+      // 公式 HTML をそのまま注入。permalink 変更時はブロックを作り直して再 process させる。
+      key={permalink}
+      dangerouslySetInnerHTML={{ __html: buildEmbedHtml(permalink) }}
+    />
   );
 }
 

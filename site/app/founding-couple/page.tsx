@@ -125,22 +125,26 @@ export default function FoundingCouplePage() {
       {/* GALLERY セクション */}
       <section className="section-gallery w-full border-t-[1.5px] border-hairline bg-canvas">
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
-          <div className="mx-auto max-w-2xl py-32 text-center md:py-48">
-            <p className="font-display text-sm uppercase tracking-[0.15em] text-ink-muted">
-              Gallery
-            </p>
-            <h2
-              className="mt-4 font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
-              style={{ letterSpacing: "0.02em" }}
-              lang="ja"
-            >
-              作例
-            </h2>
-            <p className="mx-auto mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
-              実際にお届けする縦動画のイメージを Instagram でご覧いただけます
-            </p>
-            <div className="mt-12">
-              <InstagramThumbnailCardList items={GALLERY_REELS} />
+          <div className="mx-auto max-w-5xl py-32 md:py-48">
+            <div className="grid gap-16 md:grid-cols-2 md:items-start md:gap-24 lg:gap-32">
+              <div>
+                <p className="font-display text-sm uppercase tracking-[0.15em] text-ink-muted">
+                  Gallery
+                </p>
+                <h2
+                  className="mt-4 font-heading font-normal text-[clamp(2rem,4vw,3.5rem)] leading-[1.12] text-ink"
+                  style={{ letterSpacing: "0.02em" }}
+                  lang="ja"
+                >
+                  作例
+                </h2>
+                <p className="mt-6 max-w-xl font-body text-base leading-relaxed text-ink-muted">
+                  実際にお届けする縦動画のイメージを Instagram でご覧いただけます
+                </p>
+              </div>
+              <div>
+                <InstagramThumbnailCardList items={GALLERY_REELS} />
+              </div>
             </div>
           </div>
         </div>

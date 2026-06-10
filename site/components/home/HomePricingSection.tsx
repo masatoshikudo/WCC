@@ -38,7 +38,7 @@ export function HomePricingSection({
           明日のふたりへ
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-center font-body text-base leading-relaxed text-ink-muted">
-          友人が撮った目線を加える、機材貸出オプションもあります。
+          友人が撮った目線を加える、機材貸出オプションもあります
         </p>
 
         {compact ? (

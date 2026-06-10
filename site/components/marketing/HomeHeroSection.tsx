@@ -22,11 +22,11 @@ export function HomeHeroSection() {
             明日のふたりへ
           </h1>
           <p className="max-w-xl font-body text-lg leading-relaxed text-ink-muted">
-            つくらない、ありのままの一日を。
+            つくらない、ありのままの一日を
             <br />
-            カメラを意識していない、ふとした表情まで。
+            カメラを意識していない、ふとした表情まで
             <br />
-            その日の気持ちに近いまま、ふたりの手元へ。
+            その日の気持ちに近いまま、ふたりの手元へ
           </p>
           <Link
             href={HOME_ANCHOR_HREF.pricing}

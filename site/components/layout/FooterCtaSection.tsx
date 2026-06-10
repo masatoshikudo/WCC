@@ -29,7 +29,7 @@ export function FooterCtaSection() {
         <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
         撮りたい内容も、日程も
         <br />
-        これからで大丈夫です。
+        これからで大丈夫です
         </p>
         <p className="mt-2 max-w-2xl font-body leading-relaxed text-ink-muted md:mx-auto">
           どんな一日にしたいか、どう残したいか

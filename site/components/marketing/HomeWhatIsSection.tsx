@@ -22,13 +22,15 @@ export function HomeWhatIsSection() {
             </h2>
             <div className="flex flex-col gap-8">
               <p className="font-body text-base leading-relaxed text-ink-muted">
-              結婚式当日の一日を、演出せずにそのまま残すドキュメンタリーです。
+              結婚式当日の一日を、演出せずにそのまま残す
+              <br />
+              ドキュメンタリーです
               <br />
               翌日、ふたりで「いい一日だったね」と見返したり、
               <br />
-              来られなかった家族や友人へ、ふたりらしい空気をそのまま届けたり。
+              来られなかった家族や友人へ、ふたりらしい空気をそのまま届けたり
               <br />
-              飾らない感情こそ、いちばん見返したくなるから。
+              飾らない感情こそ、いちばん見返したくなるから
               </p>
             </div>
           </div>

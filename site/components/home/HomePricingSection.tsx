@@ -33,10 +33,13 @@ export function HomePricingSection({
           className="text-center font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
           style={{ letterSpacing: "0.02em" }}
         >
-          よろこびと祝福を
+          よろこびと祝福を、
           <br />
-          明日のふたりへ届けるプラン
+          明日のふたりへ
         </h2>
+        <p className="mx-auto mt-6 max-w-xl text-center font-body text-base leading-relaxed text-ink-muted">
+          友人が撮った目線を加える、機材貸出オプションもあります
+        </p>
 
         {compact ? (
           <div className={cn("mx-auto max-w-5xl", HOME_WHAT_IS_WCC_VERT_PAD_CLASS)}>

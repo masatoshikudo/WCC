@@ -23,26 +23,26 @@ export function HomeDoINeedSection() {
             <div className="flex flex-col gap-8">
               <p className="font-body text-base leading-relaxed text-ink-muted">
               わたしたちは、結婚式当日の喜びと祝福を
-              　<br />
-              スマホで見返しやすい縦型動画として残すクリエイターです
-              　<br />
-              写真や本編ムービーを待つ時間も
               <br />
-              ふたりにとって大切な時間だと考えています
-              　</p>
+              演出せず、気配を消して、ありのまま残すクリエイターです
+              <br />
+              カメラを意識していない、ふとした表情のなかにこそ
+              <br />
+              その日のふたりらしさがあると考えています
+              </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
               結婚式の翌日、ふたりで昨日をもう一度見返したい
               <br />
               離れている家族や友人にも、当日の空気を届けたい
               <br />
-              ふたりらしい一日を、今の気持ちに近いまま残したい。
+              ふたりらしい一日を、今の気持ちに近いまま残したい
                 <br />
                 余韻が残るうちに、ふたりで見返したい
               </p>
               <p className="font-body text-base leading-relaxed text-ink-muted">
-              そんな気持ちがひとつでもあるなら、
+              そんな気持ちがひとつでもあるなら
               <br />
-              このサービスは、きっとふたりの役に立てます。
+              このサービスは、きっとふたりの役に立てます
               </p>
             </div>
           </div>

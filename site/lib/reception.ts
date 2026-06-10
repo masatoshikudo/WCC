@@ -44,7 +44,7 @@ export type MonthAvailability = {
 };
 
 export const RECEPTION_COPY = {
-  generalHeadline: "2026年8月以降の挙式からご予約いただけます",
+  generalHeadline: "8〜10月挙式のふたりと、最初の一日を一緒に残します（各月2組／先着）",
   receptionPeriod: "8〜10月挙式の受付を開始しました",
   capacityNote: "各月2組まで（先着）",
   foundingCouple:

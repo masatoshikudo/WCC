@@ -22,13 +22,11 @@ export function HomeHeroSection() {
             明日のふたりへ
           </h1>
           <p className="max-w-xl font-body text-lg leading-relaxed text-ink-muted">
-            24時間以内に届く
+            つくらない、ありのままの一日を。
             <br />
-            ふたりだけの縦型ウェディング動画
+            カメラを意識していない、ふとした表情まで。
             <br />
-            SNSで、家族へ、ゲストへ
-            <br />
-            余韻が残るうちにすぐ送れる
+            その日の気持ちに近いまま、ふたりの手元へ。
           </p>
           <Link
             href={HOME_ANCHOR_HREF.pricing}

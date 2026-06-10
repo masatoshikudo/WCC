@@ -6,6 +6,7 @@ import { HomeHeroSection } from "@/components/marketing/HomeHeroSection";
 import { HOME_CONTENT_INNER_COLUMN_CLASS } from "@/lib/layout/home-sections";
 import { HomeWhatIsSection } from "@/components/marketing/HomeWhatIsSection";
 import { HomeDoINeedSection } from "@/components/marketing/HomeDoINeedSection";
+import { HomeValuesSection } from "@/components/marketing/HomeValuesSection";
 import { RECEPTION_COPY } from "@/lib/reception";
 import { HomePricingSectionSkeleton } from "@/components/home/HomeDynamicSkeletons";
 
@@ -29,7 +30,7 @@ export default function HomePage() {
         <div className={HOME_CONTENT_INNER_COLUMN_CLASS}>
           <div className="mx-auto max-w-2xl py-24 text-center md:py-32">
             <p className="font-display text-sm uppercase tracking-[0.15em] text-ink-muted">
-              Founding Couple
+              Founding Couple 募集中
             </p>
             <h2
               className="mt-4 font-heading font-normal text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.12] text-ink"
@@ -61,6 +62,8 @@ export default function HomePage() {
       <HomeWhatIsSection />
 
       <HomeDoINeedSection />
+
+      <HomeValuesSection />
 
       <HomePricingSection
         sectionH2ClassName={SECTION_H2_CLASS}

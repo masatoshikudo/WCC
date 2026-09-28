@@ -108,7 +108,7 @@ export const PRIVACY_DRAFT: PrivacyDraft = {
     {
       id: "effective-date",
       label: "制定日・改定日",
-      value: "改定日：2026年9月28日",
+      value: "2026年9月28日 改定",
       status: "needs_input",
     },
   ],

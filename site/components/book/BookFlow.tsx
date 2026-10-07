@@ -297,9 +297,9 @@ export function BookFlow() {
           ) : null}
         </p>
         <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
-          送信後、見積もりと請求書を順にお送りします。
+          送信後、ZOOM での打ち合わせのご案内をお送りします。
           <br />
-          詳細な打ち合わせは、ご決済後の ZOOM にて行います。
+          打ち合わせの内容をもとに、お見積もりと請求書をお送りします。
         </p>
 
         <h2 className="font-display mt-6 text-xl font-bold text-ink">
@@ -782,14 +782,14 @@ export function BookFlow() {
           </section>
 
           <p className="font-body text-sm leading-relaxed text-ink-muted">
-            送信後、担当より見積と請求URLをメールでお送りします。24時間以内の納品条件を前提に、当日の進行に合わせて最終調整します。
+            送信後、担当より ZOOM での打ち合わせのご案内をメールでお送りします。打ち合わせの内容をもとに、お見積もりと請求URLをお送りします。24時間以内の納品条件を前提に、当日の進行に合わせて最終調整します。
           </p>
 
           {submitState === "success" ? (
             <div role="status" className="rounded-sm border border-hairline bg-canvas p-4">
               <p className="font-body text-sm text-success">ご相談内容を受け付けました。</p>
               <p className="mt-2 font-body text-sm leading-relaxed text-ink-muted">
-                通常24時間以内を目安に、見積のご案内メールをお送りします。
+                通常24時間以内を目安に、ZOOM での打ち合わせのご案内メールをお送りします。
               </p>
             </div>
           ) : null}

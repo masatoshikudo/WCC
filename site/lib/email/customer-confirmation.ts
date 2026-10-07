@@ -51,7 +51,7 @@ function buildText(greeting: string, input: RecordBookingIntentInput): string {
     "",
     "このたびはご相談をありがとうございます",
     "",
-    "内容を確認のうえ、担当よりお見積もりをメールでお送りします",
+    "内容を確認のうえ、担当より ZOOM での打ち合わせのご案内をメールでお送りします",
     "通常 2 営業日以内のご連絡となります",
     "",
     DIVIDER,

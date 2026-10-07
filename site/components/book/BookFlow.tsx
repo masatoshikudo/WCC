@@ -6,6 +6,7 @@ import { usePostHog } from "posthog-js/react";
 import { recordBookingIntent } from "@/app/actions/booking";
 import { fetchReceptionAvailability } from "@/app/actions/reception";
 import { BookingIntentError } from "@/lib/booking-errors";
+import { COUPON_CODE_MAX_LENGTH, COUPON_QUERY_PARAM, normalizeCouponCode } from "@/lib/coupon";
 import { BookMobileStickyDock } from "@/components/layout/MobileStickyDock";
 import { SideColumnVisualPanel } from "@/components/layout/SideColumnVisualPanel";
 import { TwoColumnCtaSection } from "@/components/layout/TwoColumnCtaSection";
@@ -71,6 +72,7 @@ export function BookFlow() {
   const [venueRestrictions, setVenueRestrictions] = useState("");
   const [emergencyContact, setEmergencyContact] = useState("");
   const [extrasNote, setExtrasNote] = useState("");
+  const [couponCode, setCouponCode] = useState("");
   const [bookerEmailError, setBookerEmailError] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [submitState, setSubmitState] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -105,6 +107,15 @@ export function BookFlow() {
   useEffect(() => {
     void fetchReceptionAvailability().then(setMonthAvailability);
   }, []);
+
+  // Wedding TODO アプリのリンク（/book?coupon=XXXX）から来た人は、コードを最初から入れておく
+  useEffect(() => {
+    const fromUrl = normalizeCouponCode(
+      new URLSearchParams(window.location.search).get(COUPON_QUERY_PARAM),
+    );
+    if (fromUrl) setCouponCode(fromUrl);
+  }, []);
+  const couponCodeForSubmission = normalizeCouponCode(couponCode);
 
   function getAvailabilityForMonth(monthKey: PreferredWeddingMonth): MonthAvailability | undefined {
     return monthAvailability.find((item) => item.monthKey === monthKey);
@@ -236,6 +247,7 @@ export function BookFlow() {
         venueRestrictions: venueRestrictions.trim() ? venueRestrictions.trim() : null,
         emergencyContact: emergencyContact.trim() ? emergencyContact.trim() : null,
         extrasNote: extrasNote.trim() ? extrasNote.trim() : null,
+        couponCode: couponCodeForSubmission,
         planId: BOOK_PLAN_ID,
         planLabel: BOOK_PLAN.label,
         priceLabel: BOOK_PLAN.priceLabel,
@@ -251,6 +263,7 @@ export function BookFlow() {
         start_time_undecided: startTimeUndecided,
         delivery_channels: deliveryChannels,
         venue_area: venueArea.trim() || null,
+        has_coupon: couponCodeForSubmission !== null,
       });
     } catch (err) {
       setSubmitState("error");
@@ -647,6 +660,24 @@ export function BookFlow() {
                   className="mt-2 w-full rounded-sm border border-hairline bg-canvas px-3 py-2 font-body text-sm text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 />
               </div>
+
+              <div>
+                <label htmlFor="coupon-code" className="font-body text-sm font-semibold text-ink">
+                  クーポンコード
+                </label>
+                <input
+                  id="coupon-code"
+                  type="text"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  maxLength={COUPON_CODE_MAX_LENGTH}
+                  autoComplete="off"
+                  autoCapitalize="characters"
+                  spellCheck={false}
+                  placeholder="お持ちの方のみ"
+                  className="mt-2 w-full rounded-sm border border-hairline bg-canvas px-3 py-2 font-body text-sm uppercase text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                />
+              </div>
             </div>
           </section>
 
@@ -741,6 +772,12 @@ export function BookFlow() {
                 <dt className="text-ink-muted">撮影制限情報</dt>
                 <dd className="max-w-[60%] text-right text-ink">{venueRestrictions.trim() || "—"}</dd>
               </div>
+              {couponCodeForSubmission ? (
+                <div className="flex justify-between gap-4">
+                  <dt className="text-ink-muted">クーポンコード</dt>
+                  <dd className="text-right font-mono text-ink">{couponCodeForSubmission}</dd>
+                </div>
+              ) : null}
             </dl>
           </section>
 

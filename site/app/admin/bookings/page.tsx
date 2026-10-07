@@ -3,6 +3,10 @@ import Link from "next/link";
 import { adminLogoutAction, upsertBookingQuoteReferenceAction } from "@/app/admin/actions";
 import { requireAdminSession } from "@/lib/admin-auth-server";
 import { formatWeddingScheduleLabel } from "@/lib/reception";
+import {
+  PROMOTION_CODE_STATUS_LABEL,
+  getPromotionCodeStatuses,
+} from "@/lib/stripe/promotion-code-status";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 type IntentRow = {
@@ -25,6 +29,7 @@ type IntentRow = {
   reference_video_urls: string[] | null;
   venue_restrictions: string | null;
   emergency_contact: string | null;
+  coupon_code: string | null;
   plan_id: string;
   plan_label: string;
   price_label: string;
@@ -140,6 +145,7 @@ export default async function AdminBookingsPage() {
 
   const intents = (intentsRaw ?? []) as IntentRow[];
   const quotes = (quotesRaw ?? []) as QuoteRow[];
+  const couponStatuses = await getPromotionCodeStatuses(intents.map((row) => row.coupon_code ?? null));
   const quoteByAttemptId = new Map<string, QuoteRow>(
     quotes.map((row) => [row.attempt_id, row]),
   );
@@ -182,7 +188,7 @@ export default async function AdminBookingsPage() {
       <section className="mt-10">
         <h2 className="font-display text-lg font-semibold text-ink">相談一覧（intent + quote参照）</h2>
         <div className="mt-3 overflow-x-auto border border-hairline">
-          <table className="min-w-[2360px] w-full border-collapse font-body text-left text-sm">
+          <table className="min-w-[2480px] w-full border-collapse font-body text-left text-sm">
             <thead>
               <tr className="border-b border-hairline bg-canvas">
                 <th className="p-2 font-semibold">日時</th>
@@ -200,6 +206,7 @@ export default async function AdminBookingsPage() {
                 <th className="p-2 font-semibold">撮影制限</th>
                 <th className="p-2 font-semibold">緊急連絡先</th>
                 <th className="p-2 font-semibold">プラン</th>
+                <th className="p-2 font-semibold">クーポン</th>
                 <th className="p-2 font-semibold">Stripe顧客</th>
                 <th className="p-2 font-semibold">Stripe Quote</th>
                 <th className="p-2 font-semibold">Stripe Invoice</th>
@@ -213,7 +220,7 @@ export default async function AdminBookingsPage() {
             <tbody>
               {intents.length === 0 ? (
                 <tr>
-                  <td colSpan={23} className="p-4 text-ink-muted">
+                  <td colSpan={24} className="p-4 text-ink-muted">
                     データがありません。SQL を Supabase で実行済みか確認してください。
                   </td>
                 </tr>
@@ -247,6 +254,19 @@ export default async function AdminBookingsPage() {
                       <td className="p-2 align-top">{row.venue_restrictions || "—"}</td>
                       <td className="p-2 align-top">{row.emergency_contact || "—"}</td>
                       <td className="p-2 align-top">{row.plan_label}</td>
+                      <td className="p-2 align-top whitespace-nowrap">
+                        {row.coupon_code ? (
+                          <>
+                            <span className="font-mono text-xs">{row.coupon_code}</span>
+                            <br />
+                            <span className="text-xs text-ink-muted">
+                              {PROMOTION_CODE_STATUS_LABEL[couponStatuses.get(row.coupon_code) ?? "unavailable"]}
+                            </span>
+                          </>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
                       <td className="p-2 align-top break-all font-mono text-xs">
                         {quote?.stripe_customer_id ?? "—"}
                       </td>

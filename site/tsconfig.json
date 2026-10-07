@@ -33,7 +33,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next-local/types/**/*.ts",
-    "/var/folders/dx/k29j8vwd2378jtd2f6pszshh0000gn/T/wcc-next-dev/78df96645d01073c/types/**/*.ts"
+    "/var/folders/dx/k29j8vwd2378jtd2f6pszshh0000gn/T/wcc-next-dev/78df96645d01073c/types/**/*.ts",
+    "/tmp/wcc-next-dev/20ecc27ec88108fc/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

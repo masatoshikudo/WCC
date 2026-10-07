@@ -1,4 +1,5 @@
 import { type RecordBookingIntentInput } from "@/app/actions/booking";
+import { normalizeCouponCode } from "@/lib/coupon";
 import { escapeHtml } from "@/lib/email/escape-html";
 import { sendEmailSafe } from "@/lib/email/resend";
 import { formatWeddingScheduleLabel } from "@/lib/reception";
@@ -92,6 +93,10 @@ function buildText(input: RecordBookingIntentInput): string {
   }
   if (input.venueRestrictions?.trim()) {
     lines.push("", "会場側の撮影制限情報", input.venueRestrictions.trim());
+  }
+  const couponCode = normalizeCouponCode(input.couponCode);
+  if (couponCode) {
+    lines.push("", "クーポンコード", `${couponCode}（請求書を作るときに値引きを付けてください）`);
   }
 
   lines.push(

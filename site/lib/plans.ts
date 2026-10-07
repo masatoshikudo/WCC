@@ -4,7 +4,7 @@
 
 /** 特商法「支払時期」など、いつ支払うかの明示用 */
 export const WCC_PAYMENT_TIMING_NOTE =
-  "お見積もりメール記載の Stripe 決済リンクより一括でお支払いいただきます 決済完了後、公式 LINE へのご招待と ZOOM お打ち合わせ日程調整のご案内をお送りします";
+  "ZOOM でのお打ち合わせ後にお送りするお見積もりメール記載の Stripe 決済リンクより一括でお支払いいただきます 決済完了後、公式 LINE へご招待します";
 
 /** 税込表示の補足（支払時期と併用） */
 export const WCC_PACKAGE_TAX_LUMP_NOTE =

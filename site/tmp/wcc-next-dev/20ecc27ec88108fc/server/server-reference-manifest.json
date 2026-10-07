@@ -1,0 +1,22 @@
+{
+  "node": {
+    "a8e8b0f0b2af060378eba397588816c2eb137a93": {
+      "workers": {
+        "app/book/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fclaude%2Fwcc%2Fsite%2Fapp%2Factions%2Fbooking.ts%22%2C%5B%22recordBookingIntent%22%5D%5D%2C%5B%22%2Fhome%2Fclaude%2Fwcc%2Fsite%2Fapp%2Factions%2Freception.ts%22%2C%5B%22fetchReceptionAvailability%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/book/page": "action-browser"
+      }
+    },
+    "21914a0b2c59e1a0375cf1320c8a34b302bf619a": {
+      "workers": {
+        "app/book/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fclaude%2Fwcc%2Fsite%2Fapp%2Factions%2Fbooking.ts%22%2C%5B%22recordBookingIntent%22%5D%5D%2C%5B%22%2Fhome%2Fclaude%2Fwcc%2Fsite%2Fapp%2Factions%2Freception.ts%22%2C%5B%22fetchReceptionAvailability%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/book/page": "action-browser"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "9/PBdHEnwezu4m4FPjyJs3kDEaLesT+hqKh0s1p+j8A="
+}

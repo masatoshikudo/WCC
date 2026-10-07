@@ -3,6 +3,7 @@
 import { sendBookingConfirmationToCustomer } from "@/lib/email/customer-confirmation";
 import { notifyOwnerOfBookingIntent } from "@/lib/email/booking-notification";
 import { BookingIntentError } from "@/lib/booking-errors";
+import { normalizeCouponCode } from "@/lib/coupon";
 import { isMonthAtCapacity } from "@/lib/reception-capacity";
 import {
   type PreferredWeddingMonth,
@@ -31,6 +32,8 @@ export type RecordBookingIntentInput = {
   venueRestrictions: string | null;
   emergencyContact: string | null;
   extrasNote: string | null;
+  /** 任意。Wedding TODO アプリ等で配ったクーポンコード */
+  couponCode: string | null;
   planId: string;
   planLabel: string;
   priceLabel: string;
@@ -76,6 +79,7 @@ export async function recordBookingIntent(input: RecordBookingIntentInput): Prom
     venue_restrictions: input.venueRestrictions?.trim() || null,
     emergency_contact: input.emergencyContact?.trim() || null,
     extras_note: input.extrasNote?.trim() || null,
+    coupon_code: normalizeCouponCode(input.couponCode),
     plan_id: input.planId,
     plan_label: input.planLabel,
     price_label: input.priceLabel,

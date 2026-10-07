@@ -45,6 +45,8 @@ alter table if exists public.booking_intents add column if not exists extras_not
 alter table if exists public.booking_intents add column if not exists preferred_wedding_month text;
 comment on column public.booking_intents.preferred_wedding_month is 'date_undecided=true のときの希望挙式月（YYYY-MM）';
 create index if not exists booking_intents_preferred_wedding_month_idx on public.booking_intents (preferred_wedding_month) where date_undecided = true;
+alter table if exists public.booking_intents add column if not exists coupon_code text;
+comment on column public.booking_intents.coupon_code is '問い合わせフォームで入力されたクーポンコード（大文字化・前後空白除去済み）。未入力は null';
 alter table if exists public.booking_intents drop constraint if exists booking_intents_coverage_scope_check;
 alter table if exists public.booking_intents add constraint booking_intents_coverage_scope_check check (coverage_scope in ('ceremony_only', 'ceremony_reception', 'through_afterparty'));
 

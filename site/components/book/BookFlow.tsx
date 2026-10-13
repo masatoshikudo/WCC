@@ -20,7 +20,6 @@ import {
   getCapacityErrorMessage,
   getDatePickerBounds,
   getSelectableWeddingMonths,
-  isJulyExceptionActive,
   validateWeddingScheduling,
 } from "@/lib/reception";
 import { emailFieldSchema } from "@/lib/validations/email";
@@ -102,7 +101,6 @@ export function BookFlow() {
 
   const datePickerBounds = useMemo(() => getDatePickerBounds(), []);
   const selectableMonths = useMemo(() => getSelectableWeddingMonths(), []);
-  const showJulyException = useMemo(() => isJulyExceptionActive(), []);
 
   useEffect(() => {
     void fetchReceptionAvailability().then(setMonthAvailability);
@@ -289,12 +287,6 @@ export function BookFlow() {
         <h1 className="font-display mt-3 text-[1.75rem] font-bold text-ink">ご相談・お見積もりフォーム</h1>
         <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
           {RECEPTION_COPY.bookIntroPrimary}
-          {showJulyException ? (
-            <>
-              <br />
-              {RECEPTION_COPY.bookIntroJulyException}
-            </>
-          ) : null}
         </p>
         <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
           送信後、ZOOM での打ち合わせのご案内をお送りします。
@@ -460,7 +452,7 @@ export function BookFlow() {
                 {dateUndecided ? (
                   <fieldset className="mt-4">
                     <legend className="font-body text-sm font-semibold text-ink">希望挙式月（必須）</legend>
-                    <div className="mt-3 flex flex-col gap-2">
+                    <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3">
                       {selectableMonths.map((monthKey) => {
                         const availability = getAvailabilityForMonth(monthKey);
                         const isFull = availability?.isFull ?? false;

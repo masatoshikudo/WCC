@@ -3,31 +3,25 @@
  * LP コピーと /book バリデーションの両方から参照する。
  */
 
-export const CAPACITY_PER_MONTH = 2;
+/**
+ * 1か月あたりの受付枠（クーポン利用者を含めた合計）。
+ * 枠は booking_intents の件数で数えるため、クーポンの有無で分けない。
+ */
+export const CAPACITY_PER_MONTH = 4;
 
-export const GENERAL_WEDDING_MONTHS = ["2026-08", "2026-09", "2026-10"] as const;
+/** 受付を始める挙式月（この月より前の挙式は受け付けない） */
+export const RECEPTION_START_MONTH = "2026-12";
 
-export const JULY_WEDDING_MONTH = "2026-07" as const;
+/** 受付開始月（または今月）から何か月先まで選べるようにするか */
+export const RECEPTION_MONTHS_AHEAD = 12;
 
-/** 7月挙式の例外受付締切（JST） */
-export const JULY_EXCEPTION_DEADLINE = "2026-06-10T23:59:59+09:00";
-
-export const RECEPTION_DATE_MAX = "2026-10-31";
-
-export const RECEPTION_GENERAL_DATE_MIN = "2026-08-01";
-
-export const JULY_EXCEPTION_DATE_MIN = "2026-07-01";
-
-export const JULY_EXCEPTION_DATE_MAX = "2026-07-31";
-
-export type PreferredWeddingMonth =
-  | typeof JULY_WEDDING_MONTH
-  | (typeof GENERAL_WEDDING_MONTHS)[number];
+/** "YYYY-MM" 形式の挙式月 */
+export type PreferredWeddingMonth = string;
 
 export type WeddingSchedulingInput = {
   dateUndecided: boolean;
   weddingDate: string;
-  preferredWeddingMonth: PreferredWeddingMonth | "" | null | string;
+  preferredWeddingMonth: PreferredWeddingMonth | "" | null;
 };
 
 export type WeddingSchedulingValidation =
@@ -44,19 +38,13 @@ export type MonthAvailability = {
 };
 
 export const RECEPTION_COPY = {
-  generalHeadline: "8〜10月挙式のふたりと、最初の一日を一緒に残します（各月2組／先着）",
-  receptionPeriod: "8〜10月挙式の受付を開始しました",
-  capacityNote: "各月2組まで（先着）",
+  generalHeadline: "2026年12月以降に挙式のふたりを受付中です（各月4組／先着）",
+  receptionPeriod: "2026年12月以降の挙式を受付中です",
+  capacityNote: "各月4組まで（先着）",
   foundingCouple:
     "Founding Couple として、8〜10月挙式予定のカップル2組を募集しています",
-  julyException:
-    "7月挙式をご検討の方は、2026年6月10日（火）23:59 までにご相談ください。以降は8月以降の挙式からの受付となります。",
-  bookIntroPrimary: "2026年8〜10月挙式の方を受付中です（各月2組まで・先着）。",
-  bookIntroJulyException:
-    "7月挙式をご検討の方は、2026年6月10日（火）23:59 までにご相談ください。",
+  bookIntroPrimary: "2026年12月以降に挙式の方を受付中です（各月4組まで・先着）。",
 } as const;
-
-const JULY_EXCEPTION_DEADLINE_MS = new Date(JULY_EXCEPTION_DEADLINE).getTime();
 
 /** JST の YYYY-MM-DD */
 export function formatJstDate(date: Date): string {
@@ -68,23 +56,28 @@ export function formatJstDate(date: Date): string {
   }).format(date);
 }
 
-export function isJulyExceptionActive(now = new Date()): boolean {
-  return now.getTime() <= JULY_EXCEPTION_DEADLINE_MS;
+function addMonths(monthKey: string, delta: number): string {
+  const [y, m] = monthKey.split("-").map((v) => Number.parseInt(v, 10));
+  const index = y * 12 + (m - 1) + delta;
+  const year = Math.floor(index / 12);
+  const month = (index % 12) + 1;
+  return `${year}-${String(month).padStart(2, "0")}`;
 }
 
+/** 今月（JST）と受付開始月の遅いほうから、RECEPTION_MONTHS_AHEAD か月分の挙式月 */
 export function getSelectableWeddingMonths(now = new Date()): PreferredWeddingMonth[] {
-  if (isJulyExceptionActive(now)) {
-    return [JULY_WEDDING_MONTH, ...GENERAL_WEDDING_MONTHS];
-  }
-  return [...GENERAL_WEDDING_MONTHS];
+  const currentMonth = formatJstDate(now).slice(0, 7);
+  const first = currentMonth > RECEPTION_START_MONTH ? currentMonth : RECEPTION_START_MONTH;
+  return Array.from({ length: RECEPTION_MONTHS_AHEAD }, (_, i) => addMonths(first, i));
 }
 
 export function getDatePickerBounds(now = new Date()): { min: string; max: string } {
   const today = formatJstDate(now);
-  const policyMin = isJulyExceptionActive(now) ? JULY_EXCEPTION_DATE_MIN : RECEPTION_GENERAL_DATE_MIN;
+  const months = getSelectableWeddingMonths(now);
+  const policyMin = `${months[0]}-01`;
   return {
     min: today > policyMin ? today : policyMin,
-    max: RECEPTION_DATE_MAX,
+    max: getMonthDateRange(months[months.length - 1]).end,
   };
 }
 
@@ -108,14 +101,14 @@ export function monthKeyFromWeddingDate(
 ): PreferredWeddingMonth | null {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(weddingDate)) return null;
   const monthKey = weddingDate.slice(0, 7);
-  if (getSelectableWeddingMonths(now).includes(monthKey as PreferredWeddingMonth)) {
-    return monthKey as PreferredWeddingMonth;
+  if (getSelectableWeddingMonths(now).includes(monthKey)) {
+    return monthKey;
   }
   return null;
 }
 
 export function isAllowedMonthKey(monthKey: string, now = new Date()): monthKey is PreferredWeddingMonth {
-  return getSelectableWeddingMonths(now).includes(monthKey as PreferredWeddingMonth);
+  return getSelectableWeddingMonths(now).includes(monthKey);
 }
 
 export function getMonthDateRange(monthKey: string): { start: string; end: string } {
@@ -177,17 +170,20 @@ export function validateWeddingScheduling(
     return { ok: false, message: "挙式日は本日より後の日付を選んでください。" };
   }
 
-  const monthKey = monthKeyFromWeddingDate(input.weddingDate, now);
-  if (!monthKey || !getSelectableWeddingMonths(now).includes(monthKey)) {
-    if (isJulyExceptionActive(now)) {
-      return {
-        ok: false,
-        message: "2026年7月〜10月の挙式を受付中です。該当する日付を選んでください。",
-      };
-    }
+  const months = getSelectableWeddingMonths(now);
+  const lastMonth = months[months.length - 1];
+  if (input.weddingDate > getMonthDateRange(lastMonth).end) {
     return {
       ok: false,
-      message: "2026年8月〜10月の挙式を受付中です。該当する日付を選んでください。",
+      message: `現在は${formatPreferredMonthLabelLong(lastMonth)}までの挙式を受付中です。それより先の日程はお問い合わせください。`,
+    };
+  }
+
+  const monthKey = monthKeyFromWeddingDate(input.weddingDate, now);
+  if (!monthKey || !getSelectableWeddingMonths(now).includes(monthKey)) {
+    return {
+      ok: false,
+      message: "2026年12月以降の挙式を受付中です。該当する日付を選んでください。",
     };
   }
 

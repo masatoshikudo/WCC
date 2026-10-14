@@ -67,53 +67,46 @@ const WORKS = [
   { n: "04", key: "afterparty-2", label: "2次会" },
 ] as const;
 
-const VALUES: { lead: string; sub: string; icon: ReactNode }[] = [
-  {
-    lead: "演出より、その瞬間",
-    sub: "カメラを意識していない表情",
-    icon: (
-      <>
-        <circle cx="12" cy="12" r="3.2" pathLength={1} />
-        <path d="M3 12s3.5-6.5 9-6.5S21 12 21 12s-3.5 6.5-9 6.5S3 12 3 12Z" pathLength={1} />
-      </>
-    ),
-  },
-  {
-    lead: "つくり込みより、ありのまま",
-    sub: "飾らない気持ちを残す",
-    icon: <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" pathLength={1} />,
-  },
-  {
-    lead: "記録より、ドキュメンタリー",
-    sub: "一日の空気ごと持ち帰る",
-    icon: (
-      <>
-        <rect x="7" y="3" width="10" height="18" rx="2" pathLength={1} />
-        <path d="m11 10 3 2-3 2z" pathLength={1} />
-      </>
-    ),
-  },
-  {
-    lead: "特別な機材より、近い距離",
-    sub: "身軽なカメラで、そばにいる",
-    icon: (
-      <>
-        <circle cx="8" cy="9" r="3" pathLength={1} />
-        <circle cx="16" cy="9" r="3" pathLength={1} />
-        <path d="M3 19c.6-3 2.6-5 5-5s4.4 2 5 5M11 19c.6-3 2.6-5 5-5s4.4 2 5 5" pathLength={1} />
-      </>
-    ),
-  },
-  {
-    lead: "ふたりだけでなく、みんなの目線も",
-    sub: "友人が撮った一コマも入れる",
-    icon: (
-      <>
-        <path d="M4 8h3l2-3h6l2 3h3v11H4z" pathLength={1} />
-        <circle cx="12" cy="13" r="3.5" pathLength={1} />
-      </>
-    ),
-  },
+/** 文末の絵文字が1文字だけ次の行に落ちないよう、直前の1文字とくっつける */
+function withEmojiTail(t: string): ReactNode {
+  const cs = Array.from(t);
+  // 最後の文字が絵文字（U+2600 以降）のときだけ
+  if (cs.length < 2 || (cs[cs.length - 1].codePointAt(0) ?? 0) < 0x2600) return t;
+  return (
+    <>
+      {cs.slice(0, -2).join("")}
+      <span className="nw">{cs.slice(-2).join("")}</span>
+    </>
+  );
+}
+
+/**
+ * 大切にすること：手紙として1行ずつ読ませる（空文字は段落の区切り）
+ * 絵文字は Wedding TODO と同じルール（1文に1つまで・文末だけ・使いすぎない）
+ */
+const LETTER: string[] = [
+  "結婚式の日は、きっとバタバタです💦",
+  "挨拶にお色直しに写真撮影。気づいたら一日が終わっていた、という声をよく聞きます。",
+  "だから、当日の思い出は私たちに任せてください。",
+  "ふたりは、大切な人たちと過ごす一瞬一瞬を、心のままに楽しんでください🥂",
+  "",
+  "きれいにポーズをとったり、何かを演じたりする必要はありません。",
+  "",
+  "ふと目が合って笑ったこと。",
+  "大切な人の言葉に、胸がいっぱいになったこと。",
+  "きっと、バタバタの中でふたりも気づかなかった小さな幸せが、その日にはたくさんあるはずです✨",
+  "",
+  "私たちは、大きな機材を持ち込まず、小さなカメラを手に、そっとそばにいます。",
+  "ご友人が撮ってくれた何気ない一コマも大切にしながら、ふたりが見ていた景色も、ふたりを見つめていた人たちの想いも、ひとつの映像に残していきます。",
+  "",
+  "そして、結婚式の翌朝。",
+  "いつものようにコーヒーを淹れて、ふたりで並んで、一瞬だった昨日を、もう一度ゆっくり観てください☕",
+  "",
+  "「あのとき、こんな顔してたんだね」",
+  "「こんなこともあったんだね」",
+  "",
+  "そんなふうに笑い合いながら、もう一度、あの日の幸せを感じてもらえたら。",
+  "私たちは、それが何よりうれしいです🤍",
 ];
 
 const SPECS = [
@@ -342,18 +335,12 @@ export function HomeB3({ openMonth }: { openMonth: MonthAvailability | null }) {
           <Eyebrow>Our way</Eyebrow>
           <SplitH2 parts={[{ text: "As " }, { text: "it", italic: true }, { text: " is" }]} />
           <p className="ja">演出せずに、その日のまま残す</p>
-          <div className="vals">
-            {VALUES.map((v, k) => (
-              <div key={v.lead} className="val rv" style={d(k)}>
-                <span className="ic">
-                  <Icon>{v.icon}</Icon>
-                </span>
-                <p>
-                  {v.lead}
-                  <small>{v.sub}</small>
-                </p>
-              </div>
-            ))}
+          <div className="letter" lang="ja">
+            <p className="ln to">
+              サイトをご覧いただきありがとうございま<span className="nw">す💍</span>
+            </p>
+            {LETTER.map((t, k) => (t ? <p key={k} className="ln">{withEmojiTail(t)}</p> : <span key={k} className="gap" aria-hidden="true" />))}
+            <p className="ln sign">For Your Wedding Day</p>
           </div>
         </div>
       </section>

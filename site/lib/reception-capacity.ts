@@ -62,3 +62,9 @@ export async function isMonthAtCapacity(monthKey: PreferredWeddingMonth): Promis
   const used = await countBookingIntentsForMonth(monthKey);
   return used >= CAPACITY_PER_MONTH;
 }
+
+/** いま受付中の月：選べる月のうち、空きがある一番早い月（全て埋まっていれば null） */
+export async function getNextOpenMonth(): Promise<MonthAvailability | null> {
+  const months = await getReceptionAvailability();
+  return months.find((m) => !m.isFull) ?? null;
+}

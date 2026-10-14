@@ -68,40 +68,58 @@ const WORKS = [
   { n: "04", key: "afterparty-2", label: "2次会" },
 ] as const;
 
-/** 文末の絵文字が1文字だけ次の行に落ちないよう、直前の1文字とくっつける */
-function withEmojiTail(t: string): ReactNode {
-  const cs = Array.from(t);
-  // 最後の文字が絵文字（U+2600 以降）のときだけ
-  if (cs.length < 2 || (cs[cs.length - 1].codePointAt(0) ?? 0) < 0x2600) return t;
-  return (
-    <>
-      {cs.slice(0, -2).join("")}
-      <span className="nw">{cs.slice(-2).join("")}</span>
-    </>
-  );
+/**
+ * 1行を「、」「。」の後ろと「|」の位置で区切り、区切りごとに折り返しを禁止する。
+ * スマホで折り返すときも言葉の途中で切れず、区切りの位置で改行される（文末の絵文字も前の言葉と一緒に動く）。
+ * 「だから、」のような短い区切り（5文字以下）は、次の区切りとくっつける。
+ * 「|」は画面には出ない（PC では1行のまま）。
+ */
+function phrases(t: string): ReactNode {
+  const parts = t.split(/\||(?<=[、。])/).filter(Boolean);
+  const merged: string[] = [];
+  let carry = "";
+  parts.forEach((part) => {
+    const cur = carry + part;
+    if (Array.from(cur).length <= 5) carry = cur;
+    else {
+      merged.push(cur);
+      carry = "";
+    }
+  });
+  if (carry) merged.push(carry);
+  return merged.map((part, k) => (
+    <span key={k} className="ph">
+      {part}
+    </span>
+  ));
 }
 
 /**
- * 大切にすること：手紙として1行ずつ読ませる（空文字は段落の区切り）
+ * 大切にすること：手紙として1行ずつ読ませる（空文字は段落の区切り、「|」はスマホで改行してよい位置）
  * 絵文字は Wedding TODO と同じルール（1文に1つまで・文末だけ・使いすぎない）
  */
 const LETTER: string[] = [
   "結婚式の日は、きっとバタバタです💦",
-  "挨拶にお色直しに写真撮影。気づいたら一日が終わっていた、という声をよく聞きます。",
-  "だから、当日の思い出は私たちに任せてください。",
+  "挨拶にお色直しに写真撮影。",
+  "気づいたら一日が終わっていた、という声をよく聞きます。",
+  "だから、当日の思い出は|私たちに任せてください。",
   "ふたりは、大切な人たちと過ごす一瞬一瞬を、心のままに楽しんでください🥂",
   "",
   "きれいにポーズをとったり、何かを演じたりする必要はありません。",
   "",
   "ふと目が合って笑ったこと。",
   "大切な人の言葉に、胸がいっぱいになったこと。",
-  "きっと、バタバタの中でふたりも気づかなかった小さな幸せが、その日にはたくさんあるはずです✨",
+  "きっと、バタバタの中で|ふたりも気づかなかった|小さな幸せが、",
+  "その日にはたくさんあるはずです✨",
   "",
   "私たちは、大きな機材を持ち込まず、小さなカメラを手に、そっとそばにいます。",
-  "ご友人が撮ってくれた何気ない一コマも大切にしながら、ふたりが見ていた景色も、ふたりを見つめていた人たちの想いも、ひとつの映像に残していきます。",
+  "ご友人が撮ってくれた|何気ない一コマも大切にしながら、",
+  "ふたりが見ていた景色も、ふたりを見つめていた人たちの想いも、",
+  "ひとつの映像に残していきます。",
   "",
   "そして、結婚式の翌朝。",
-  "いつものようにコーヒーを淹れて、ふたりで並んで、一瞬だった昨日を、もう一度ゆっくり観てください☕",
+  "いつものようにコーヒーを淹れて、ふたりで並んで、",
+  "一瞬だった昨日を、もう一度ゆっくり観てください☕",
   "",
   "「あのとき、こんな顔してたんだね」",
   "「こんなこともあったんだね」",
@@ -340,7 +358,7 @@ export function HomeB3({ openMonth }: { openMonth: MonthAvailability | null }) {
             <p className="ln to">
               サイトをご覧いただきありがとうございま<span className="nw">す💍</span>
             </p>
-            {LETTER.map((t, k) => (t ? <p key={k} className="ln">{withEmojiTail(t)}</p> : <span key={k} className="gap" aria-hidden="true" />))}
+            {LETTER.map((t, k) => (t ? <p key={k} className="ln">{phrases(t)}</p> : <span key={k} className="gap" aria-hidden="true" />))}
             {/* 署名：正式ロゴ（横長） */}
             <p className="ln sign">
               <Image src="/FYWD_logo_PC.png" alt="For Your Wedding Day" width={1600} height={329} />

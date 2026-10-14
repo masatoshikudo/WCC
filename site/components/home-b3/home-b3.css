@@ -391,3 +391,12 @@
 .hb3 .faq-col{display:grid;gap:12px}
 .hb3 .h2>span{display:inline}
 @media (prefers-reduced-motion:reduce){.hb3 .menu.open,.hb3 .menu li{animation:none;opacity:1}}
+
+/* ===== 正式ロゴ ===== */
+.hb3 .logo-img{display:flex;align-items:center}
+.hb3 .logo-img img{width:auto;display:block}
+.hb3 .logo-img .logo-pc{height:34px}
+.hb3 .logo-img .logo-sp{display:none;height:40px}
+@media (max-width:640px){.hb3 .logo-img .logo-pc{display:none}.hb3 .logo-img .logo-sp{display:block}}
+.hb3 .ft-logo img{width:auto;height:120px;filter:brightness(0) invert(1);opacity:.92}
+@media (max-width:640px){.hb3 .ft-logo img{height:96px}}

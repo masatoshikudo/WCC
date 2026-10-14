@@ -2,7 +2,14 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 
 import { BookFlowLoading } from "@/components/book/BookFlowLoading";
-import { RECEPTION_COPY } from "@/lib/reception";
+import { HomeB3Footer } from "@/components/home-b3/HomeB3Footer";
+import { HomeB3Header } from "@/components/home-b3/HomeB3Header";
+import { HomeB3Motion } from "@/components/home-b3/HomeB3Motion";
+import { SplitH2 } from "@/components/home-b3/SplitH2";
+import { CAPACITY_PER_MONTH, RECEPTION_START_MONTH } from "@/lib/reception";
+
+import "@/components/home-b3/home-b3.css";
+import "@/components/book/book-b3.css";
 
 export const metadata: Metadata = {
   title: "ご相談・お見積もり | For Your Wedding Day",
@@ -14,22 +21,41 @@ const BookFlow = dynamic(() => import("@/components/book/BookFlow").then((m) => 
   loading: () => <BookFlowLoading />,
 });
 
+const ROOT_ID = "hb3";
+
+/** ご相談・お見積もりページ（B3 デザイン：トップと同じ見た目のルール） */
 export default function BookPage() {
+  const slotsLabel = `${RECEPTION_START_MONTH.replace("-", ".")}〜 / 各月${CAPACITY_PER_MONTH}組`;
   return (
-    <>
-      <section aria-label="ご相談のご案内">
-        <div className="mx-auto w-full max-w-content px-4 pt-12 text-center md:px-6 md:pt-16 lg:px-8">
-          <p className="mx-auto max-w-2xl text-center font-body text-base leading-relaxed text-ink-muted md:text-lg">
-            {RECEPTION_COPY.bookIntroPrimary}
-          </p>
-          <p className="mt-3 text-center font-body text-sm leading-relaxed text-ink-muted md:text-base">
-            日程が未定の方は、希望挙式月をお選びください
-            <br />
-            ご記入できる範囲で進めていただいて大丈夫です
-          </p>
+    <div className="hb3 hb3-book" id={ROOT_ID}>
+      <script dangerouslySetInnerHTML={{ __html: `document.getElementById("${ROOT_ID}").classList.add("js")` }} />
+      <HomeB3Header />
+
+      <section className="s bk-hero" aria-label="ご相談のご案内">
+        <div className="wrap">
+          <span className="eyebrow">
+            <b />
+            Booking
+          </span>
+          <SplitH2 parts={[{ text: "Let's " }, { text: "talk", italic: true }]} />
+          <div className="bk-hero-meta">
+            <div className="slots">
+              <span className="d" aria-hidden="true">
+                {Array.from({ length: CAPACITY_PER_MONTH }, (_, k) => (
+                  <i key={k} style={{ ["--k" as string]: k }} />
+                ))}
+              </span>
+              <span>{slotsLabel}</span>
+            </div>
+            <p className="ja">日程が未定でも、わかる範囲で大丈夫です</p>
+          </div>
         </div>
       </section>
+
       <BookFlow />
-    </>
+
+      <HomeB3Footer />
+      <HomeB3Motion rootId={ROOT_ID} />
+    </div>
   );
 }

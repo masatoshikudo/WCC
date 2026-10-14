@@ -1,18 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { usePostHog } from "posthog-js/react";
 
 import { recordBookingIntent } from "@/app/actions/booking";
 import { fetchReceptionAvailability } from "@/app/actions/reception";
 import { BookingIntentError } from "@/lib/booking-errors";
-import { COUPON_CODE_MAX_LENGTH, COUPON_QUERY_PARAM, normalizeCouponCode } from "@/lib/coupon";
-import { BookMobileStickyDock } from "@/components/layout/MobileStickyDock";
-import { SideColumnVisualPanel } from "@/components/layout/SideColumnVisualPanel";
-import { TwoColumnCtaSection } from "@/components/layout/TwoColumnCtaSection";
+import {
+  COUPON_CODE_MAX_LENGTH,
+  COUPON_QUERY_PARAM,
+  WEDDING_TODO_COUPON,
+  normalizeCouponCode,
+} from "@/lib/coupon";
 import { WCC_BOOKING_PLANS, WCC_STANDARD_PACKAGE_DISCLAIMER } from "@/lib/plans";
 import {
-  RECEPTION_COPY,
+  CAPACITY_PER_MONTH,
   type MonthAvailability,
   type PreferredWeddingMonth,
   formatPreferredMonthLabelLong,
@@ -34,10 +36,12 @@ function newBookingAttemptId(): string {
 const BOOK_PLAN = WCC_BOOKING_PLANS[0];
 const BOOK_PLAN_ID = BOOK_PLAN.id;
 const COVERAGE_SCOPE_OPTIONS = [
-  { value: "ceremony_only", label: "挙式のみ" },
-  { value: "ceremony_reception", label: "挙式 + 披露宴まで" },
-  { value: "through_afterparty", label: "二次会まで" },
+  { value: "ceremony_only", label: "挙式のみ", span: 1 },
+  { value: "ceremony_reception", label: "挙式 + 披露宴まで", span: 2 },
+  { value: "through_afterparty", label: "二次会まで", span: 3 },
 ] as const;
+/** 撮影範囲の目盛りに並べる場面 */
+const COVERAGE_STAGES = ["挙式", "披露宴", "二次会"] as const;
 const DELIVERY_CHANNEL_OPTIONS = [
   { value: "instagram_reels", label: "Instagram Reels" },
   { value: "tiktok", label: "TikTok" },
@@ -88,8 +92,9 @@ export function BookFlow() {
   const coverageScopeLabel =
     COVERAGE_SCOPE_OPTIONS.find((option) => option.value === coverageScope)?.label ?? "未入力";
   const referenceVideoUrls = parseReferenceUrls(referenceVideoUrlsText);
-  const partner1FullName = `${partner1FirstName.trim()} ${partner1LastName.trim()}`.trim();
-  const partner2FullName = `${partner2FirstName.trim()} ${partner2LastName.trim()}`.trim();
+  // 姓 → 名 の順（入力欄も姓が先）
+  const partner1FullName = `${partner1LastName.trim()} ${partner1FirstName.trim()}`.trim();
+  const partner2FullName = `${partner2LastName.trim()} ${partner2FirstName.trim()}`.trim();
   const coupleNameForSubmission = [partner1FullName, partner2FullName].filter(Boolean).join(" / ");
   const deliveryChannelsLabel = deliveryChannels.length
     ? deliveryChannels
@@ -273,193 +278,150 @@ export function BookFlow() {
     }
   }
 
+  const isAppCoupon = couponCodeForSubmission === WEDDING_TODO_COUPON.code;
+  const stepIndex = submitState === "success" ? 3 : step === 1 ? 1 : 2;
+
   return (
-    <div className="mx-auto w-full max-w-content px-4 py-10 md:px-6 md:py-12 lg:min-h-[calc(100svh-6rem)] lg:px-8 lg:py-10">
-      <TwoColumnCtaSection
-        className="lg:mt-6 lg:items-start"
-        leftAside={
-          <div>
-            <SideColumnVisualPanel />
+    <div className="bk">
+      <div className="wrap bk-grid">
+        {/* 左：縦動画と受付状況（PC のみ） */}
+        <aside className="bk-aside" aria-hidden="true">
+          <div className="bk-visual">
+            <video
+              src="/videos/realmoment/realmoment-reception-1.mp4"
+              poster="/images/highlight-posters/realmoment-reception-1.jpg"
+              muted
+              loop
+              playsInline
+              autoPlay
+              preload="metadata"
+            />
+            <span className="bk-visual-tag">9:16 MOVIE</span>
           </div>
-        }
-      >
-      <div>
-        <h1 className="font-display mt-3 text-[1.75rem] font-bold text-ink">ご相談・お見積もりフォーム</h1>
-        <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
-          {RECEPTION_COPY.bookIntroPrimary}
-        </p>
-        <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-muted">
-          送信後、ZOOM での打ち合わせのご案内をお送りします。
-          <br />
-          打ち合わせの内容をもとに、お見積もりと請求書をお送りします。
-        </p>
+        </aside>
 
-        <h2 className="font-display mt-6 text-xl font-bold text-ink">
-          {step === 1 ? "日程・連絡先を入力" : "送信内容を確認"}
-        </h2>
-      </div>
+        <div className="bk-main">
+          {/* 進み具合：入力 → 確認 → 完了 */}
+          <ol className="bk-steps" aria-label="ご相談の流れ">
+            {["入力", "確認", "完了"].map((label, k) => (
+              <li
+                key={label}
+                className={`bk-step${stepIndex === k + 1 ? " now" : ""}${stepIndex > k + 1 ? " done" : ""}`}
+                aria-current={stepIndex === k + 1 ? "step" : undefined}
+              >
+                <span className="bk-step-dot">{stepIndex > k + 1 ? <Check /> : k + 1}</span>
+                <span className="bk-step-label">{label}</span>
+              </li>
+            ))}
+          </ol>
 
-      {step === 1 && (
-        <div className="mt-8 max-w-lg space-y-6">
-          {formError ? (
-            <p role="alert" className="font-body text-sm text-danger">
-              {formError}
-            </p>
-          ) : null}
-          <section>
-            <p className="font-body text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">必須項目</p>
-            <div className="mt-4 space-y-5 border-t border-hairline pt-5">
-              <div>
-                <p className="font-body text-sm font-semibold text-ink">新郎のお名前</p>
-                <div className="mt-2 grid gap-3 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="partner1-first-name" className="font-body text-xs text-ink-muted">
-                      名（必須）
-                    </label>
-                    <input
-                      id="partner1-first-name"
-                      value={partner1FirstName}
-                      onChange={(e) => setPartner1FirstName(e.target.value)}
-                      className="mt-1 min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="partner1-last-name" className="font-body text-xs text-ink-muted">
-                      姓（必須）
-                    </label>
-                    <input
-                      id="partner1-last-name"
-                      value={partner1LastName}
-                      onChange={(e) => setPartner1LastName(e.target.value)}
-                      className="mt-1 min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                    />
-                  </div>
-                </div>
-              </div>
+          {step === 1 && (
+            <div className="bk-form">
+              {formError ? (
+                <p role="alert" className="bk-alert">
+                  <Alert />
+                  {formError}
+                </p>
+              ) : null}
 
-              <div>
-                <p className="font-body text-sm font-semibold text-ink">新婦のお名前</p>
-                <div className="mt-2 grid gap-3 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="partner2-first-name" className="font-body text-xs text-ink-muted">
-                      名（必須）
-                    </label>
-                    <input
-                      id="partner2-first-name"
-                      value={partner2FirstName}
-                      onChange={(e) => setPartner2FirstName(e.target.value)}
-                      className="mt-1 min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="partner2-last-name" className="font-body text-xs text-ink-muted">
-                      姓（必須）
-                    </label>
-                    <input
-                      id="partner2-last-name"
-                      value={partner2LastName}
-                      onChange={(e) => setPartner2LastName(e.target.value)}
-                      className="mt-1 min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="booker-email" className="font-body text-sm font-semibold text-ink">
-                  メールアドレス
-                </label>
-                <input
-                  id="booker-email"
-                  type="email"
-                  autoComplete="email"
-                  inputMode="email"
-                  value={bookerEmail}
-                  onChange={(e) => {
-                    setBookerEmail(e.target.value);
-                    if (bookerEmailError) setBookerEmailError(null);
-                  }}
-                  aria-invalid={bookerEmailError ? true : undefined}
-                  aria-describedby={bookerEmailError ? "booker-email-error" : undefined}
-                  className={`mt-2 min-h-[44px] w-full rounded-sm border bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${bookerEmailError ? "border-red-600 focus-visible:outline-red-600" : "border-hairline focus-visible:outline-accent"}`}
-                />
-                {bookerEmailError ? (
-                  <p id="booker-email-error" className="mt-1 font-body text-xs text-red-700">
-                    {bookerEmailError}
-                  </p>
-                ) : null}
-              </div>
-
-              <div>
-                <label htmlFor="phone-number" className="font-body text-sm font-semibold text-ink">
-                  電話番号
-                </label>
-                <input
-                  id="phone-number"
-                  value={emergencyContact}
-                  onChange={(e) => setEmergencyContact(e.target.value)}
-                  placeholder="当日連絡がつく電話番号"
-                  className="mt-2 min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="wedding-date"
-                  className="font-body text-sm font-semibold text-ink"
-                >
-                  挙式日
-                </label>
-                {monthAvailability.length > 0 ? (
-                  <p className="mt-2 font-body text-xs leading-relaxed text-ink-muted">
-                    {monthAvailability
-                      .map((item) =>
-                        item.isFull
-                          ? `${item.label}: 満席`
-                          : `${item.label}: 残り${item.remaining}組`,
-                      )
-                      .join(" / ")}
-                  </p>
-                ) : null}
-                <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <input
-                    id="wedding-date"
-                    type="date"
-                    disabled={dateUndecided}
-                    value={weddingDate}
-                    min={datePickerBounds.min}
-                    max={datePickerBounds.max}
-                    onChange={(e) => setWeddingDate(e.target.value)}
-                    className="min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 sm:max-w-[240px]"
+              {/* ふたりのこと */}
+              <Card icon={<IconCouple />} title="おふたりのお名前" required>
+                <div className="bk-names">
+                  <NamePair
+                    who="新郎"
+                    first={partner1FirstName}
+                    last={partner1LastName}
+                    onFirst={setPartner1FirstName}
+                    onLast={setPartner1LastName}
+                    idPrefix="partner1"
                   />
-                  <label className="flex cursor-pointer items-center gap-2 font-body text-sm text-ink-muted">
-                    <input
-                      type="checkbox"
-                      checked={dateUndecided}
-                      onChange={(e) => {
-                        setDateUndecided(e.target.checked);
-                        if (e.target.checked) {
-                          setWeddingDate("");
-                        } else {
-                          setPreferredWeddingMonth("");
-                        }
-                      }}
-                      className="h-4 w-4 rounded-sm border-hairline text-accent"
-                    />
-                    日程は未定
-                  </label>
+                  <NamePair
+                    who="新婦"
+                    first={partner2FirstName}
+                    last={partner2LastName}
+                    onFirst={setPartner2FirstName}
+                    onLast={setPartner2LastName}
+                    idPrefix="partner2"
+                  />
                 </div>
+              </Card>
+
+              {/* 連絡先 */}
+              <Card icon={<IconMail />} title="ご連絡先" required>
+                <div className="bk-row2">
+                  <Field label="メールアドレス" htmlFor="booker-email" error={bookerEmailError} errorId="booker-email-error">
+                    <input
+                      id="booker-email"
+                      type="email"
+                      autoComplete="email"
+                      inputMode="email"
+                      value={bookerEmail}
+                      onChange={(e) => {
+                        setBookerEmail(e.target.value);
+                        if (bookerEmailError) setBookerEmailError(null);
+                      }}
+                      aria-invalid={bookerEmailError ? true : undefined}
+                      aria-describedby={bookerEmailError ? "booker-email-error" : undefined}
+                      className="bk-input"
+                      placeholder="name@example.com"
+                    />
+                  </Field>
+                  <Field label="電話番号" htmlFor="phone-number">
+                    <input
+                      id="phone-number"
+                      type="tel"
+                      autoComplete="tel"
+                      inputMode="tel"
+                      value={emergencyContact}
+                      onChange={(e) => setEmergencyContact(e.target.value)}
+                      placeholder="当日連絡がつく電話番号"
+                      className="bk-input"
+                    />
+                  </Field>
+                </div>
+              </Card>
+
+              {/* 当日のこと */}
+              <Card icon={<IconCalendar />} title="挙式のこと" required>
+                <Field label="挙式日" htmlFor="wedding-date">
+                  <div className="bk-inline">
+                    <input
+                      id="wedding-date"
+                      type="date"
+                      disabled={dateUndecided}
+                      value={weddingDate}
+                      min={datePickerBounds.min}
+                      max={datePickerBounds.max}
+                      onChange={(e) => setWeddingDate(e.target.value)}
+                      className="bk-input bk-input-short"
+                    />
+                    <Toggle
+                      checked={dateUndecided}
+                      onChange={(checked) => {
+                        setDateUndecided(checked);
+                        if (checked) setWeddingDate("");
+                        else setPreferredWeddingMonth("");
+                      }}
+                      label="日程は未定"
+                    />
+                  </div>
+                </Field>
+
                 {dateUndecided ? (
-                  <fieldset className="mt-4">
-                    <legend className="font-body text-sm font-semibold text-ink">希望挙式月（必須）</legend>
-                    <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3">
+                  <fieldset className="bk-months">
+                    <legend className="bk-label">
+                      希望挙式月<span className="bk-req">必須</span>
+                    </legend>
+                    <div className="bk-month-grid">
                       {selectableMonths.map((monthKey) => {
                         const availability = getAvailabilityForMonth(monthKey);
                         const isFull = availability?.isFull ?? false;
+                        const remaining = availability?.remaining ?? CAPACITY_PER_MONTH;
+                        const [y, m] = monthKey.split("-");
                         return (
                           <label
                             key={monthKey}
-                            className={`flex cursor-pointer items-center gap-2 font-body text-sm ${isFull ? "text-ink-muted" : "text-ink"}`}
+                            className={`bk-month${preferredWeddingMonth === monthKey ? " on" : ""}${isFull ? " full" : ""}`}
                           >
                             <input
                               type="radio"
@@ -468,363 +430,466 @@ export function BookFlow() {
                               checked={preferredWeddingMonth === monthKey}
                               disabled={isFull}
                               onChange={() => setPreferredWeddingMonth(monthKey)}
-                              className="h-4 w-4 border-hairline text-accent"
+                              aria-label={`${formatPreferredMonthLabelLong(monthKey)}${isFull ? "（満席）" : `（残り${remaining}組）`}`}
                             />
-                            {formatPreferredMonthLabelLong(monthKey)}
-                            {isFull ? "（満席）" : availability ? `（残り${availability.remaining}組）` : null}
+                            <span className="bk-month-y">{y}</span>
+                            <span className="bk-month-m">
+                              {Number(m)}
+                              <small>月</small>
+                            </span>
+                            {/* 残り枠を丸で表示（塗り＝空き） */}
+                            <span className="bk-dots" aria-hidden="true">
+                              {Array.from({ length: CAPACITY_PER_MONTH }, (_, k) => (
+                                <i key={k} className={k < remaining ? "on" : ""} />
+                              ))}
+                            </span>
                           </label>
                         );
                       })}
                     </div>
                   </fieldset>
                 ) : null}
-              </div>
 
-              <div>
-                <label htmlFor="venue-name" className="font-body text-sm font-semibold text-ink">
-                  式場名
-                </label>
-                <input
-                  id="venue-name"
-                  value={venueName}
-                  onChange={(e) => setVenueName(e.target.value)}
-                  className="mt-2 min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="venue-area" className="font-body text-sm font-semibold text-ink">
-                  開催エリア
-                </label>
-                <input
-                  id="venue-area"
-                  value={venueArea}
-                  onChange={(e) => setVenueArea(e.target.value)}
-                  placeholder="東京都港区 など"
-                  className="mt-2 min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="start-time" className="font-body text-sm font-semibold text-ink">
-                  当日の開始時刻
-                </label>
-                <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <input
-                    id="start-time"
-                    type="time"
-                    disabled={startTimeUndecided}
-                    value={startTime}
-                    onChange={(e) => setStartTime(e.target.value)}
-                    className="min-h-[44px] w-full rounded-sm border border-hairline bg-canvas px-3 font-body text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 sm:max-w-[240px]"
-                  />
-                  <label className="flex cursor-pointer items-center gap-2 font-body text-sm text-ink-muted">
+                <div className="bk-row2">
+                  <Field label="式場名" htmlFor="venue-name">
+                    <input id="venue-name" value={venueName} onChange={(e) => setVenueName(e.target.value)} className="bk-input" />
+                  </Field>
+                  <Field label="開催エリア" htmlFor="venue-area">
                     <input
-                      type="checkbox"
-                      checked={startTimeUndecided}
-                      onChange={(e) => {
-                        setStartTimeUndecided(e.target.checked);
-                        if (e.target.checked) setStartTime("");
-                      }}
-                      className="h-4 w-4 rounded-sm border-hairline text-accent"
+                      id="venue-area"
+                      value={venueArea}
+                      onChange={(e) => setVenueArea(e.target.value)}
+                      placeholder="東京都港区 など"
+                      className="bk-input"
                     />
-                    時間は未定
-                  </label>
+                  </Field>
                 </div>
+
+                <Field label="当日の開始時刻" htmlFor="start-time">
+                  <div className="bk-inline">
+                    <input
+                      id="start-time"
+                      type="time"
+                      disabled={startTimeUndecided}
+                      value={startTime}
+                      onChange={(e) => setStartTime(e.target.value)}
+                      className="bk-input bk-input-short"
+                    />
+                    <Toggle
+                      checked={startTimeUndecided}
+                      onChange={(checked) => {
+                        setStartTimeUndecided(checked);
+                        if (checked) setStartTime("");
+                      }}
+                      label="時間は未定"
+                    />
+                  </div>
+                </Field>
+
+                <fieldset className="bk-cover">
+                  <legend className="bk-label">撮影範囲</legend>
+                  <div className="bk-cover-grid">
+                    {COVERAGE_SCOPE_OPTIONS.map((option) => (
+                      <label key={option.value} className={`bk-cover-opt${coverageScope === option.value ? " on" : ""}`}>
+                        <input
+                          type="radio"
+                          name="coverage-scope"
+                          value={option.value}
+                          checked={coverageScope === option.value}
+                          onChange={(e) => setCoverageScope(e.target.value as CoverageScope)}
+                        />
+                        {/* どこまで撮るかを目盛りで表示 */}
+                        <span className="bk-scale" aria-hidden="true">
+                          {COVERAGE_STAGES.map((stage, k) => (
+                            <span key={stage} className={k < option.span ? "on" : ""}>
+                              <i />
+                              <small>{stage}</small>
+                            </span>
+                          ))}
+                        </span>
+                        <span className="bk-cover-label">{option.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              </Card>
+
+              {/* 料金の目安 */}
+              <div className="bk-price">
+                <div>
+                  <span className="bk-price-plan">STANDARD PLAN</span>
+                  <p className="bk-price-yen">
+                    ¥{BOOK_PLAN.priceLabel.match(/[\d,]+/)?.[0]}
+                    <small>税込</small>
+                  </p>
+                </div>
+                {isAppCoupon ? <span className="bk-coupon-badge">{WEDDING_TODO_COUPON.label}</span> : null}
+                <p className="bk-price-note">{WCC_STANDARD_PACKAGE_DISCLAIMER}</p>
               </div>
 
-              <div>
-                <p className="font-body text-sm font-semibold text-ink">撮影範囲</p>
-                <div className="mt-3 space-y-2">
-                  {COVERAGE_SCOPE_OPTIONS.map((option) => (
-                    <label key={option.value} className="flex cursor-pointer items-center gap-2 font-body text-sm text-ink">
-                      <input
-                        type="radio"
-                        name="coverage-scope"
-                        value={option.value}
-                        checked={coverageScope === option.value}
-                        onChange={(e) => setCoverageScope(e.target.value as CoverageScope)}
-                        className="h-4 w-4 border-hairline text-accent"
-                      />
-                      {option.label}
-                    </label>
-                  ))}
+              {/* クーポン */}
+              <Card icon={<IconTicket />} title="クーポンコード" note="お持ちの方のみ">
+                <div className="bk-inline">
+                  <input
+                    id="coupon-code"
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    maxLength={COUPON_CODE_MAX_LENGTH}
+                    autoComplete="off"
+                    autoCapitalize="characters"
+                    spellCheck={false}
+                    placeholder="XXXX-XXXX-XXXX"
+                    aria-label="クーポンコード"
+                    className="bk-input bk-input-code"
+                  />
+                  {isAppCoupon ? (
+                    <span className="bk-coupon-ok">
+                      <Check />
+                      {WEDDING_TODO_COUPON.label}
+                    </span>
+                  ) : null}
                 </div>
+              </Card>
+
+              {/* 任意項目（閉じておく） */}
+              <details className="bk-more">
+                <summary>
+                  <span className="bk-card-ic">
+                    <IconPlus />
+                  </span>
+                  <span>
+                    もっと伝えたいこと<small>任意・わかる範囲で</small>
+                  </span>
+                  <i aria-hidden="true" />
+                </summary>
+                <div className="bk-more-body">
+                  <Field label="使用予定媒体（複数選択可）">
+                    <div className="bk-chips">
+                      {DELIVERY_CHANNEL_OPTIONS.map((option) => (
+                        <label key={option.value} className={`bk-chip${deliveryChannels.includes(option.value) ? " on" : ""}`}>
+                          <input
+                            type="checkbox"
+                            checked={deliveryChannels.includes(option.value)}
+                            onChange={() => toggleDeliveryChannel(option.value)}
+                          />
+                          {deliveryChannels.includes(option.value) ? <Check /> : null}
+                          {option.label}
+                        </label>
+                      ))}
+                    </div>
+                  </Field>
+                  <Field label="集合〜お開きの想定タイムライン" htmlFor="timeline-note">
+                    <textarea id="timeline-note" value={timelineNote} onChange={(e) => setTimelineNote(e.target.value)} rows={3} className="bk-input bk-textarea" />
+                  </Field>
+                  <Field label="撮ってほしいシーン" htmlFor="requested-scenes">
+                    <textarea
+                      id="requested-scenes"
+                      value={requestedScenes}
+                      onChange={(e) => setRequestedScenes(e.target.value)}
+                      rows={3}
+                      placeholder="例: 家族とのカット、手紙、ファーストミート"
+                      className="bk-input bk-textarea"
+                    />
+                  </Field>
+                  <Field label="ご希望の追加オプション・撮影体制" htmlFor="extras-note">
+                    <textarea
+                      id="extras-note"
+                      value={extrasNote}
+                      onChange={(e) => setExtrasNote(e.target.value)}
+                      rows={3}
+                      placeholder="例: 撮影時間を延長したい、2名体制希望、機材レンタルあり、遠方出張あり。わかる範囲でご記入ください。詳細はお見積もりにてご提案します。"
+                      className="bk-input bk-textarea"
+                    />
+                  </Field>
+                  <Field label="参考動画URL（1行1URL）" htmlFor="reference-video-urls">
+                    <textarea
+                      id="reference-video-urls"
+                      value={referenceVideoUrlsText}
+                      onChange={(e) => setReferenceVideoUrlsText(e.target.value)}
+                      rows={3}
+                      placeholder="https://..."
+                      className="bk-input bk-textarea"
+                    />
+                  </Field>
+                  <Field label="会場側の撮影制限情報" htmlFor="venue-restrictions">
+                    <textarea
+                      id="venue-restrictions"
+                      value={venueRestrictions}
+                      onChange={(e) => setVenueRestrictions(e.target.value)}
+                      rows={2}
+                      className="bk-input bk-textarea"
+                    />
+                  </Field>
+                </div>
+              </details>
+
+              <div className="bk-actions bk-actions-pc">
+                <button type="button" onClick={goToStep3} className="cta bk-cta">
+                  次へ：送信内容を確認 <ArrowRight />
+                </button>
               </div>
             </div>
-          </section>
+          )}
 
-          <section className="space-y-1 border-t border-hairline pt-6">
-            <p className="font-body text-sm font-semibold text-ink">料金の目安</p>
-            <p className="font-body text-sm text-ink-muted">基本料金 {BOOK_PLAN.priceLabel}</p>
-            <p className="font-body text-xs leading-relaxed text-ink-muted">
-              {WCC_STANDARD_PACKAGE_DISCLAIMER}
-            </p>
-          </section>
-
-          <section>
-            <p className="font-body text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">任意項目</p>
-            <p className="mt-1 font-body text-xs text-ink-muted">
-              わかる範囲でご入力ください。
-            </p>
-            <div className="mt-4 space-y-5 border-t border-hairline pt-5">
-              <div>
-                <label htmlFor="timeline-note" className="font-body text-sm font-semibold text-ink">
-                  集合〜お開きの想定タイムライン
-                </label>
-                <textarea
-                  id="timeline-note"
-                  value={timelineNote}
-                  onChange={(e) => setTimelineNote(e.target.value)}
-                  rows={3}
-                  className="mt-2 w-full rounded-sm border border-hairline bg-canvas px-3 py-2 font-body text-sm text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="requested-scenes" className="font-body text-sm font-semibold text-ink">
-                  撮ってほしいシーン
-                </label>
-                <textarea
-                  id="requested-scenes"
-                  value={requestedScenes}
-                  onChange={(e) => setRequestedScenes(e.target.value)}
-                  rows={3}
-                  placeholder="例: 家族とのカット、手紙、ファーストミート"
-                  className="mt-2 w-full rounded-sm border border-hairline bg-canvas px-3 py-2 font-body text-sm text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="extras-note" className="font-body text-sm font-semibold text-ink">
-                  ご希望の追加オプション・撮影体制
-                </label>
-                <textarea
-                  id="extras-note"
-                  value={extrasNote}
-                  onChange={(e) => setExtrasNote(e.target.value)}
-                  rows={3}
-                  placeholder="例: 撮影時間を延長したい、2名体制希望、機材レンタルあり、遠方出張あり。わかる範囲でご記入ください。詳細はお見積もりにてご提案します。"
-                  className="mt-2 w-full rounded-sm border border-hairline bg-canvas px-3 py-2 font-body text-sm text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                />
-              </div>
-
-              <div>
-                <p className="font-body text-sm font-semibold text-ink">使用予定媒体（複数選択可）</p>
-                <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                  {DELIVERY_CHANNEL_OPTIONS.map((option) => (
-                    <label key={option.value} className="flex cursor-pointer items-center gap-2 font-body text-sm text-ink">
-                      <input
-                        type="checkbox"
-                        checked={deliveryChannels.includes(option.value)}
-                        onChange={() => toggleDeliveryChannel(option.value)}
-                        className="h-4 w-4 rounded-sm border-hairline text-accent"
-                      />
-                      {option.label}
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="reference-video-urls" className="font-body text-sm font-semibold text-ink">
-                  参考動画URL（1行1URL）
-                </label>
-                <textarea
-                  id="reference-video-urls"
-                  value={referenceVideoUrlsText}
-                  onChange={(e) => setReferenceVideoUrlsText(e.target.value)}
-                  rows={3}
-                  placeholder="https://..."
-                  className="mt-2 w-full rounded-sm border border-hairline bg-canvas px-3 py-2 font-body text-sm text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="venue-restrictions" className="font-body text-sm font-semibold text-ink">
-                  会場側の撮影制限情報
-                </label>
-                <textarea
-                  id="venue-restrictions"
-                  value={venueRestrictions}
-                  onChange={(e) => setVenueRestrictions(e.target.value)}
-                  rows={2}
-                  className="mt-2 w-full rounded-sm border border-hairline bg-canvas px-3 py-2 font-body text-sm text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="coupon-code" className="font-body text-sm font-semibold text-ink">
-                  クーポンコード
-                </label>
-                <input
-                  id="coupon-code"
-                  type="text"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value)}
-                  maxLength={COUPON_CODE_MAX_LENGTH}
-                  autoComplete="off"
-                  autoCapitalize="characters"
-                  spellCheck={false}
-                  placeholder="お持ちの方のみ"
-                  className="mt-2 w-full rounded-sm border border-hairline bg-canvas px-3 py-2 font-body text-sm uppercase text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                />
-              </div>
-            </div>
-          </section>
-
-          <div className="pt-4">
-            <button
-              type="button"
-              onClick={goToStep3}
-              className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80 md:inline-flex"
-            >
-              次へ：送信内容を確認
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 3 && (
-        <div className="mt-8 max-w-prose space-y-6">
-          <section>
-            <p className="font-body text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">必須項目</p>
-            <dl className="mt-4 space-y-3 border-t border-hairline pt-5 font-body text-sm">
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">連絡先メール</dt>
-                <dd className="break-all text-right text-ink">{bookerEmail.trim()}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">電話番号</dt>
-                <dd className="text-right text-ink">{emergencyContact.trim() || "—"}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">挙式日</dt>
-                <dd className="text-right text-ink">{dateLabel}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">新郎</dt>
-                <dd className="text-right text-ink">{partner1FullName || "—"}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">新婦</dt>
-                <dd className="text-right text-ink">{partner2FullName || "—"}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">式場名</dt>
-                <dd className="text-right text-ink">{venueName.trim() || "—"}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">開催エリア</dt>
-                <dd className="text-right text-ink">{venueArea.trim() || "—"}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">開始時刻</dt>
-                <dd className="text-right text-ink">{startTimeLabel}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">撮影範囲</dt>
-                <dd className="text-right text-ink">{coverageScopeLabel}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">料金目安</dt>
-                <dd className="text-right text-ink">{BOOK_PLAN.priceLabel}</dd>
-              </div>
-            </dl>
-          </section>
-
-          <section>
-            <p className="font-body text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">任意項目</p>
-            <dl className="mt-4 space-y-3 border-t border-hairline pt-5 font-body text-sm">
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">使用予定媒体</dt>
-                <dd className="text-right text-ink">{deliveryChannelsLabel}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">参考動画URL</dt>
-                <dd className="max-w-[60%] text-right text-ink">
-                  {referenceVideoUrls.length ? referenceVideoUrls.join(" / ") : "—"}
-                </dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">想定タイムライン</dt>
-                <dd className="max-w-[60%] text-right text-ink">{timelineNote.trim() || "—"}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">希望シーン</dt>
-                <dd className="max-w-[60%] text-right text-ink">{requestedScenes.trim() || "—"}</dd>
-              </div>
-              {extrasNote.trim() ? (
-                <div className="flex justify-between gap-4">
-                  <dt className="text-ink-muted">追加オプション・撮影体制</dt>
-                  <dd className="max-w-[60%] text-right text-ink">{extrasNote.trim()}</dd>
+          {step === 3 && (
+            <div className="bk-form">
+              {submitState === "success" ? (
+                <div role="status" className="bk-done">
+                  <span className="bk-done-mark">
+                    <Check />
+                  </span>
+                  <p className="bk-done-title">ご相談内容を受け付けました</p>
+                  <p className="bk-done-text">
+                    通常24時間以内を目安に、ZOOM での打ち合わせのご案内メールをお送りします。
+                  </p>
                 </div>
               ) : null}
-              <div className="flex justify-between gap-4">
-                <dt className="text-ink-muted">撮影制限情報</dt>
-                <dd className="max-w-[60%] text-right text-ink">{venueRestrictions.trim() || "—"}</dd>
-              </div>
-              {couponCodeForSubmission ? (
-                <div className="flex justify-between gap-4">
-                  <dt className="text-ink-muted">クーポンコード</dt>
-                  <dd className="text-right font-mono text-ink">{couponCodeForSubmission}</dd>
+
+              <div className="bk-summary">
+                <div className="bk-summary-head">
+                  <span className="bk-card-ic">
+                    <IconCheckList />
+                  </span>
+                  <p className="bk-card-title">送信内容</p>
+                  {submitState !== "success" ? (
+                    <button type="button" className="bk-edit" onClick={() => setStep(1)}>
+                      <IconEdit />
+                      修正する
+                    </button>
+                  ) : null}
                 </div>
+                <dl className="bk-dl">
+                  <Row label="新郎" value={partner1FullName || "—"} />
+                  <Row label="新婦" value={partner2FullName || "—"} />
+                  <Row label="メール" value={bookerEmail.trim()} />
+                  <Row label="電話番号" value={emergencyContact.trim() || "—"} />
+                  <Row label="挙式日" value={dateLabel} />
+                  <Row label="式場名" value={venueName.trim() || "—"} />
+                  <Row label="開催エリア" value={venueArea.trim() || "—"} />
+                  <Row label="開始時刻" value={startTimeLabel} />
+                  <Row label="撮影範囲" value={coverageScopeLabel} />
+                  <Row
+                    label="料金目安"
+                    value={
+                      <>
+                        {BOOK_PLAN.priceLabel}
+                        {isAppCoupon ? <span className="bk-coupon-badge sm">{WEDDING_TODO_COUPON.label}</span> : null}
+                      </>
+                    }
+                  />
+                  {couponCodeForSubmission ? <Row label="クーポン" value={<span className="bk-mono">{couponCodeForSubmission}</span>} /> : null}
+                </dl>
+                <dl className="bk-dl bk-dl-sub">
+                  <Row label="使用予定媒体" value={deliveryChannelsLabel} />
+                  <Row label="参考動画URL" value={referenceVideoUrls.length ? referenceVideoUrls.join(" / ") : "—"} />
+                  <Row label="想定タイムライン" value={timelineNote.trim() || "—"} />
+                  <Row label="希望シーン" value={requestedScenes.trim() || "—"} />
+                  {extrasNote.trim() ? <Row label="追加オプション・撮影体制" value={extrasNote.trim()} /> : null}
+                  <Row label="撮影制限情報" value={venueRestrictions.trim() || "—"} />
+                </dl>
+              </div>
+
+              {/* 送信後の流れ（図） */}
+              <ol className="bk-next" aria-label="送信後の流れ">
+                <li>
+                  <span><IconMail /></span>ZOOMのご案内
+                </li>
+                <li>
+                  <span><IconVideo /></span>打ち合わせ
+                </li>
+                <li>
+                  <span><IconDoc /></span>お見積もり・請求URL
+                </li>
+              </ol>
+
+              {submitError ? (
+                <p role="alert" className="bk-alert">
+                  <Alert />
+                  {submitError}
+                </p>
               ) : null}
-            </dl>
-          </section>
 
-          <p className="font-body text-sm leading-relaxed text-ink-muted">
-            送信後、担当より ZOOM での打ち合わせのご案内をメールでお送りします。打ち合わせの内容をもとに、お見積もりと請求URLをお送りします。24時間以内の納品条件を前提に、当日の進行に合わせて最終調整します。
-          </p>
-
-          {submitState === "success" ? (
-            <div role="status" className="rounded-sm border border-hairline bg-canvas p-4">
-              <p className="font-body text-sm text-success">ご相談内容を受け付けました。</p>
-              <p className="mt-2 font-body text-sm leading-relaxed text-ink-muted">
-                通常24時間以内を目安に、ZOOM での打ち合わせのご案内メールをお送りします。
-              </p>
+              <div className="bk-actions bk-actions-pc">
+                {submitState !== "success" ? (
+                  <button type="button" onClick={() => setStep(1)} className="bk-back">
+                    <ArrowLeft /> 戻る
+                  </button>
+                ) : null}
+                <button
+                  type="button"
+                  disabled={submitState === "submitting" || submitState === "success"}
+                  onClick={() => {
+                    void submitBookingRequest();
+                  }}
+                  className="cta bk-cta"
+                >
+                  {submitState === "submitting" ? "送信中…" : submitState === "success" ? "送信済み" : "相談内容を送信"}
+                  {submitState === "idle" || submitState === "error" ? <ArrowRight /> : null}
+                </button>
+              </div>
             </div>
-          ) : null}
-
-          {submitError ? (
-            <p role="alert" className="font-body text-sm text-danger">
-              {submitError}
-            </p>
-          ) : null}
-
-          <div className="flex flex-wrap gap-3 pt-2">
-            <button
-              type="button"
-              onClick={() => setStep(1)}
-              className="font-display inline-flex min-h-[52px] items-center justify-center bg-transparent pl-0 pr-7 text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-canvas"
-            >
-              戻る
-            </button>
-            <button
-              type="button"
-              disabled={submitState === "submitting" || submitState === "success"}
-              onClick={() => {
-                void submitBookingRequest();
-              }}
-              className="font-display hidden min-h-[52px] min-w-[220px] items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold uppercase tracking-[0.08em] text-on-accent transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:bg-ink-subtle disabled:text-canvas disabled:opacity-80 md:inline-flex"
-            >
-              {submitState === "submitting" ? "送信中…" : submitState === "success" ? "送信済み" : "相談内容を送信"}
-            </button>
-          </div>
+          )}
         </div>
-      )}
-      </TwoColumnCtaSection>
+      </div>
 
-      <BookMobileStickyDock
-        step={step}
-        stepPrimaryLabel={stepPrimaryLabel}
-        onStep1Next={goToStep3}
-        onStep3Submit={() => {
-          void submitBookingRequest();
-        }}
-        isStep3Submitting={submitState === "submitting"}
-        isStep3Done={submitState === "success"}
-      />
+      {/* スマホ：下に固定の送信ボタン */}
+      {submitState !== "success" ? (
+        <div className="bk-dock">
+          <button
+            type="button"
+            className="cta bk-cta"
+            disabled={step === 3 && submitState === "submitting"}
+            onClick={() => (step === 1 ? goToStep3() : void submitBookingRequest())}
+          >
+            {step === 3 && submitState === "submitting" ? "送信中…" : stepPrimaryLabel}
+            <ArrowRight />
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
+
+/* ---------- 部品 ---------- */
+
+function Card({
+  icon,
+  title,
+  note,
+  required,
+  children,
+}: {
+  icon: ReactNode;
+  title: string;
+  note?: string;
+  required?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <section className="bk-card">
+      <div className="bk-card-head">
+        <span className="bk-card-ic">{icon}</span>
+        <p className="bk-card-title">
+          {title}
+          {required ? <span className="bk-req">必須</span> : null}
+          {note ? <small>{note}</small> : null}
+        </p>
+      </div>
+      <div className="bk-card-body">{children}</div>
+    </section>
+  );
+}
+
+function Field({
+  label,
+  htmlFor,
+  error,
+  errorId,
+  children,
+}: {
+  label: string;
+  htmlFor?: string;
+  error?: string | null;
+  errorId?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className={`bk-field${error ? " err" : ""}`}>
+      {htmlFor ? (
+        <label htmlFor={htmlFor} className="bk-label">
+          {label}
+        </label>
+      ) : (
+        <p className="bk-label">{label}</p>
+      )}
+      {children}
+      {error ? (
+        <p id={errorId} className="bk-err">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function NamePair({
+  who,
+  first,
+  last,
+  onFirst,
+  onLast,
+  idPrefix,
+}: {
+  who: string;
+  first: string;
+  last: string;
+  onFirst: (v: string) => void;
+  onLast: (v: string) => void;
+  idPrefix: string;
+}) {
+  return (
+    <div className="bk-name">
+      <span className="bk-who">{who}</span>
+      <div className="bk-name-inputs">
+        <input
+          id={`${idPrefix}-last-name`}
+          value={last}
+          onChange={(e) => onLast(e.target.value)}
+          placeholder="姓"
+          aria-label={`${who}の姓（必須）`}
+          autoComplete="family-name"
+          className="bk-input"
+        />
+        <input
+          id={`${idPrefix}-first-name`}
+          value={first}
+          onChange={(e) => onFirst(e.target.value)}
+          placeholder="名"
+          aria-label={`${who}の名（必須）`}
+          autoComplete="given-name"
+          className="bk-input"
+        />
+      </div>
+    </div>
+  );
+}
+
+function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) {
+  return (
+    <label className={`bk-toggle${checked ? " on" : ""}`}>
+      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
+      <span className="bk-switch" aria-hidden="true" />
+      {label}
+    </label>
+  );
+}
+
+function Row({ label, value }: { label: string; value: ReactNode }) {
+  return (
+    <div className="bk-dl-row">
+      <dt>{label}</dt>
+      <dd>{value}</dd>
+    </div>
+  );
+}
+
+const svg = (children: ReactNode) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    {children}
+  </svg>
+);
+const Check = () => svg(<path d="m5 12.5 4.5 4.5L19 7.5" />);
+const Alert = () => svg(<><circle cx="12" cy="12" r="9" /><path d="M12 7.5v5.5M12 16.5v.01" /></>);
+const ArrowRight = () => svg(<path d="M5 12h14M13 6l6 6-6 6" />);
+const ArrowLeft = () => svg(<path d="M19 12H5M11 6l-6 6 6 6" />);
+const IconCouple = () =>
+  svg(<><circle cx="8" cy="9" r="3" /><circle cx="16" cy="9" r="3" /><path d="M3 19c.6-3 2.6-5 5-5s4.4 2 5 5M11 19c.6-3 2.6-5 5-5s4.4 2 5 5" /></>);
+const IconMail = () => svg(<><path d="M4 6h16v12H4z" /><path d="m4 7 8 6 8-6" /></>);
+const IconCalendar = () => svg(<><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M4 10h16M9 3v4M15 3v4" /></>);
+const IconTicket = () => svg(<path d="M4 7h16v3a2 2 0 0 0 0 4v3H4v-3a2 2 0 0 0 0-4z" />);
+const IconPlus = () => svg(<path d="M12 5v14M5 12h14" />);
+const IconCheckList = () => svg(<path d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2" />);
+const IconEdit = () => svg(<path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4" />);
+const IconVideo = () => svg(<><rect x="3" y="6" width="13" height="12" rx="2" /><path d="m16 10 5-3v10l-5-3" /></>);
+const IconDoc = () => svg(<><path d="M6 3h9l4 4v14H6z" /><path d="M9 12h7M9 16h5" /></>);

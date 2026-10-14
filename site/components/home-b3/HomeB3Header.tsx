@@ -1,20 +1,21 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const MENU = [
-  { href: "#works", label: "作例" },
-  { href: "#values", label: "大切にすること" },
-  { href: "#pricing", label: "料金" },
-  { href: "#flow", label: "ご利用の流れ" },
-  { href: "#faq", label: "よくある質問" },
+  { href: "/#works", label: "作例" },
+  { href: "/#values", label: "大切にすること" },
+  { href: "/#pricing", label: "料金" },
+  { href: "/#flow", label: "ご利用の流れ" },
+  { href: "/#faq", label: "よくある質問" },
   { href: "/pricing", label: "料金とオプションの詳細" },
 ] as const;
 
 const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
 
-/** トップ（B3）専用ヘッダー：左にメニュー、中央にロゴ、右に Instagram・お問い合わせ */
+/** B3 デザインのヘッダー（トップ・ご相談ページ）：左にメニュー、中央にロゴ、右に Instagram・お問い合わせ */
 export function HomeB3Header() {
   const [open, setOpen] = useState(false);
 
@@ -37,8 +38,10 @@ export function HomeB3Header() {
         <b />
         <span>{open ? "Close" : "Menu"}</span>
       </button>
-      <Link className="logo" href="/">
-        For Your Wedding Day
+      {/* 正式ロゴ：PC は横長（シンボル＋ロゴタイプ）、スマホはシンボルのみ */}
+      <Link className="logo logo-img" href="/" aria-label="For Your Wedding Day トップへ">
+        <Image src="/FYWD_logo_PC.png" alt="For Your Wedding Day" width={1600} height={329} className="logo-pc" priority />
+        <Image src="/FYWD_logo_SP.png" alt="For Your Wedding Day" width={1600} height={1600} className="logo-sp" priority />
       </Link>
       <nav className="icons" aria-label="SNS・お問い合わせ">
         {instagramUrl ? (

@@ -15,3 +15,9 @@ export function normalizeCouponCode(raw: string | null | undefined): string | nu
   if (!trimmed) return null;
   return trimmed.slice(0, COUPON_CODE_MAX_LENGTH).toUpperCase();
 }
+
+/**
+ * Wedding TODO アプリの撮影クーポン（全員共通コード・10%OFF・期限なし）。
+ * Stripe の Promotion code として登録済み。フォームではこのコードのときだけ「10%OFF」を表示する。
+ */
+export const WEDDING_TODO_COUPON = { code: "WT-ZDVK-MYG9", label: "10%OFF" } as const;

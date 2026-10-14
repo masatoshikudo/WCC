@@ -10,7 +10,6 @@ const MENU = [
   { href: "/#pricing", label: "料金" },
   { href: "/#flow", label: "ご利用の流れ" },
   { href: "/#faq", label: "よくある質問" },
-  { href: "/pricing", label: "料金とオプションの詳細" },
 ] as const;
 
 const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL;

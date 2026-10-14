@@ -7,7 +7,7 @@ import { HomeB3Motion } from "@/components/home-b3/HomeB3Motion";
 import { PetalCanvas } from "@/components/home-b3/PetalCanvas";
 import { SplitH2 } from "@/components/home-b3/SplitH2";
 import { HOME_FAQ_GROUPS } from "@/lib/home-faq";
-import { WCC_EXTRAS, WCC_PACKAGE_PLANS } from "@/lib/plans";
+import { WCC_BESPOKE_PLAN, WCC_EXTRAS, WCC_PACKAGE_PLANS } from "@/lib/plans";
 import { CAPACITY_PER_MONTH, RECEPTION_START_MONTH } from "@/lib/reception";
 
 import "./home-b3.css";
@@ -146,6 +146,28 @@ const INCLUDED: { label: string; icon: ReactNode }[] = [
 ];
 
 /** オプションの表示名（料金は lib/plans.ts の WCC_EXTRAS が正） */
+/** オーダーメイドの例（アイコンは WCC_BESPOKE_PLAN.examples と同じ順） */
+const BESPOKE_ICONS: ReactNode[] = [
+  <g key="b1">
+    <path d="M4 8h3l2-3h6l2 3h3v11H4z" />
+    <circle cx="12" cy="13" r="3.5" />
+  </g>,
+  <g key="b2">
+    <circle cx="12" cy="12" r="8" />
+    <circle cx="12" cy="12" r="3" />
+  </g>,
+  <g key="b3">
+    <circle cx="9" cy="8" r="3" />
+    <circle cx="17" cy="9" r="2.4" />
+    <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 2 6 5.5" />
+  </g>,
+  <path key="b4" d="M5 21V4h9v17M14 9h5v12M8 8h3M8 12h3M8 16h3" />,
+  <g key="b4">
+    <path d="M12 21s-6-5.6-6-10a6 6 0 0 1 12 0c0 4.4-6 10-6 10z" />
+    <circle cx="12" cy="11" r="2" />
+  </g>,
+];
+
 const EXTRA_LABEL: Record<string, string> = {
   extension: "撮影時間延長",
   "additional-edit": "追加編集動画",
@@ -379,6 +401,30 @@ export function HomeB3() {
             ))}
           </div>
           <p className="note">交通費は含まれていません。場所や式場によっては宿泊が必要になる場合があります</p>
+
+          {/* オーダーメイドプラン */}
+          <div className="bespoke rv" style={d(0)}>
+            <div className="bsp-head">
+              <span className="plan">BESPOKE PLAN</span>
+              <h3 lang="ja">オーダーメイド</h3>
+              <div className="bsp-yen">
+                ¥{yen(WCC_BESPOKE_PLAN.priceFromInTaxYen)}
+                <small>税込〜</small>
+              </div>
+            </div>
+            <div className="bsp-body">
+              <p>スタンダードプランの内容に、メニューにないご要望を足してお見積もりします</p>
+              <ul className="incl">
+                {WCC_BESPOKE_PLAN.examples.map((x, k) => (
+                  <li key={x}>
+                    <Icon>{BESPOKE_ICONS[k]}</Icon>
+                    {x}
+                  </li>
+                ))}
+              </ul>
+              <Cta />
+            </div>
+          </div>
         </div>
       </section>
 

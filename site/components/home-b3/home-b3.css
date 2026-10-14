@@ -191,7 +191,7 @@
 /* ===================== Motion（マイクロインタラクション） ===================== */
 .hb3{--ease:cubic-bezier(.2,.8,.1,1);--spring:cubic-bezier(.34,1.56,.64,1)}
 /* 見出し：1文字ずつ下から立ち上がる */
-.hb3.js .h2 .ch{display:inline-block;overflow:hidden;vertical-align:bottom;padding:0 .02em .12em;margin:0 -.02em -.12em}
+.hb3.js .h2 .ch{display:inline-block;overflow:hidden;vertical-align:bottom;padding:.28em .1em .16em;margin:-.28em -.1em -.16em}
 .hb3.js .h2 .ch>span{display:inline-block;transform:translateY(115%) rotate(8deg);transform-origin:0 100%;transition:transform 1s var(--ease) calc(var(--i)*38ms)}
 .hb3.js .in .h2 .ch>span{transform:none}
 .hb3.js .h2 em .ch>span{transition-duration:1.2s}

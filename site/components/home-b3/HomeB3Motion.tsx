@@ -118,6 +118,18 @@ export function HomeB3Motion({ rootId }: { rootId: string }) {
       ob.disconnect();
       timers.forEach((t) => window.clearTimeout(t));
     });
+    // 手紙：読む位置（画面の下から35%）を通った行から、1行ずつ浮かび上がらせる
+    const lo = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add("read");
+          lo.unobserve(e.target);
+        }),
+      { rootMargin: "0px 0px -35% 0px" },
+    );
+    root.querySelectorAll(".letter .ln").forEach((l) => lo.observe(l));
+    cleanups.push(() => lo.disconnect());
     // 出し終わった要素は、ホバー用の速い動きに切り替える
     on(root, "transitionend", (e) => {
       const el = e.target as HTMLElement;

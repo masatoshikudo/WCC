@@ -1,40 +1,6 @@
-import type { CSSProperties } from "react";
-import dynamic from "next/dynamic";
-import { HomeHeroSection } from "@/components/marketing/HomeHeroSection";
-// import { HomeHighlightsSection } from "@/components/marketing/HomeHighlightsSection";
-import { HomeWhatIsSection } from "@/components/marketing/HomeWhatIsSection";
-import { HomeDoINeedSection } from "@/components/marketing/HomeDoINeedSection";
-import { HomeValuesSection } from "@/components/marketing/HomeValuesSection";
-import { HomePricingSectionSkeleton } from "@/components/home/HomeDynamicSkeletons";
+import { HomeB3 } from "@/components/home-b3/HomeB3";
 
-const HomePricingSection = dynamic(
-  () => import("@/components/home/HomePricingSection").then((m) => m.HomePricingSection),
-  { loading: () => <HomePricingSectionSkeleton /> },
-);
-
-/** トップ各セクションの H2 */
-const SECTION_H2_CLASS =
-  "mx-auto max-w-4xl text-center font-display text-[clamp(2rem,4.2vw,4rem)] leading-[1.12] text-ink";
-const SECTION_H2_STYLE: CSSProperties = { letterSpacing: "-0.03em" };
-
+/** トップページ。デザインの元は docs/design/home/home-b3.html */
 export default function HomePage() {
-  return (
-    <>
-      <HomeHeroSection />
-
-      {/* <HomeHighlightsSection /> */}
-
-      <HomeWhatIsSection />
-
-      <HomeDoINeedSection />
-
-      <HomeValuesSection />
-
-      <HomePricingSection
-        sectionH2ClassName={SECTION_H2_CLASS}
-        sectionH2Style={SECTION_H2_STYLE}
-        compact
-      />
-    </>
-  );
+  return <HomeB3 />;
 }

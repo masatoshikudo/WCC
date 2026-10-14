@@ -140,3 +140,6 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# 撮影素材の元データ（4K・大容量）。サイト用に変換したものは site/public/videos/realmoment/
+docs/realmoment/

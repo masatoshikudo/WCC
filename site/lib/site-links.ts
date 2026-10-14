@@ -3,12 +3,12 @@
  * 文言・ルート変更時はここと `next.config.mjs` のリダイレクトを揃える。
  */
 export const HOME_ANCHOR_HREF = {
-  hero: "/#hero",
+  hero: "/#top",
   serviceDetail: "/#service-detail",
-  highlights: "/#highlights",
-  whatIsWcc: "/#what-is-wcc",
+  highlights: "/#works",
+  whatIsWcc: "/#values",
   pricing: "/pricing",
-  serviceFlow: "/#service-flow",
+  serviceFlow: "/#flow",
   faq: "/#faq",
 } as const;
 

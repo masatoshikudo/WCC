@@ -3,13 +3,12 @@ import { Cormorant_Garamond, Noto_Sans_JP, Plus_Jakarta_Sans } from "next/font/g
 import "./globals.css";
 import { HashScrollOnMount } from "@/components/layout/HashScrollOnMount";
 import { MobileBottomCta } from "@/components/layout/MobileBottomCta";
+import { HideOnHome, MainShell } from "@/components/layout/RouteChrome";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { WebVitalsReporter } from "@/components/performance/WebVitalsReporter";
-import { MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS } from "@/lib/layout/mobile-dock";
 import { PostHogProvider } from "@/lib/posthog/provider";
 import { SuspendedPostHogPageView } from "@/lib/posthog/pageview";
-import { cn } from "@/lib/utils/cn";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -62,10 +61,15 @@ export default function RootLayout({
           <SuspendedPostHogPageView />
           <WebVitalsReporter />
           <HashScrollOnMount />
-          <SiteHeader />
-          <main className={cn("flex-1 w-full", MOBILE_STICKY_LAYOUT_BOTTOM_PAD_CLASS)}>{children}</main>
-          <MobileBottomCta />
-          <SiteFooter />
+          {/* トップ（/）は専用のヘッダー・フッター・下部ボタンを持つため、共通のものは出さない */}
+          <HideOnHome>
+            <SiteHeader />
+          </HideOnHome>
+          <MainShell>{children}</MainShell>
+          <HideOnHome>
+            <MobileBottomCta />
+            <SiteFooter />
+          </HideOnHome>
         </PostHogProvider>
       </body>
     </html>

@@ -417,7 +417,8 @@
 .hb3 .letter{margin-top:72px;max-width:880px;font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;font-size:clamp(1.05rem,1.6vw,1.3rem);line-height:2.3;letter-spacing:.08em;color:var(--heading)}
 .hb3 .letter .gap{display:block;height:1.4em}
 .hb3 .letter .to{margin-bottom:1.6em}
-.hb3 .letter .sign{margin-top:2.4em;font-family:var(--serif);font-style:italic;font-size:1.35em;letter-spacing:.02em;text-align:right}
+.hb3 .letter .sign{margin-top:2.4em;display:flex;justify-content:flex-end}
+.hb3 .letter .sign img{width:clamp(200px,28vw,280px);height:auto}
 .hb3.js .letter .ln{opacity:.12;filter:blur(3px);transform:translateY(8px);transition:opacity 1.1s var(--ease),filter 1.1s var(--ease),transform 1.1s var(--ease)}
 .hb3.js .letter .ln.read{opacity:1;filter:none;transform:none}
 @media (prefers-reduced-motion:reduce){.hb3.js .letter .ln{opacity:1;filter:none;transform:none;transition:none}}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 
@@ -340,7 +341,10 @@ export function HomeB3({ openMonth }: { openMonth: MonthAvailability | null }) {
               サイトをご覧いただきありがとうございま<span className="nw">す💍</span>
             </p>
             {LETTER.map((t, k) => (t ? <p key={k} className="ln">{withEmojiTail(t)}</p> : <span key={k} className="gap" aria-hidden="true" />))}
-            <p className="ln sign">For Your Wedding Day</p>
+            {/* 署名：正式ロゴ（横長） */}
+            <p className="ln sign">
+              <Image src="/FYWD_logo_PC.png" alt="For Your Wedding Day" width={1600} height={329} />
+            </p>
           </div>
         </div>
       </section>

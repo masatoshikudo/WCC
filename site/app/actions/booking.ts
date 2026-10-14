@@ -20,10 +20,12 @@ export type RecordBookingIntentInput = {
   dateUndecided: boolean;
   preferredWeddingMonth: PreferredWeddingMonth | null;
   venueName: string;
-  venueArea: string;
+  /** 任意。フォームでは聞かなくなった（事前ヒアリングシートで確認する） */
+  venueArea?: string;
   startTime: string;
   startTimeUndecided: boolean;
-  coverageScope: "ceremony_only" | "ceremony_reception" | "through_afterparty";
+  /** 任意。フォームでは聞かなくなった（事前ヒアリングシートで確認する） */
+  coverageScope?: "ceremony_only" | "ceremony_reception" | "through_afterparty";
   coupleName: string;
   timelineNote: string | null;
   requestedScenes: string | null;
@@ -67,10 +69,11 @@ export async function recordBookingIntent(input: RecordBookingIntentInput): Prom
     date_undecided: input.dateUndecided,
     preferred_wedding_month: input.dateUndecided ? input.preferredWeddingMonth : null,
     venue_name: input.venueName.trim(),
-    venue_area: input.venueArea.trim(),
+    venue_area: input.venueArea?.trim() ?? "",
     start_time: input.startTime,
     start_time_undecided: input.startTimeUndecided,
-    coverage_scope: input.coverageScope,
+    // 未入力のときは送らない（DB の既定値が入る）
+    ...(input.coverageScope ? { coverage_scope: input.coverageScope } : {}),
     couple_name: input.coupleName.trim(),
     timeline_note: input.timelineNote?.trim() || null,
     requested_scenes: input.requestedScenes?.trim() || null,

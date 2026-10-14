@@ -5,7 +5,7 @@ import { FooterCtaSection } from "@/components/layout/FooterCtaSection";
 
 const FOOTER_NAV_LINKS = [
   { href: "/", label: "HOME" },
-  { href: "/pricing", label: "PRICING" },
+  { href: "/#pricing", label: "PRICING" },
   { href: "/book", label: "CONTACT" },
 ] as const;
 

@@ -400,3 +400,15 @@
 @media (max-width:640px){.hb3 .logo-img .logo-pc{display:none}.hb3 .logo-img .logo-sp{display:block}}
 .hb3 .ft-logo img{width:auto;height:120px;filter:brightness(0) invert(1);opacity:.92}
 @media (max-width:640px){.hb3 .ft-logo img{height:96px}}
+
+/* ===== Pricing：オーダーメイドプラン ===== */
+.hb3 .bespoke{margin-top:48px;display:grid;grid-template-columns:5fr 7fr;gap:clamp(24px,4vw,56px);padding:clamp(28px,4vw,48px);border-radius:32px;border:1.5px solid var(--dark)}
+.hb3 .bespoke .plan{font:700 12px var(--ui);letter-spacing:.14em;color:var(--muted)}
+.hb3 .bespoke h3{margin-top:14px;font:400 clamp(1.6rem,2.6vw,2.2rem)/1.2 var(--font-body);letter-spacing:.04em}
+.hb3 .bsp-yen{margin-top:20px;font-family:var(--serif);font-size:clamp(3rem,5.5vw,4.6rem);line-height:.9;letter-spacing:-.03em;color:var(--heading)}
+.hb3 .bsp-yen small{font-family:var(--font-body);font-size:13px;letter-spacing:.04em;margin-left:8px;color:var(--muted)}
+.hb3 .bsp-body{display:flex;flex-direction:column;gap:20px}
+.hb3 .bsp-body p{font-size:14px;line-height:1.8}
+.hb3 .bsp-body .incl{margin-top:0}
+.hb3 .bsp-body .cta{align-self:flex-start;border-radius:999px 0 999px 999px}
+@media (max-width:900px){.hb3 .bespoke{grid-template-columns:1fr}}

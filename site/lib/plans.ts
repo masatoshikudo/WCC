@@ -49,7 +49,7 @@ export const WCC_BOOKING_PLANS = WCC_PACKAGE_PLANS.map((p) => ({
   planNote: `${WCC_PAYMENT_TIMING_NOTE}${WCC_PACKAGE_TAX_LUMP_NOTE}`,
 }));
 
-/** エクストラオプション（/pricing ページ用） */
+/** エクストラオプション（トップ #pricing 用） */
 export const WCC_EXTRAS = [
   {
     id: "extension",
@@ -103,6 +103,12 @@ export const WCC_EXTRAS = [
     maxQuantity: 1,
   },
 ] as const;
+
+/** オーダーメイドプラン（トップ #pricing）：スタンダードの内容に、メニューにない要望を足して見積もる */
+export const WCC_BESPOKE_PLAN = {
+  priceFromInTaxYen: 330_000,
+  examples: ["日常シーンの撮影", "特定シーンに密着", "ご家族向けの別動画", "企業イベントと連動", "複数会場の移動"],
+} as const;
 
 export type WccExtra = (typeof WCC_EXTRAS)[number];
 

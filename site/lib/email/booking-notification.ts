@@ -4,7 +4,7 @@ import { escapeHtml } from "@/lib/email/escape-html";
 import { sendEmailSafe } from "@/lib/email/resend";
 import { formatWeddingScheduleLabel } from "@/lib/reception";
 
-const COVERAGE_SCOPE_LABELS: Record<RecordBookingIntentInput["coverageScope"], string> = {
+const COVERAGE_SCOPE_LABELS: Record<NonNullable<RecordBookingIntentInput["coverageScope"]>, string> = {
   ceremony_only: "挙式のみ",
   ceremony_reception: "挙式 + 披露宴まで",
   through_afterparty: "二次会まで",
@@ -66,11 +66,9 @@ function buildText(input: RecordBookingIntentInput): string {
       : `${formatDate(input.weddingDate)}（開始時刻: ${input.startTimeUndecided ? "未定" : input.startTime || "未入力"}）`,
     "",
     "会場",
-    `${input.venueName}（エリア: ${input.venueArea}）`,
+    input.venueArea?.trim() ? `${input.venueName}（エリア: ${input.venueArea.trim()}）` : input.venueName,
     "",
-    "撮影範囲",
-    COVERAGE_SCOPE_LABELS[input.coverageScope],
-    "",
+    ...(input.coverageScope ? ["撮影範囲", COVERAGE_SCOPE_LABELS[input.coverageScope], ""] : []),
     "ご連絡先",
     input.email.trim(),
     input.emergencyContact?.trim() ?? "",

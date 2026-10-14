@@ -6,7 +6,7 @@ import { formatWeddingScheduleLabel } from "@/lib/reception";
 const DIVIDER = "─".repeat(16);
 const SITE_URL = "https://for-your-wedding-day.com";
 
-const COVERAGE_SCOPE_LABELS: Record<RecordBookingIntentInput["coverageScope"], string> = {
+const COVERAGE_SCOPE_LABELS: Record<NonNullable<RecordBookingIntentInput["coverageScope"]>, string> = {
   ceremony_only: "挙式のみ",
   ceremony_reception: "挙式 + 披露宴まで",
   through_afterparty: "二次会まで",
@@ -58,8 +58,8 @@ function buildText(greeting: string, input: RecordBookingIntentInput): string {
     "お預かりした内容",
     "",
     `挙式日: ${weddingDateLine}`,
-    `会場: ${input.venueName}（${input.venueArea}）`,
-    `撮影範囲: ${COVERAGE_SCOPE_LABELS[input.coverageScope]}`,
+    input.venueArea?.trim() ? `会場: ${input.venueName}（${input.venueArea.trim()}）` : `会場: ${input.venueName}`,
+    ...(input.coverageScope ? [`撮影範囲: ${COVERAGE_SCOPE_LABELS[input.coverageScope]}`] : []),
     `連絡先: ${input.email.trim()}`,
   ];
 

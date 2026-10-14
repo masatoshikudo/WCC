@@ -35,20 +35,12 @@ function newBookingAttemptId(): string {
 
 const BOOK_PLAN = WCC_BOOKING_PLANS[0];
 const BOOK_PLAN_ID = BOOK_PLAN.id;
-const COVERAGE_SCOPE_OPTIONS = [
-  { value: "ceremony_only", label: "挙式のみ", span: 1 },
-  { value: "ceremony_reception", label: "挙式 + 披露宴まで", span: 2 },
-  { value: "through_afterparty", label: "二次会まで", span: 3 },
-] as const;
-/** 撮影範囲の目盛りに並べる場面 */
-const COVERAGE_STAGES = ["挙式", "披露宴", "二次会"] as const;
 const DELIVERY_CHANNEL_OPTIONS = [
   { value: "instagram_reels", label: "Instagram Reels" },
   { value: "tiktok", label: "TikTok" },
   { value: "youtube_shorts", label: "YouTube Shorts" },
   { value: "private_share", label: "個人共有" },
 ] as const;
-type CoverageScope = (typeof COVERAGE_SCOPE_OPTIONS)[number]["value"];
 type DeliveryChannel = (typeof DELIVERY_CHANNEL_OPTIONS)[number]["value"];
 
 export function BookFlow() {
@@ -59,10 +51,8 @@ export function BookFlow() {
   const [preferredWeddingMonth, setPreferredWeddingMonth] = useState<PreferredWeddingMonth | "">("");
   const [monthAvailability, setMonthAvailability] = useState<MonthAvailability[]>([]);
   const [venueName, setVenueName] = useState("");
-  const [venueArea, setVenueArea] = useState("");
   const [startTime, setStartTime] = useState("");
   const [startTimeUndecided, setStartTimeUndecided] = useState(false);
-  const [coverageScope, setCoverageScope] = useState<CoverageScope | "">("");
   const [bookerEmail, setBookerEmail] = useState("");
   const [partner1FirstName, setPartner1FirstName] = useState("");
   const [partner1LastName, setPartner1LastName] = useState("");
@@ -89,8 +79,6 @@ export function BookFlow() {
     preferredWeddingMonth: preferredWeddingMonth || null,
   });
   const startTimeLabel = startTimeUndecided ? "未定" : startTime || "未入力";
-  const coverageScopeLabel =
-    COVERAGE_SCOPE_OPTIONS.find((option) => option.value === coverageScope)?.label ?? "未入力";
   const referenceVideoUrls = parseReferenceUrls(referenceVideoUrlsText);
   // 姓 → 名 の順（入力欄も姓が先）
   const partner1FullName = `${partner1LastName.trim()} ${partner1FirstName.trim()}`.trim();
@@ -177,16 +165,8 @@ export function BookFlow() {
       setFormError("式場名を入力してください。");
       return;
     }
-    if (!venueArea.trim()) {
-      setFormError("開催エリアを入力してください。");
-      return;
-    }
     if (!startTimeUndecided && !startTime) {
       setFormError("開始時刻を入力してください（未定の場合はチェックを付けてください）。");
-      return;
-    }
-    if (!coverageScope) {
-      setFormError("撮影範囲を選択してください。");
       return;
     }
     if (
@@ -238,10 +218,8 @@ export function BookFlow() {
         dateUndecided,
         preferredWeddingMonth: dateUndecided ? preferredWeddingMonth || null : null,
         venueName: venueName.trim(),
-        venueArea: venueArea.trim(),
         startTime,
         startTimeUndecided,
-        coverageScope: coverageScope as CoverageScope,
         coupleName: coupleNameForSubmission,
         timelineNote: timelineNote.trim() ? timelineNote.trim() : null,
         requestedScenes: requestedScenes.trim() ? requestedScenes.trim() : null,
@@ -260,12 +238,10 @@ export function BookFlow() {
       posthog?.capture("booking_intent_submitted", {
         plan_id: BOOK_PLAN_ID,
         plan_label: BOOK_PLAN.label,
-        coverage_scope: coverageScope,
         date_undecided: dateUndecided,
         preferred_wedding_month: dateUndecided ? preferredWeddingMonth || null : null,
         start_time_undecided: startTimeUndecided,
         delivery_channels: deliveryChannels,
-        venue_area: venueArea.trim() || null,
         has_coupon: couponCodeForSubmission !== null,
       });
     } catch (err) {
@@ -450,20 +426,6 @@ export function BookFlow() {
                   </fieldset>
                 ) : null}
 
-                <div className="bk-row2">
-                  <Field label="式場名" htmlFor="venue-name">
-                    <input id="venue-name" value={venueName} onChange={(e) => setVenueName(e.target.value)} className="bk-input" />
-                  </Field>
-                  <Field label="開催エリア" htmlFor="venue-area">
-                    <input
-                      id="venue-area"
-                      value={venueArea}
-                      onChange={(e) => setVenueArea(e.target.value)}
-                      placeholder="東京都港区 など"
-                      className="bk-input"
-                    />
-                  </Field>
-                </div>
 
                 <Field label="当日の開始時刻" htmlFor="start-time">
                   <div className="bk-inline">
@@ -486,32 +448,10 @@ export function BookFlow() {
                   </div>
                 </Field>
 
-                <fieldset className="bk-cover">
-                  <legend className="bk-label">撮影範囲</legend>
-                  <div className="bk-cover-grid">
-                    {COVERAGE_SCOPE_OPTIONS.map((option) => (
-                      <label key={option.value} className={`bk-cover-opt${coverageScope === option.value ? " on" : ""}`}>
-                        <input
-                          type="radio"
-                          name="coverage-scope"
-                          value={option.value}
-                          checked={coverageScope === option.value}
-                          onChange={(e) => setCoverageScope(e.target.value as CoverageScope)}
-                        />
-                        {/* どこまで撮るかを目盛りで表示 */}
-                        <span className="bk-scale" aria-hidden="true">
-                          {COVERAGE_STAGES.map((stage, k) => (
-                            <span key={stage} className={k < option.span ? "on" : ""}>
-                              <i />
-                              <small>{stage}</small>
-                            </span>
-                          ))}
-                        </span>
-                        <span className="bk-cover-label">{option.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
+                <Field label="式場名" htmlFor="venue-name">
+                  <input id="venue-name" value={venueName} onChange={(e) => setVenueName(e.target.value)} className="bk-input" />
+                </Field>
+
               </Card>
 
               {/* 料金の目安 */}
@@ -666,9 +606,7 @@ export function BookFlow() {
                   <Row label="電話番号" value={emergencyContact.trim() || "—"} />
                   <Row label="挙式日" value={dateLabel} />
                   <Row label="式場名" value={venueName.trim() || "—"} />
-                  <Row label="開催エリア" value={venueArea.trim() || "—"} />
                   <Row label="開始時刻" value={startTimeLabel} />
-                  <Row label="撮影範囲" value={coverageScopeLabel} />
                   <Row
                     label="料金目安"
                     value={

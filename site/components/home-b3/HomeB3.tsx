@@ -110,12 +110,13 @@ const LETTER: string[] = [
   "私たちは、それが何よりうれしいです🤍",
 ];
 
-const SPECS = [
+/** 上の段＝撮影と納品の早さ、下の段＝納品物（deliver: true に「納品」の印） */
+const SPECS: { num: number | string; unit: string; label: string; deliver?: boolean }[] = [
   { num: 4, unit: "h", label: "連続で撮影" },
   { num: 24, unit: "h", label: "以内に1本目を納品" },
-  { num: 60, unit: "s", label: "以内の動画 1本" },
-  { num: 120, unit: "s", label: "合計の縦型動画" },
-] as const;
+  { num: 2, unit: "本", label: "編集した映像", deliver: true },
+  { num: "All", unit: "", label: "撮影した素材すべて", deliver: true },
+];
 
 const INCLUDED: { label: string; icon: ReactNode }[] = [
   {
@@ -128,7 +129,6 @@ const INCLUDED: { label: string; icon: ReactNode }[] = [
     ),
   },
   { label: "契約後のLINE相談", icon: <path d="M4 5h16v11H9l-5 4z" /> },
-  { label: "未編集の全素材", icon: <path d="M3 7h6l2 2h10v10H3z" /> },
   {
     label: "メイキング・細部ショットも対応",
     icon: (
@@ -365,7 +365,16 @@ export function HomeB3({ openMonth }: { openMonth: MonthAvailability | null }) {
             </div>
             <div className="specs rv" style={d(1)}>
               {SPECS.map((s, k) => (
-                <div key={s.label} className="spec rv" style={d(k)}>
+                <div key={s.label} className={`spec rv${s.deliver ? " dlv" : ""}`} style={d(k)}>
+                  {s.deliver ? (
+                    <span className="dlv-tag">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 8l8-4 8 4v8l-8 4-8-4z" />
+                        <path d="M4 8l8 4 8-4M12 12v8" />
+                      </svg>
+                      納品
+                    </span>
+                  ) : null}
                   <div className="num">
                     {s.num}
                     <i>{s.unit}</i>

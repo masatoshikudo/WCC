@@ -424,3 +424,8 @@
 @media (prefers-reduced-motion:reduce){.hb3.js .letter .ln{opacity:1;filter:none;transform:none;transition:none}}
 @media (max-width:640px){.hb3 .letter{margin-top:48px;font-size:15.5px;letter-spacing:.04em;line-height:2.2}}
 .hb3 .letter .nw{white-space:nowrap}
+
+/* ===== Pricing：納品物のカード ===== */
+.hb3 .spec.dlv{position:relative;background:#fff}
+.hb3 .spec .dlv-tag{position:absolute;top:18px;right:18px;display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:999px;background:var(--dark);color:#fff;font:600 11.5px var(--ui);letter-spacing:.08em}
+.hb3 .spec .dlv-tag svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linejoin:round}

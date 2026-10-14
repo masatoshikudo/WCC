@@ -89,7 +89,7 @@
 .hb3 .price-main .plan{font:700 12px var(--ui);letter-spacing:.14em;color:#bdbdbd}
 .hb3 .price-main .yen{font-family:var(--serif);font-size:clamp(4rem,8vw,7.5rem);line-height:.9;letter-spacing:-.03em}
 .hb3 .price-main .yen small{font-family:var(--font-body);font-size:14px;letter-spacing:.04em;margin-left:8px;color:#bdbdbd}
-.hb3 .price-main .cta{align-self:flex-start;margin-top:auto}
+.hb3 .price-main .cta{align-self:flex-start;margin-top:auto;border-radius:999px 0 999px 999px}
 .hb3 .specs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .hb3 .spec{background:rgba(255,255,255,.45);border-radius:24px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:150px}
 .hb3 .spec .num{font-family:var(--serif);font-size:clamp(3rem,5vw,4.4rem);line-height:.9;letter-spacing:-.03em;color:var(--heading)}
@@ -268,8 +268,8 @@
 .hb3 details[open] summary i{transform:rotate(180deg)}
 /* 最後：枠の丸が順番に埋まる */
 .hb3 .slots .d i{background:transparent;box-shadow:inset 0 0 0 1.5px var(--dark);transition:background .3s calc(var(--k)*180ms + .6s),transform .5s var(--spring) calc(var(--k)*180ms + .6s)}
-.hb3.js .in .slots .d i{background:var(--dark);transform:scale(1.15)}
-.hb3:not(.js) .slots .d i{background:var(--dark)}
+.hb3.js .in .slots .d i.on{background:var(--dark);transform:scale(1.15)}
+.hb3:not(.js) .slots .d i.on{background:var(--dark)}
 /* フッターのリンク */
 .hb3 .ft nav a{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .4s var(--ease),color .3s}
 .hb3 .ft nav a:hover{background-size:100% 1px;color:#fff}
@@ -282,7 +282,7 @@
   .hb3.js .h2 .ch>span,.hb3.js .eyebrow,.hb3.js .ja,.hb3.js .rv,.hb3.js .step .dot,.hb3.js .step .txt{transform:none!important;opacity:1!important}
   .hb3.js .flow::before{transform:none!important}
   .hb3.js .val .ic svg *{stroke-dashoffset:0!important}
-  .hb3 .slots .d i{background:var(--dark)!important}
+  .hb3 .slots .d i.on{background:var(--dark)!important}
 }
 
 /* ===== FV：花吹雪（一部ハート） ===== */
@@ -329,7 +329,7 @@
 .hb3 section.end .eyebrow b::after{border-color:#fff}
 .hb3 section.end .slots{background:rgba(255,255,255,.18);color:#fff}
 .hb3 section.end .slots .d i{box-shadow:inset 0 0 0 1.5px #fff}
-.hb3.js section.end.in .slots .d i,.hb3:not(.js) section.end .slots .d i{background:#fff}
+.hb3.js section.end.in .slots .d i.on,.hb3:not(.js) section.end .slots .d i.on{background:#fff}
 .hb3 section.end .cta{background:var(--dark);color:#fff}
 .hb3 section.end .cta:hover{background:#3a3633}
 

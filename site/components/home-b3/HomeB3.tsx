@@ -8,7 +8,8 @@ import { PetalCanvas } from "@/components/home-b3/PetalCanvas";
 import { SplitH2 } from "@/components/home-b3/SplitH2";
 import { HOME_FAQ_GROUPS } from "@/lib/home-faq";
 import { WCC_BESPOKE_PLAN, WCC_EXTRAS, WCC_PACKAGE_PLANS } from "@/lib/plans";
-import { CAPACITY_PER_MONTH, RECEPTION_START_MONTH } from "@/lib/reception";
+import type { MonthAvailability } from "@/lib/reception";
+import { SlotsChip } from "@/components/home-b3/SlotsChip";
 
 import "./home-b3.css";
 
@@ -233,9 +234,8 @@ const FLOW: { label: string; key?: boolean; icon: ReactNode }[] = [
   },
 ];
 
-export function HomeB3() {
+export function HomeB3({ openMonth }: { openMonth: MonthAvailability | null }) {
   const plan = WCC_PACKAGE_PLANS[0];
-  const slotsLabel = `${RECEPTION_START_MONTH.replace("-", ".")}〜 / 各月${CAPACITY_PER_MONTH}組`;
   let faqIndex = 0;
 
   return (
@@ -496,14 +496,7 @@ export function HomeB3() {
           <Eyebrow>Contact</Eyebrow>
           <SplitH2 parts={[{ text: "Let's " }, { text: "talk", italic: true }]} />
           <div>
-            <div className="slots rv" style={d(3)}>
-              <span className="d" aria-hidden="true">
-                {Array.from({ length: CAPACITY_PER_MONTH }, (_, k) => (
-                  <i key={k} style={{ ["--k" as string]: k }} />
-                ))}
-              </span>
-              <span>{slotsLabel}</span>
-            </div>
+            <SlotsChip month={openMonth} className="slots rv" style={d(3)} />
           </div>
           <Cta className="cta rv" style={d(4)} />
         </div>

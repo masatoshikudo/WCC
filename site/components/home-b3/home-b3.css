@@ -89,7 +89,7 @@
 .hb3 .price-main .plan{font:700 12px var(--ui);letter-spacing:.14em;color:#bdbdbd}
 .hb3 .price-main .yen{font-family:var(--serif);font-size:clamp(4rem,8vw,7.5rem);line-height:.9;letter-spacing:-.03em}
 .hb3 .price-main .yen small{font-family:var(--font-body);font-size:14px;letter-spacing:.04em;margin-left:8px;color:#bdbdbd}
-.hb3 .price-main .cta{align-self:flex-start;margin-top:auto}
+.hb3 .price-main .cta{align-self:flex-start;margin-top:auto;border-radius:999px 0 999px 999px}
 .hb3 .specs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .hb3 .spec{background:rgba(255,255,255,.45);border-radius:24px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:150px}
 .hb3 .spec .num{font-family:var(--serif);font-size:clamp(3rem,5vw,4.4rem);line-height:.9;letter-spacing:-.03em;color:var(--heading)}

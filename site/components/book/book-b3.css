@@ -1,0 +1,214 @@
+/* ご相談・お見積もりページ（/book）の B3 スタイル。.hb3（home-b3.css）の色・書体・部品を使う */
+
+.hb3 .bk-hero{padding:clamp(112px,14vw,160px) 0 clamp(32px,5vw,56px)}
+.hb3 .bk-hero .h2{font-size:clamp(3.4rem,9vw,8rem)}
+.hb3 .bk-hero-meta{margin-top:20px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px}
+.hb3 .bk-hero-meta .slots{margin:0;border-radius:0 999px 999px 999px}
+.hb3 .bk-hero-meta .ja{margin:0}
+
+.hb3 .bk{padding:0 0 clamp(96px,12vw,160px)}
+.hb3 .bk-grid{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start}
+
+/* 左：縦動画 */
+.hb3 .bk-aside{position:sticky;top:24px}
+.hb3 .bk-visual{position:relative;aspect-ratio:9/16;border-radius:2rem;overflow:hidden;background:#b9babe}
+.hb3 .bk-visual video{width:100%;height:100%;object-fit:cover}
+.hb3 .bk-visual-tag{position:absolute;left:16px;top:16px;height:28px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.88);
+  display:inline-flex;align-items:center;font:700 11px var(--ui);letter-spacing:.1em}
+
+/* 進み具合 */
+.hb3 .bk-steps{list-style:none;display:flex;align-items:center;gap:0;margin-bottom:28px}
+.hb3 .bk-step{display:flex;align-items:center;gap:10px;font:600 13px var(--ui);color:var(--muted)}
+.hb3 .bk-step+.bk-step::before{content:"";width:clamp(24px,5vw,56px);height:2px;margin:0 12px;background:rgba(0,0,0,.15);border-radius:2px}
+.hb3 .bk-step.done+.bk-step::before{background:var(--dark)}
+.hb3 .bk-step-dot{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.55);
+  box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.15);transition:background .3s,color .3s,transform .4s var(--spring)}
+.hb3 .bk-step-dot svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.hb3 .bk-step.now{color:var(--heading)}
+.hb3 .bk-step.now .bk-step-dot{background:var(--accent);color:#fff;box-shadow:none;transform:scale(1.08)}
+.hb3 .bk-step.done{color:var(--heading)}
+.hb3 .bk-step.done .bk-step-dot{background:var(--dark);color:#fff;box-shadow:none}
+
+/* フォーム */
+.hb3 .bk-form{display:grid;gap:14px;animation:hb3-bkIn .5s var(--ease)}
+@keyframes hb3-bkIn{from{opacity:0;transform:translateY(12px)}}
+.hb3 .bk-alert{display:flex;align-items:flex-start;gap:10px;padding:14px 18px;border-radius:0 18px 18px 18px;background:#fff;color:#b91c1c;font-size:14px;font-weight:500;line-height:1.6;
+  box-shadow:inset 0 0 0 1.5px rgba(185,28,28,.35);animation:hb3-bkShake .4s}
+.hb3 .bk-alert svg{flex:0 0 18px;width:18px;height:18px;margin-top:2px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+@keyframes hb3-bkShake{20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}}
+
+.hb3 .bk-card,.hb3 .bk-more{background:rgba(255,255,255,.55);border-radius:24px;padding:clamp(18px,2.6vw,28px)}
+.hb3 .bk-card-head,.hb3 .bk-summary-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.hb3 .bk-card-ic{flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:var(--dark);display:grid;place-items:center;transition:transform .45s var(--spring),background .3s}
+.hb3 .bk-card-ic svg{width:19px;height:19px;fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.hb3 .bk-card:focus-within .bk-card-ic{background:var(--accent);transform:rotate(-10deg) scale(1.06)}
+.hb3 .bk-card-title{font-weight:700;font-size:16px;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.hb3 .bk-card-title small{font-weight:400;font-size:12px;color:var(--muted)}
+.hb3 .bk-req{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:999px;background:var(--accent);color:#fff;font:700 10.5px var(--ui);letter-spacing:.06em;margin-left:8px}
+.hb3 .bk-card-title .bk-req{margin-left:0}
+.hb3 .bk-card-body{display:grid;gap:16px}
+
+.hb3 .bk-field{display:grid;gap:8px}
+.hb3 .bk-label{font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center}
+.hb3 .bk-err{font-size:12.5px;color:#b91c1c}
+.hb3 .bk-input{width:100%;min-height:52px;padding:0 18px;border:0;border-radius:16px;background:#fff;color:var(--ink);font:500 15px var(--font-body),sans-serif;
+  box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.08);outline:none;transition:box-shadow .25s,background .25s,transform .25s var(--spring)}
+.hb3 .bk-input::placeholder{color:#a3a3a3;font-weight:400}
+.hb3 .bk-input:hover{box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.2)}
+.hb3 .bk-input:focus{box-shadow:inset 0 0 0 2px var(--accent),0 0 0 4px rgba(202,83,17,.12)}
+.hb3 .bk-input:disabled{background:rgba(255,255,255,.4);color:#a3a3a3;box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.05)}
+.hb3 .bk-field.err .bk-input{box-shadow:inset 0 0 0 2px #b91c1c}
+.hb3 .bk-textarea{min-height:0;padding:14px 18px;line-height:1.7;resize:vertical}
+.hb3 .bk-input-short{max-width:220px}
+.hb3 .bk-input-code{max-width:280px;text-transform:uppercase;letter-spacing:.08em;font-family:var(--font-display),monospace}
+.hb3 .bk-row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hb3 .bk-inline{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+
+/* お名前 */
+.hb3 .bk-names{display:grid;gap:12px}
+.hb3 .bk-name{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:12px}
+.hb3 .bk-who{height:52px;border-radius:999px 0 999px 999px;background:var(--dark);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.hb3 .bk-name-inputs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* 未定のスイッチ */
+.hb3 .bk-toggle{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--muted);user-select:none}
+.hb3 .bk-toggle input{position:absolute;opacity:0;pointer-events:none}
+.hb3 .bk-switch{position:relative;width:44px;height:26px;border-radius:999px;background:rgba(0,0,0,.15);transition:background .3s}
+.hb3 .bk-switch::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .35s var(--spring)}
+.hb3 .bk-toggle.on{color:var(--ink)}
+.hb3 .bk-toggle.on .bk-switch{background:var(--accent)}
+.hb3 .bk-toggle.on .bk-switch::after{transform:translateX(18px)}
+.hb3 .bk-toggle input:focus-visible+.bk-switch{outline:2px solid var(--accent);outline-offset:2px}
+
+/* 希望挙式月 */
+.hb3 .bk-months{border:0;display:grid;gap:10px;animation:hb3-bkIn .4s var(--ease)}
+.hb3 .bk-month-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.hb3 .bk-month{position:relative;display:grid;gap:4px;justify-items:start;padding:12px 14px;border-radius:18px;background:#fff;cursor:pointer;
+  box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.06);transition:transform .3s var(--spring),box-shadow .25s,background .25s}
+.hb3 .bk-month input{position:absolute;opacity:0;pointer-events:none}
+.hb3 .bk-month:hover{transform:translateY(-3px)}
+.hb3 .bk-month-y{font:600 10.5px var(--ui);color:var(--muted);letter-spacing:.06em}
+.hb3 .bk-month-m{font-family:var(--serif);font-size:30px;line-height:1;color:var(--heading)}
+.hb3 .bk-month-m small{font-family:var(--font-body);font-size:12px;margin-left:2px}
+.hb3 .bk-dots{display:flex;gap:4px;margin-top:4px}
+.hb3 .bk-dots i{width:7px;height:7px;border-radius:50%;box-shadow:inset 0 0 0 1.2px rgba(0,0,0,.3)}
+.hb3 .bk-dots i.on{background:var(--dark);box-shadow:none}
+.hb3 .bk-month.on{background:var(--dark);box-shadow:none;border-radius:0 18px 18px 18px}
+.hb3 .bk-month.on .bk-month-y,.hb3 .bk-month.on .bk-month-m{color:#fff}
+.hb3 .bk-month.on .bk-dots i{box-shadow:inset 0 0 0 1.2px rgba(255,255,255,.5)}
+.hb3 .bk-month.on .bk-dots i.on{background:var(--accent)}
+.hb3 .bk-month.full{opacity:.4;cursor:not-allowed;transform:none}
+.hb3 .bk-month input:focus-visible~.bk-month-m{text-decoration:underline}
+
+/* 撮影範囲：目盛り */
+.hb3 .bk-cover{border:0;display:grid;gap:10px}
+.hb3 .bk-cover-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.hb3 .bk-cover-opt{position:relative;display:grid;gap:12px;padding:16px;border-radius:18px;background:#fff;cursor:pointer;
+  box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.06);transition:transform .3s var(--spring),background .25s}
+.hb3 .bk-cover-opt input{position:absolute;opacity:0;pointer-events:none}
+.hb3 .bk-cover-opt:hover{transform:translateY(-3px)}
+.hb3 .bk-scale{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.hb3 .bk-scale span{display:grid;gap:6px}
+.hb3 .bk-scale i{height:8px;border-radius:999px;background:rgba(0,0,0,.08);transition:background .3s}
+.hb3 .bk-scale small{font-size:10px;color:var(--muted);text-align:center}
+.hb3 .bk-scale span.on i{background:var(--dark)}
+.hb3 .bk-cover-label{font-size:13.5px;font-weight:700}
+.hb3 .bk-cover-opt.on{background:var(--dark);color:#fff;border-radius:0 18px 18px 18px}
+.hb3 .bk-cover-opt.on .bk-scale i{background:rgba(255,255,255,.18)}
+.hb3 .bk-cover-opt.on .bk-scale span.on i{background:var(--accent)}
+.hb3 .bk-cover-opt.on .bk-scale small{color:#cfcfcf}
+.hb3 .bk-cover-opt input:focus-visible~.bk-cover-label{text-decoration:underline}
+
+/* 料金の目安 */
+.hb3 .bk-price{position:relative;display:grid;gap:10px;padding:clamp(20px,3vw,32px);border-radius:24px;background:var(--dark);color:#fff}
+.hb3 .bk-price-plan{font:700 11px var(--ui);letter-spacing:.14em;color:#bdbdbd}
+.hb3 .bk-price-yen{font-family:var(--serif);font-size:clamp(2.6rem,6vw,4rem);line-height:1;margin-top:6px}
+.hb3 .bk-price-yen small{font-family:var(--font-body);font-size:13px;margin-left:8px;color:#bdbdbd}
+.hb3 .bk-price-note{font-size:12px;color:#bdbdbd;line-height:1.7}
+.hb3 .bk-coupon-badge{position:absolute;right:20px;top:20px;display:inline-flex;align-items:center;height:34px;padding:0 14px;border-radius:999px 0 999px 999px;
+  background:var(--accent);color:#fff;font:700 13px var(--ui);letter-spacing:.06em;animation:hb3-bkPop .5s var(--spring)}
+.hb3 .bk-coupon-badge.sm{position:static;height:24px;padding:0 10px;font-size:11px;margin-left:8px}
+@keyframes hb3-bkPop{from{transform:scale(.6);opacity:0}}
+.hb3 .bk-coupon-ok{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:999px;background:var(--accent);color:#fff;font:700 13px var(--ui);animation:hb3-bkPop .5s var(--spring)}
+.hb3 .bk-coupon-ok svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* 任意項目 */
+.hb3 .bk-more summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;font-weight:700;font-size:16px}
+.hb3 .bk-more summary::-webkit-details-marker{display:none}
+.hb3 .bk-more summary>span:nth-child(2){flex:1;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.hb3 .bk-more summary small{font-weight:400;font-size:12px;color:var(--muted)}
+.hb3 .bk-more summary>i{flex:0 0 32px;height:32px;border-radius:50%;background:var(--dark);position:relative;transition:transform .4s var(--spring),background .3s}
+.hb3 .bk-more summary>i::before,.hb3 .bk-more summary>i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.6px;background:#fff;transform:translate(-50%,-50%)}
+.hb3 .bk-more summary>i::after{transform:translate(-50%,-50%) rotate(90deg)}
+.hb3 .bk-more[open] summary>i{transform:rotate(45deg);background:var(--accent)}
+.hb3 .bk-more-body{display:grid;gap:16px;margin-top:20px;animation:hb3-bkIn .4s var(--ease)}
+.hb3 .bk-chips{display:flex;flex-wrap:wrap;gap:8px}
+.hb3 .bk-chip{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 16px;border-radius:999px;background:#fff;cursor:pointer;font-size:13.5px;font-weight:500;
+  box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.08);transition:background .25s,color .25s,transform .3s var(--spring)}
+.hb3 .bk-chip input{position:absolute;opacity:0;pointer-events:none}
+.hb3 .bk-chip svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.hb3 .bk-chip:hover{transform:translateY(-2px)}
+.hb3 .bk-chip.on{background:var(--dark);color:#fff;box-shadow:none}
+
+/* ボタン */
+.hb3 .bk-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding-top:10px}
+.hb3 .bk-cta{border:0;cursor:pointer;border-radius:999px 0 999px 999px;height:56px;padding:0 30px;font-size:14.5px}
+.hb3 .bk-cta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hb3 .bk-cta:disabled{background:#8d8a88;cursor:not-allowed}
+.hb3 .bk-back{display:inline-flex;align-items:center;gap:8px;height:56px;padding:0 6px;border:0;background:none;cursor:pointer;font:600 14px var(--ui);color:var(--ink)}
+.hb3 .bk-back svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s var(--spring)}
+.hb3 .bk-back:hover svg{transform:translateX(-4px)}
+
+/* 確認 */
+.hb3 .bk-summary{background:rgba(255,255,255,.55);border-radius:24px;padding:clamp(18px,2.6vw,28px)}
+.hb3 .bk-summary-head .bk-card-title{flex:1}
+.hb3 .bk-edit{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:0;border-radius:999px;background:#fff;cursor:pointer;font:600 12.5px var(--ui);transition:background .25s,color .25s}
+.hb3 .bk-edit svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hb3 .bk-edit:hover{background:var(--dark);color:#fff}
+.hb3 .bk-dl{display:grid}
+.hb3 .bk-dl-sub{margin-top:14px;padding-top:6px;border-top:1.5px dashed rgba(0,0,0,.12)}
+.hb3 .bk-dl-row{display:grid;grid-template-columns:140px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid rgba(0,0,0,.08);font-size:14px}
+.hb3 .bk-dl-row:last-child{border-bottom:0}
+.hb3 .bk-dl-row dt{color:var(--muted)}
+.hb3 .bk-dl-row dd{font-weight:500;word-break:break-all;display:flex;flex-wrap:wrap;align-items:center}
+.hb3 .bk-mono{font-family:var(--font-display),monospace;letter-spacing:.08em}
+
+/* 送信後の流れ */
+.hb3 .bk-next{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:relative}
+.hb3 .bk-next li{display:grid;justify-items:center;gap:8px;text-align:center;font-size:12.5px;font-weight:700;padding:16px 8px;border-radius:18px;background:rgba(255,255,255,.4)}
+.hb3 .bk-next li span{width:40px;height:40px;border-radius:50%;background:var(--dark);display:grid;place-items:center}
+.hb3 .bk-next li svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* 完了 */
+.hb3 .bk-done{display:grid;justify-items:center;gap:12px;text-align:center;padding:clamp(28px,5vw,48px) 20px;border-radius:24px;background:var(--dark);color:#fff}
+.hb3 .bk-done-mark{width:72px;height:72px;border-radius:50%;background:var(--accent);display:grid;place-items:center;animation:hb3-bkPop .6s var(--spring)}
+.hb3 .bk-done-mark svg{width:34px;height:34px;fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:30;animation:hb3-bkDraw .6s .3s var(--ease) forwards}
+@keyframes hb3-bkDraw{to{stroke-dashoffset:0}}
+.hb3 .bk-done-title{font-weight:700;font-size:18px}
+.hb3 .bk-done-text{font-size:13.5px;color:#cfcfcf;line-height:1.8}
+
+/* スマホ下部の送信ボタン */
+.hb3 .bk-dock{display:none}
+
+@media (max-width:900px){
+  .hb3 .bk-grid{grid-template-columns:1fr}
+  .hb3 .bk-aside{display:none}
+}
+@media (max-width:640px){
+  .hb3 .bk-row2{grid-template-columns:1fr}
+  .hb3 .bk-name{grid-template-columns:52px 1fr;gap:8px}
+  .hb3 .bk-who{height:48px;font-size:12px}
+  .hb3 .bk-cover-grid{grid-template-columns:1fr}
+  .hb3 .bk-cover-opt{grid-template-columns:1fr auto;align-items:center}
+  .hb3 .bk-cover-opt .bk-scale{order:2;width:150px}
+  .hb3 .bk-dl-row{grid-template-columns:96px 1fr;gap:10px}
+  .hb3 .bk-next li{font-size:11.5px;padding:12px 6px}
+  .hb3 .bk-actions-pc{display:none}
+  .hb3 .bk-dock{display:block;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:30}
+  .hb3 .bk-dock .bk-cta{width:100%;justify-content:center}
+  .hb3 .bk-input-short{max-width:none;flex:1 1 180px}
+}
+@media (prefers-reduced-motion:reduce){
+  .hb3 .bk-form,.hb3 .bk-months,.hb3 .bk-more-body,.hb3 .bk-alert,.hb3 .bk-coupon-badge,.hb3 .bk-coupon-ok,.hb3 .bk-done-mark{animation:none}
+  .hb3 .bk-done-mark svg{animation:none;stroke-dashoffset:0}
+}

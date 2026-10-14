@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 
+import { HomeB3Footer } from "@/components/home-b3/HomeB3Footer";
 import { HomeB3Header } from "@/components/home-b3/HomeB3Header";
 import { HomeB3Motion } from "@/components/home-b3/HomeB3Motion";
 import { PetalCanvas } from "@/components/home-b3/PetalCanvas";
@@ -8,7 +9,6 @@ import { SplitH2 } from "@/components/home-b3/SplitH2";
 import { HOME_FAQ_GROUPS } from "@/lib/home-faq";
 import { WCC_EXTRAS, WCC_PACKAGE_PLANS } from "@/lib/plans";
 import { CAPACITY_PER_MONTH, RECEPTION_START_MONTH } from "@/lib/reception";
-import { LEGAL_PAGE_HREF } from "@/lib/site-links";
 
 import "./home-b3.css";
 
@@ -463,19 +463,7 @@ export function HomeB3() {
         </div>
       </section>
 
-      <footer className="hb3-footer">
-        <div className="wrap">
-          <div className="ft">
-            <span className="logo">For Your Wedding Day</span>
-            <nav aria-label="法務情報">
-              <Link href={LEGAL_PAGE_HREF.tokushoho}>特定商取引法に基づく表記</Link>
-              <Link href={LEGAL_PAGE_HREF.privacy}>プライバシーポリシー</Link>
-              <Link href={LEGAL_PAGE_HREF.terms}>利用規約</Link>
-            </nav>
-          </div>
-          <p className="copy">© {new Date().getFullYear()} For Your Wedding Day. All rights reserved.</p>
-        </div>
-      </footer>
+      <HomeB3Footer />
 
       {/* スマホ：FV を過ぎたら下に相談ボタン */}
       <div className="dock">
